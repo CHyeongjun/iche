@@ -60,20 +60,20 @@ const STORAGE_KEY_SUPABASE_CONFIG = "vibe_blog_supabase_config";
 
 // 프로젝트 코드에 직접 URL과 Anon Key를 입력해두시면 모든 기기에서 자동 연결됩니다:
 const DEFAULT_SUPABASE_CONFIG = {
-  url: "https://pafbflrxrubmqkdjouyjk.supabase.co", // 사용자 프로젝트 URL
-  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhZmJmbHJ4cnViaW1xa2Rqb3V5amsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc1MTYxOTE0MywiZXhwIjoyMDY3MTk1MTQzfQ.T8D5l9G12NmrY-Q9j95D6z1mQy32Y5M29l7jXl9_p_4"
+  url: "https://bqfbfrxrubmqkdjouyjk.supabase.co", // 사용자 실제 프로젝트 URL
+  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxZmJmcnhydWJtcWtkam91eWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM2MTY0NjgsImV4cCI6MjEwOTE5MjQ2OH0.ObqTtAZJG_MddUCHmOe0YayzXnLQyRJX5lGAg462Ghg" // Supabase의 Project Settings ➜ API ➜ 'anon public' 키를 여기에 입력하세요
 };
 
 function getSupabaseConfig() {
+  if (DEFAULT_SUPABASE_CONFIG.url && DEFAULT_SUPABASE_CONFIG.anonKey) {
+    return DEFAULT_SUPABASE_CONFIG;
+  }
   const saved = localStorage.getItem(STORAGE_KEY_SUPABASE_CONFIG);
   if (saved) {
     try {
       const parsed = JSON.parse(saved);
       if (parsed.url && parsed.anonKey) return parsed;
     } catch (e) { }
-  }
-  if (DEFAULT_SUPABASE_CONFIG.url && DEFAULT_SUPABASE_CONFIG.anonKey) {
-    return DEFAULT_SUPABASE_CONFIG;
   }
   return null;
 }
