@@ -729,7 +729,7 @@ function openPostDetail(postId) {
 }
 
 async function deleteCurrentPost() {
-  if (!state.isAdmin) return;
+  if (!state.isAdmin || !state.currentPostId) return;
   if (!confirm("정말로 이 글을 삭제하시겠습니까?")) return;
 
   const deletedId = Number(state.currentPostId);
@@ -738,15 +738,18 @@ async function deleteCurrentPost() {
   if (supabaseClient) {
     showSyncToast("☁️ 클라우드 DB에서 글 삭제 중...");
     try {
-      const { error } = await supabaseClient
+      const { error, count } = await supabaseClient
         .from("posts")
-        .delete()
+        .delete({ count: "exact" })
         .eq("id", deletedId);
 
       if (error) {
         console.error("클라우드 DB 삭제 실패:", error);
         alert(`⚠️ 클라우드 DB 삭제 실패: ${error.message}\n(Supabase SQL Editor에서 삭제 권한 정책을 확인해 주세요)`);
         return;
+      }
+      if (count === 0) {
+        console.warn("클라우드 DB에서 삭제된 행 수가 0입니다. (이미 삭제되었거나 RLS 정책 확인 필요)");
       }
     } catch (err) {
       console.error("클라우드 삭제 통신 오류:", err);
