@@ -90,20 +90,71 @@ function removeSupabaseConfig() {
 }
 
 let supabaseClient = null;
+let isInitialCloudLoaded = false;
+let _waitingSdk = false;
 
 function initSupabaseClient() {
   const config = getSupabaseConfig();
-  if (config && config.url && config.anonKey && window.supabase) {
-    try {
-      supabaseClient = window.supabase.createClient(config.url, config.anonKey);
-    } catch (e) {
-      console.warn("Supabase 클라이언트 생성 실패:", e);
+  if (config && config.url && config.anonKey) {
+    if (window.supabase) {
+      try {
+        supabaseClient = window.supabase.createClient(config.url, config.anonKey);
+      } catch (e) {
+        console.warn("Supabase 클라이언트 생성 실패:", e);
+        supabaseClient = null;
+      }
+    } else {
       supabaseClient = null;
+      waitForSupabaseSdk();
     }
   } else {
     supabaseClient = null;
   }
   updateCloudSyncUI();
+}
+
+function waitForSupabaseSdk() {
+  if (_waitingSdk) return;
+  _waitingSdk = true;
+  let attempts = 0;
+  const interval = setInterval(async () => {
+    attempts++;
+    if (window.supabase) {
+      clearInterval(interval);
+      _waitingSdk = false;
+      const config = getSupabaseConfig();
+      if (config && config.url && config.anonKey) {
+        try {
+          supabaseClient = window.supabase.createClient(config.url, config.anonKey);
+        } catch (e) {
+          console.warn("Supabase 클라이언트 생성 실패:", e);
+        }
+        updateCloudSyncUI();
+        if (!isInitialCloudLoaded) {
+          await loadInitialData();
+        }
+      }
+    } else if (attempts > 50) {
+      // 5초 경과 시 백업 CDN 주입 시도
+      clearInterval(interval);
+      _waitingSdk = false;
+      if (!window.supabase) {
+        const backupScript = document.createElement("script");
+        backupScript.src = "https://unpkg.com/@supabase/supabase-js@2";
+        backupScript.onload = async () => {
+          const config = getSupabaseConfig();
+          if (config && config.url && config.anonKey && window.supabase) {
+            supabaseClient = window.supabase.createClient(config.url, config.anonKey);
+            updateCloudSyncUI();
+            if (!isInitialCloudLoaded) {
+              await loadInitialData();
+            }
+          }
+        };
+        document.head.appendChild(backupScript);
+      }
+    }
+  }, 100);
 }
 
 function updateCloudSyncUI() {
@@ -1688,13 +1739,15 @@ updateHomeUI();
 initLocationSection();
 
 // 비동기 클라우드 포스트 로딩
-(async function loadInitialData() {
+async function loadInitialData() {
   if (supabaseClient) {
     const cloudPosts = await fetchCloudPosts();
     if (cloudPosts) {
+      isInitialCloudLoaded = true;
       posts = cloudPosts;
       savePosts(posts);
       updateHomeUI();
     }
   }
-})();
+}
+loadInitialData();
