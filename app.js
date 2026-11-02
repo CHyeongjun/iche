@@ -21,6 +21,109 @@ async function hashPassword(plainText) {
     .join("");
 }
 
+// 세션 기반 관리자 인증 검증 함수 (단순 'true' 문자열 조작 방어 & 만료 시간 검증)
+function checkAdminAuth() {
+  const rawSession = sessionStorage.getItem(STORAGE_KEY_AUTH) || localStorage.getItem(STORAGE_KEY_AUTH);
+  if (!rawSession) return false;
+  try {
+    const session = JSON.parse(rawSession);
+    if (!session || typeof session !== "object" || !session.hash || !session.exp) {
+      return false;
+    }
+    // 세션 만료 시간 검증 (기본 12시간)
+    if (Date.now() > session.exp) {
+      sessionStorage.removeItem(STORAGE_KEY_AUTH);
+      localStorage.removeItem(STORAGE_KEY_AUTH);
+      return false;
+    }
+    const validHash = localStorage.getItem(STORAGE_KEY_CUSTOM_HASH) || ADMIN_PASSWORD_HASH;
+    return session.hash === validHash;
+  } catch (e) {
+    return false;
+  }
+}
+
+// =========================================
+// XSS 방어 및 HTML 보안 새니타이징 유틸리티
+// =========================================
+function escapeHtml(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function sanitizeImageUrl(url) {
+  if (!url || typeof url !== "string") return "";
+  const trimmed = url.trim();
+  if (
+    trimmed.startsWith("data:image/") ||
+    trimmed.startsWith("https://") ||
+    trimmed.startsWith("http://") ||
+    trimmed.startsWith("/")
+  ) {
+    return escapeHtml(trimmed);
+  }
+  return "";
+}
+
+function sanitizeHtmlContent(html) {
+  if (!html || typeof html !== "string") return "";
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+
+  const ALLOWED_TAGS = new Set([
+    "P", "BR", "STRONG", "B", "EM", "I", "U", "S",
+    "SPAN", "BLOCKQUOTE", "HR", "UL", "OL", "LI",
+    "H1", "H2", "H3", "H4", "H5", "H6", "A", "IMG"
+  ]);
+
+  const ALLOWED_ATTRS = {
+    A: ["href", "title", "target", "rel"],
+    IMG: ["src", "alt", "title", "loading", "class"],
+    SPAN: ["class"],
+    P: ["class"]
+  };
+
+  function cleanNode(node) {
+    const children = Array.from(node.childNodes);
+    for (const child of children) {
+      if (child.nodeType === Node.ELEMENT_NODE) {
+        if (!ALLOWED_TAGS.has(child.tagName)) {
+          // 위험 태그(SCRIPT, IFRAME, OBJECT, SVG 등) 완전 제거
+          child.remove();
+          continue;
+        }
+
+        // 인라인 이벤트(onclick, onerror 등) 및 비허용 속성 제거
+        const allowed = ALLOWED_ATTRS[child.tagName] || [];
+        const attrs = Array.from(child.attributes);
+        for (const attr of attrs) {
+          const name = attr.name.toLowerCase();
+          if (name.startsWith("on") || !allowed.includes(name)) {
+            child.removeAttribute(attr.name);
+          } else if ((name === "href" || name === "src") && attr.value.trim().toLowerCase().startsWith("javascript:")) {
+            child.removeAttribute(attr.name);
+          }
+        }
+
+        if (child.tagName === "A") {
+          child.setAttribute("rel", "noopener noreferrer");
+          child.setAttribute("target", "_blank");
+        }
+
+        cleanNode(child);
+      }
+    }
+  }
+
+  cleanNode(doc.body);
+  return doc.body.innerHTML;
+}
+
 function loadPosts() {
   const saved = localStorage.getItem(STORAGE_KEY_POSTS);
   if (saved) {
@@ -231,7 +334,7 @@ let customTags = loadCustomTags();
 // 상태 관리
 // =========================================
 const state = {
-  isAdmin: localStorage.getItem(STORAGE_KEY_AUTH) === "true",
+  isAdmin: checkAdminAuth(),
   selectedCategory: "전체",
   selectedTag: null,
   currentView: "home", // 'home' | 'post' | 'about'
@@ -361,7 +464,12 @@ async function handleLogin(password) {
     const validHash = localStorage.getItem(STORAGE_KEY_CUSTOM_HASH) || ADMIN_PASSWORD_HASH;
     if (hashedInput === validHash) {
       state.isAdmin = true;
-      localStorage.setItem(STORAGE_KEY_AUTH, "true");
+      const sessionData = JSON.stringify({
+        hash: validHash,
+        exp: Date.now() + 12 * 60 * 60 * 1000 // 12시간 유효 기간
+      });
+      sessionStorage.setItem(STORAGE_KEY_AUTH, sessionData);
+      localStorage.setItem(STORAGE_KEY_AUTH, sessionData);
       closeAuthModal();
       updateAdminUI();
       renderTags();
@@ -378,6 +486,7 @@ async function handleLogin(password) {
 function handleLogout() {
   if (confirm("관리자 모드에서 로그아웃하시겠습니까?")) {
     state.isAdmin = false;
+    sessionStorage.removeItem(STORAGE_KEY_AUTH);
     localStorage.removeItem(STORAGE_KEY_AUTH);
     updateAdminUI();
     renderTags();
@@ -457,15 +566,16 @@ function renderCategories() {
     .map((category) => {
       const count = categoryCounts[category] || 0;
       const isActive = state.selectedCategory === category ? "active" : "";
+      const safeCat = escapeHtml(category);
       return `
         <button
           type="button"
           class="category-tab ${isActive}"
-          data-category="${category}"
+          data-category="${safeCat}"
           role="tab"
           aria-selected="${state.selectedCategory === category}"
         >
-          ${category}<span class="category-count">${count}</span>
+          ${safeCat}<span class="category-count">${count}</span>
         </button>
       `;
     })
@@ -480,13 +590,14 @@ function renderTags() {
     tagBar.innerHTML = tags
       .map((tag) => {
         const isActive = state.selectedTag === tag ? "active" : "";
+        const safeTag = escapeHtml(tag);
         return `
           <button
             type="button"
             class="tag-pill ${isActive}"
-            data-tag="${tag}"
+            data-tag="${safeTag}"
           >
-            #${tag}
+            #${safeTag}
           </button>
         `;
       })
@@ -606,11 +717,17 @@ function renderPostList() {
         ? `<span class="multi-photo-badge">📷 ${postImages.length}</span>`
         : "";
 
+      const safeTitle = escapeHtml(post.title);
+      const safeCat = escapeHtml(post.category);
+      const safeDate = escapeHtml(post.date);
+      const safeExcerpt = escapeHtml(post.excerpt || "");
+      const safeImg = sanitizeImageUrl(primaryImg);
+
       let thumbHtml = "";
-      if (hasThumb) {
+      if (hasThumb && safeImg) {
         thumbHtml = `
           <div class="post-item-thumb">
-            <img src="${primaryImg}" alt="${post.title}" loading="lazy" />
+            <img src="${safeImg}" alt="${safeTitle}" loading="lazy" />
             ${multiBadge}
           </div>
         `;
@@ -619,7 +736,7 @@ function renderPostList() {
         thumbHtml = `
           <div class="post-item-thumb thumb-placeholder">
             <span class="thumb-placeholder-icon">${catIcon}</span>
-            <span class="thumb-placeholder-text">${post.category} 이야기</span>
+            <span class="thumb-placeholder-text">${safeCat} 이야기</span>
           </div>
         `;
       }
@@ -629,17 +746,19 @@ function renderPostList() {
         <div class="post-item-main">
           <div class="post-item-text">
             <div class="post-item-header">
-              <span class="post-category-badge">${post.category}</span>
+              <span class="post-category-badge">${safeCat}</span>
               <span class="meta-divider">·</span>
-              <time class="post-date">${post.date}</time>
+              <time class="post-date">${safeDate}</time>
             </div>
-            <h2 class="post-item-title">${post.title}</h2>
-            <p class="post-item-excerpt">${post.excerpt || ""}</p>
+            <h2 class="post-item-title">${safeTitle}</h2>
+            <p class="post-item-excerpt">${safeExcerpt}</p>
             <div class="post-item-tags">
               ${(post.tags || [])
           .map(
-            (tag) =>
-              `<span class="post-item-tag" data-inline-tag="${tag}">#${tag}</span>`
+            (tag) => {
+              const safeTag = escapeHtml(tag);
+              return `<span class="post-item-tag" data-inline-tag="${safeTag}">#${safeTag}</span>`;
+            }
           )
           .join("")}
             </div>
@@ -670,12 +789,15 @@ function renderMultiPhotoGallery(images, altTitle = "", isPreview = false) {
   else if (count === 4) gridClass = "grid-count-4";
   else if (count >= 5) gridClass = "grid-count-many";
 
+  const safeAlt = escapeHtml(altTitle);
   // 최대 4칸까지 그리드로 시각화 (5장 이상은 4번째에 +N 오버레이)
   const displayImages = count <= 4 ? images : images.slice(0, 4);
 
   const gridItemsHtml = displayImages
     .map((imgSrc, idx) => {
       const isFourthOfMany = count >= 5 && idx === 3;
+      const safeSrc = sanitizeImageUrl(imgSrc);
+      if (!safeSrc) return "";
       const overlayHtml = isFourthOfMany
         ? `
           <div class="gallery-more-overlay">
@@ -686,8 +808,8 @@ function renderMultiPhotoGallery(images, altTitle = "", isPreview = false) {
         : "";
 
       return `
-        <div class="gallery-photo-item" data-lightbox-src="${imgSrc}" title="사진 클릭 시 원본 크게 보기">
-          <img src="${imgSrc}" alt="${altTitle} - 사진 ${idx + 1}" loading="lazy" />
+        <div class="gallery-photo-item" data-lightbox-src="${safeSrc}" title="사진 클릭 시 원본 크게 보기">
+          <img src="${safeSrc}" alt="${safeAlt} - 사진 ${idx + 1}" loading="lazy" />
           ${overlayHtml}
         </div>
       `;
@@ -701,11 +823,15 @@ function renderMultiPhotoGallery(images, altTitle = "", isPreview = false) {
       <div class="gallery-sub-thumbnails" aria-label="전체 사진 썸네일 목록">
         ${images
         .map(
-          (imgSrc, i) => `
-          <button type="button" class="sub-thumb-btn" data-lightbox-src="${imgSrc}" title="사진 ${i + 1} 원본 크게보기">
-            <img src="${imgSrc}" alt="${altTitle} 썸네일 ${i + 1}" loading="lazy" />
-          </button>
-        `
+          (imgSrc, i) => {
+            const safeSrc = sanitizeImageUrl(imgSrc);
+            if (!safeSrc) return "";
+            return `
+              <button type="button" class="sub-thumb-btn" data-lightbox-src="${safeSrc}" title="사진 ${i + 1} 원본 크게보기">
+                <img src="${safeSrc}" alt="${safeAlt} 썸네일 ${i + 1}" loading="lazy" />
+              </button>
+            `;
+          }
         )
         .join("")}
       </div>
@@ -723,8 +849,9 @@ function renderMultiPhotoGallery(images, altTitle = "", isPreview = false) {
 }
 
 function openLightbox(imgSrc) {
-  if (!imgSrc || !imageLightboxModal || !lightboxImg) return;
-  lightboxImg.src = imgSrc;
+  const safeSrc = sanitizeImageUrl(imgSrc);
+  if (!safeSrc || !imageLightboxModal || !lightboxImg) return;
+  lightboxImg.src = safeSrc;
   imageLightboxModal.classList.remove("hidden");
   document.body.style.overflow = "hidden";
 }
@@ -750,26 +877,31 @@ function openPostDetail(postId) {
     : (post.image ? [post.image] : []);
 
   const galleryHtml = renderMultiPhotoGallery(postImages, post.title);
+  const safeTitle = escapeHtml(post.title);
+  const safeCat = escapeHtml(post.category);
+  const safeDate = escapeHtml(post.date);
 
   postDetailContent.innerHTML = `
     <header class="article-header">
-      <span class="post-category-badge">${post.category}</span>
-      <h1 class="article-title">${post.title}</h1>
+      <span class="post-category-badge">${safeCat}</span>
+      <h1 class="article-title">${safeTitle}</h1>
       <div class="article-meta">
-        <time>${post.date}</time>
+        <time>${safeDate}</time>
       </div>
       <div class="post-item-tags">
         ${(post.tags || [])
       .map(
-        (tag) =>
-          `<button type="button" class="tag-pill" data-detail-tag="${tag}">#${tag}</button>`
+        (tag) => {
+          const safeTag = escapeHtml(tag);
+          return `<button type="button" class="tag-pill" data-detail-tag="${safeTag}">#${safeTag}</button>`;
+        }
       )
       .join("")}
       </div>
     </header>
     ${galleryHtml}
     <div class="article-body">
-      ${post.content}
+      ${sanitizeHtmlContent(post.content)}
     </div>
   `;
 
@@ -781,6 +913,12 @@ function openPostDetail(postId) {
 
 async function deleteCurrentPost() {
   if (!state.isAdmin || !state.currentPostId) return;
+  if (!checkAdminAuth()) {
+    state.isAdmin = false;
+    updateAdminUI();
+    alert("관리자 세션이 만료되었습니다. 다시 로그인해 주세요.");
+    return;
+  }
   if (!confirm("정말로 이 글을 삭제하시겠습니까?")) return;
 
   const deletedId = Number(state.currentPostId);
@@ -851,12 +989,15 @@ function updateHomeUI() {
 function renderModalTags() {
   selectedTagsContainer.innerHTML = state.modalSelectedTags
     .map(
-      (tag, index) => `
-      <span class="tag-badge">
-        #${tag}
-        <span class="tag-badge-remove" data-remove-index="${index}" title="삭제">✕</span>
-      </span>
-    `
+      (tag, index) => {
+        const safeTag = escapeHtml(tag);
+        return `
+        <span class="tag-badge">
+          #${safeTag}
+          <span class="tag-badge-remove" data-remove-index="${index}" title="삭제">✕</span>
+        </span>
+      `;
+      }
     )
     .join("");
 
@@ -864,13 +1005,14 @@ function renderModalTags() {
   availableTagsList.innerHTML = allTags
     .map((tag) => {
       const isAdded = state.modalSelectedTags.includes(tag);
+      const safeTag = escapeHtml(tag);
       return `
         <button
           type="button"
           class="available-tag-chip ${isAdded ? "added" : ""}"
-          data-chip-tag="${tag}"
+          data-chip-tag="${safeTag}"
         >
-          + ${tag}
+          + ${safeTag}
         </button>
       `;
     })
@@ -906,12 +1048,15 @@ function renderManageTagList() {
 
   manageTagList.innerHTML = allTags
     .map(
-      (tag) => `
-      <div class="manage-tag-chip">
-        <span>#${tag}</span>
-        <button type="button" class="manage-tag-delete-btn" data-delete-tag="${tag}" title="'#${tag}' 태그 삭제">✕</button>
-      </div>
-    `
+      (tag) => {
+        const safeTag = escapeHtml(tag);
+        return `
+        <div class="manage-tag-chip">
+          <span>#${safeTag}</span>
+          <button type="button" class="manage-tag-delete-btn" data-delete-tag="${safeTag}" title="'#${safeTag}' 태그 삭제">✕</button>
+        </div>
+      `;
+      }
     )
     .join("");
 }
@@ -985,32 +1130,34 @@ function renderPostPreview() {
   const now = new Date();
   const dateStr = `${now.getFullYear()}. ${String(now.getMonth() + 1).padStart(2, "0")}. ${String(now.getDate()).padStart(2, "0")}`;
 
-  const displayTitle = rawTitle || `<span class="preview-placeholder-text">(작성 중인 제목이 표시됩니다)</span>`;
-  const plainTitleForAlt = rawTitle || "미리보기 이미지";
+  const safeCategory = escapeHtml(category);
+  const displayTitle = rawTitle ? escapeHtml(rawTitle) : `<span class="preview-placeholder-text">(작성 중인 제목이 표시됩니다)</span>`;
+  const plainTitleForAlt = rawTitle ? escapeHtml(rawTitle) : "미리보기 이미지";
 
   const excerpt = rawContent
-    ? (rawContent.slice(0, 100) + (rawContent.length > 100 ? "..." : ""))
+    ? escapeHtml(rawContent.slice(0, 100) + (rawContent.length > 100 ? "..." : ""))
     : `<span class="preview-placeholder-text">(본문 내용이 작성되면 앞부분이 목록에 자동으로 요약 표시됩니다)</span>`;
 
   const formattedContent = rawContent
     ? rawContent
       .split(/\n\s*\n/)
-      .map((paragraph) => `<p>${paragraph.replace(/\n/g, "<br>")}</p>`)
+      .map((paragraph) => `<p>${escapeHtml(paragraph).replace(/\n/g, "<br>")}</p>`)
       .join("")
     : `<p class="preview-placeholder-text">(본문 내용이 작성되면 실제 글 읽기 화면 스타일로 문단과 줄바꿈이 깔끔하게 표시됩니다)</p>`;
 
   // 1) 목록 카드 뷰 렌더링
   const primaryImg = state.uploadedImages[0] || state.uploadedImageDataUrl || null;
+  const safePrimaryImg = sanitizeImageUrl(primaryImg);
   const multiBadge = state.uploadedImages.length > 1
     ? `<span class="multi-photo-badge">📷 ${state.uploadedImages.length}</span>`
     : "";
 
-  const cardThumbHtml = primaryImg
-    ? `<div class="post-item-thumb"><img src="${primaryImg}" alt="${plainTitleForAlt}" />${multiBadge}</div>`
+  const cardThumbHtml = safePrimaryImg
+    ? `<div class="post-item-thumb"><img src="${safePrimaryImg}" alt="${plainTitleForAlt}" />${multiBadge}</div>`
     : "";
 
   const tagsHtml = tags.length > 0
-    ? tags.map((t) => `<span class="post-item-tag">#${t}</span>`).join("")
+    ? tags.map((t) => `<span class="post-item-tag">#${escapeHtml(t)}</span>`).join("")
     : `<span class="post-item-tag preview-placeholder-text">#태그미지정</span>`;
 
   previewCardContainer.innerHTML = `
@@ -1019,7 +1166,7 @@ function renderPostPreview() {
         <div class="post-item-main">
           <div class="post-item-text">
             <div class="post-item-header">
-              <span class="post-category-badge">${category}</span>
+              <span class="post-category-badge">${safeCategory}</span>
               <span class="meta-divider">·</span>
               <time class="post-date">${dateStr}</time>
             </div>
@@ -1037,7 +1184,7 @@ function renderPostPreview() {
 
   // 2) 본문 상세 뷰 렌더링 (황금 비율 멀티 포토 갤러리 렌더링)
   const detailTagsHtml = tags.length > 0
-    ? tags.map((t) => `<span class="tag-pill">#${t}</span>`).join("")
+    ? tags.map((t) => `<span class="tag-pill">#${escapeHtml(t)}</span>`).join("")
     : `<span class="tag-pill preview-placeholder-text">#태그미지정</span>`;
 
   const galleryHtml = renderMultiPhotoGallery(state.uploadedImages, plainTitleForAlt, true);
@@ -1045,7 +1192,7 @@ function renderPostPreview() {
   previewDetailContainer.innerHTML = `
     <div class="preview-detail-frame">
       <header class="article-header">
-        <span class="post-category-badge">${category}</span>
+        <span class="post-category-badge">${safeCategory}</span>
         <h1 class="article-title">${displayTitle}</h1>
         <div class="article-meta">
           <time>${dateStr}</time>
@@ -1056,7 +1203,7 @@ function renderPostPreview() {
       </header>
       ${galleryHtml}
       <div class="article-body">
-        ${formattedContent}
+        ${sanitizeHtmlContent(formattedContent)}
       </div>
     </div>
   `;
@@ -1135,10 +1282,12 @@ function renderUploadedThumbnails() {
 
   uploadThumbGrid.innerHTML = state.uploadedImages
     .map((imgSrc, idx) => {
+      const safeSrc = sanitizeImageUrl(imgSrc);
+      if (!safeSrc) return "";
       const primaryBadge = idx === 0 ? `<span class="primary-badge">대표</span>` : "";
       return `
         <div class="upload-thumb-item">
-          <img src="${imgSrc}" alt="업로드 사진 ${idx + 1}" />
+          <img src="${safeSrc}" alt="업로드 사진 ${idx + 1}" />
           ${primaryBadge}
           <button type="button" class="btn-delete-thumb" data-thumb-index="${idx}" title="이 사진 삭제">✕</button>
         </div>
@@ -1602,8 +1751,10 @@ publishFromPreviewBtn.addEventListener("click", () => {
 // 글 작성 폼 제출
 writePostForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  if (!state.isAdmin) {
-    alert("관리자 권한이 없습니다.");
+  if (!state.isAdmin || !checkAdminAuth()) {
+    state.isAdmin = false;
+    updateAdminUI();
+    alert("관리자 권한이 없거나 세션이 만료되었습니다. 다시 로그인해 주세요.");
     return;
   }
 
@@ -1619,7 +1770,7 @@ writePostForm.addEventListener("submit", (e) => {
 
   const formattedContent = rawContent
     .split(/\n\s*\n/)
-    .map((paragraph) => `<p>${paragraph.replace(/\n/g, "<br>")}</p>`)
+    .map((paragraph) => `<p>${escapeHtml(paragraph).replace(/\n/g, "<br>")}</p>`)
     .join("");
 
   const excerpt = rawContent.slice(0, 100) + (rawContent.length > 100 ? "..." : "");
