@@ -8,6 +8,8 @@
   <link rel="stylesheet" as="style" crossorigin
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Supabase 클라우드 데이터베이스 JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -65,25 +67,18 @@
     </div>
   </header>
 
-  <!-- 관리자 로그인 안내 배너 및 posts.js 동기화 툴바 -->
+  <!-- 관리자 로그인 안내 배너 및 클라우드 DB 연동 툴바 -->
   <div class="admin-indicator-bar hidden" id="adminIndicatorBar">
     <div class="container admin-indicator-inner">
       <div class="admin-indicator-info">
-        <span>🔐 <strong>관리자 모드</strong></span>
-        <button type="button" class="github-sync-badge" id="githubSyncStatusBadge" title="GitHub 연동 상태 (클릭 시 설정)">🐙 GitHub 미연동</button>
+        <span>🔐 <strong>관리자 모드</strong> 접속 중</span>
+        <button type="button" class="cloud-sync-badge" id="cloudSyncStatusBadge" title="클라우드 DB 연동 상태 (클릭 시 설정)">
+          ☁️ 클라우드 DB 미연동
+        </button>
       </div>
       <div class="admin-indicator-actions">
-        <button type="button" class="btn-admin-github" id="openGithubModalBtn" title="GitHub 저장소를 연결하여 글 작성 시 posts.js 자동 커밋 및 배포">
-          🐙 GitHub 연동 설정
-        </button>
-        <button type="button" class="btn-admin-sync" id="syncPostsFileBtn" title="내 컴퓨터의 posts.js 파일을 선택하면 글 작성/삭제 시 실시간으로 파일이 덮어쓰기 저장됩니다">
-          📁 로컬 파일 연결
-        </button>
-        <button type="button" class="btn-admin-download" id="downloadPostsFileBtn" title="현재 등록된 최신 글들이 담긴 posts.js 파일을 즉시 다운로드합니다">
-          📥 파일 다운로드
-        </button>
-        <button type="button" class="btn-admin-download" id="copyPostsCodeBtn" title="posts.js에 넣을 최신 코드를 클립보드에 복사합니다">
-          📋 코드 복사
+        <button type="button" class="btn-admin-cloud" id="openCloudModalBtn" title="어느 기기에서든 실시간으로 글이 저장·공개되는 Supabase 클라우드 DB 설정">
+          ⚙️ 클라우드 DB 연동
         </button>
         <button type="button" class="btn-text-logout" id="quickLogoutBtn">로그아웃</button>
       </div>
@@ -537,58 +532,72 @@
     </div>
   </div>
 
-  <!-- GitHub 저장소 연동 설정 모달 -->
-  <div class="modal-overlay hidden" id="githubConfigModal">
-    <div class="modal-backdrop" id="closeGithubModalBackdrop"></div>
-    <div class="modal-dialog github-dialog">
+  <!-- Supabase 클라우드 데이터베이스 연동 설정 모달 -->
+  <div class="modal-overlay hidden" id="cloudConfigModal">
+    <div class="modal-backdrop" id="closeCloudModalBackdrop"></div>
+    <div class="modal-dialog cloud-dialog">
       <div class="modal-header">
-        <h2 class="modal-title">🐙 GitHub 저장소 자동 커밋 연동</h2>
-        <button type="button" class="modal-close-btn" id="closeGithubModalBtn" aria-label="닫기">✕</button>
+        <h2 class="modal-title">☁️ Supabase 클라우드 DB 연동 설정</h2>
+        <button type="button" class="modal-close-btn" id="closeCloudModalBtn" aria-label="닫기">✕</button>
       </div>
-      <form id="githubConfigForm">
+      <form id="cloudConfigForm">
         <div class="modal-body">
-          <div class="github-guide-card">
-            <p>💡 <strong>GitHub 연동을 완료하면:</strong></p>
+          <div class="cloud-guide-card">
+            <p>💡 <strong>클라우드 DB 연동의 장점:</strong></p>
             <ul>
-              <li>홈페이지에서 글을 쓰거나 삭제할 때마다 GitHub 저장소의 <code>posts.js</code> 파일에 자동으로 <strong>Commit & Push</strong> 됩니다.</li>
-              <li>스마트폰이나 다른 컴퓨터에서 글을 작성해도 GitHub Pages로 1~2분 뒤 자동 배포되어 <strong>모든 방문자에게 실시간 공개</strong>됩니다!</li>
+              <li><strong>어느 컴퓨터나 스마트폰에서든</strong> 웹사이트에 접속해 글을 쓰면 즉시 저장되고 모든 방문자에게 0.1초 만에 공개됩니다.</li>
+              <li>Git 설치나 파일 다운로드/동기화 작업이 <strong>전혀 필요 없습니다.</strong></li>
             </ul>
           </div>
 
           <div class="form-group">
-            <label for="githubOwnerInput">GitHub 아이디 / 조직명 (Owner) <span class="required">*</span></label>
-            <input type="text" id="githubOwnerInput" class="form-control" placeholder="예: my-github-username" required />
-            <small class="form-help-text">본인의 GitHub 프로필 아이디를 입력하세요.</small>
+            <label for="supabaseUrlInput">Project URL <span class="required">*</span></label>
+            <input type="text" id="supabaseUrlInput" class="form-control" placeholder="https://xxxxxxxxxxxx.supabase.co" required />
+            <small class="form-help-text">Supabase 대시보드 ➜ Project Settings ➜ API ➜ Project URL</small>
           </div>
 
           <div class="form-group">
-            <label for="githubRepoInput">GitHub 저장소 이름 (Repository) <span class="required">*</span></label>
-            <input type="text" id="githubRepoInput" class="form-control" placeholder="예: vibe-code 또는 blog" required />
-            <small class="form-help-text">글이 저장될 GitHub Repository 이름입니다.</small>
-          </div>
-
-          <div class="form-group">
-            <label for="githubBranchInput">브랜치 이름 (Branch)</label>
-            <input type="text" id="githubBranchInput" class="form-control" placeholder="main" value="main" />
-          </div>
-
-          <div class="form-group">
-            <label for="githubTokenInput">GitHub Personal Access Token (PAT) <span class="required">*</span></label>
-            <input type="password" id="githubTokenInput" class="form-control" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" required />
+            <label for="supabaseKeyInput">Anon Public API Key <span class="required">*</span></label>
+            <input type="password" id="supabaseKeyInput" class="form-control" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." autocomplete="off" required />
             <small class="form-help-text">
-              • 토큰 발급: <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">GitHub 토큰 생성 페이지</a> ➜ <strong>Generate new token (classic)</strong> ➜ <strong>repo</strong> 체크 후 발급.<br>
-              • 토큰은 브라우저 내부 로컬(localStorage)에만 안전하게 보관됩니다.
+              • Supabase 대시보드 ➜ Project Settings ➜ API ➜ Project API keys (anon, public)<br>
+              • 이 키는 브라우저 공개용 안전 키이며, 클라우드 DB와 실시간 연결됩니다.
             </small>
           </div>
 
-          <div id="githubConnectionStatusMsg" class="connection-status-msg hidden"></div>
+          <div class="cloud-sql-help">
+            <details>
+              <summary>📋 <strong>최초 1회: Supabase 테이블 생성 SQL 보기 (클릭)</strong></summary>
+              <pre class="sql-code-box" id="sqlCodeBox">-- Supabase SQL Editor에 아래 쿼리를 붙여넣고 Run 버튼을 누르시면 됩니다:
+create table if not exists posts (
+  id bigint primary key,
+  title text not null,
+  category text not null,
+  date text not null,
+  tags text[] default '{}',
+  image text,
+  images text[] default '{}',
+  excerpt text,
+  content text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table posts enable row level security;
+create policy "공개 읽기" on posts for select using (true);
+create policy "공개 쓰기" on posts for insert with check (true);
+create policy "공개 삭제" on posts for delete using (true);</pre>
+              <button type="button" class="btn-copy-sql" id="copySqlBtn">SQL 복사하기</button>
+            </details>
+          </div>
+
+          <div id="cloudConnectionStatusMsg" class="connection-status-msg hidden"></div>
         </div>
 
-        <div class="modal-footer github-modal-footer">
-          <button type="button" class="btn-cancel" id="disconnectGithubBtn">연동 해제</button>
+        <div class="modal-footer cloud-modal-footer">
+          <button type="button" class="btn-cancel" id="disconnectCloudBtn">연동 해제</button>
           <div style="display: flex; gap: 0.5rem;">
-            <button type="button" class="btn-secondary" id="testGithubConnectionBtn">연결 테스트</button>
-            <button type="submit" class="btn-submit" id="saveGithubConfigBtn">연결 저장하기</button>
+            <button type="button" class="btn-secondary" id="testCloudConnectionBtn">연결 테스트</button>
+            <button type="submit" class="btn-submit" id="saveCloudConfigBtn">연결 저장하기</button>
           </div>
         </div>
       </form>

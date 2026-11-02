@@ -35,29 +35,6 @@ function loadPosts() {
 
 function savePosts(newPosts) {
   localStorage.setItem(STORAGE_KEY_POSTS, JSON.stringify(newPosts));
-  if (postsFileHandle) {
-    autoSaveToConnectedFile();
-  }
-}
-
-// =========================================
-// posts.js 파일 실시간 동기화 & 내보내기 기능
-// =========================================
-let postsFileHandle = null;
-
-function generatePostsJsFileContent(postsList) {
-  const categories = typeof DEFAULT_CATEGORIES !== "undefined" ? DEFAULT_CATEGORIES : ["농사", "일상", "보일러"];
-  return `/**
- * 블로그 기본 카테고리 정의
- */
-const DEFAULT_CATEGORIES = ${JSON.stringify(categories, null, 2)};
-
-/**
- * 블로그 초기 포스트 데이터 목록
- * (홈페이지에서 실시간 동기화/내보내기된 데이터입니다)
- */
-const INITIAL_POSTS = ${JSON.stringify(postsList, null, 2)};
-`;
 }
 
 function showSyncToast(message) {
@@ -76,259 +53,104 @@ function showSyncToast(message) {
   }, 2600);
 }
 
-function updateSyncButtonStatus(connected) {
-  const syncBtn = document.getElementById("syncPostsFileBtn");
-  const badge = document.getElementById("syncStatusBadge");
-  if (!syncBtn) return;
+// =========================================
+// Supabase 클라우드 데이터베이스 연동 관리
+// =========================================
+const STORAGE_KEY_SUPABASE_CONFIG = "vibe_blog_supabase_config";
 
-  if (connected && postsFileHandle) {
-    syncBtn.classList.add("connected");
-    syncBtn.textContent = `🟢 ${postsFileHandle.name} 실시간 연동 중`;
-    if (badge) {
-      badge.textContent = "🟢 실시간 파일 동기화 켜짐";
-      badge.classList.add("active");
+// 프로젝트 코드에 직접 URL과 Anon Key를 입력해두시면 모든 기기에서 자동 연결됩니다:
+const DEFAULT_SUPABASE_CONFIG = {
+  url: "", // 예: "https://your-project.supabase.co"
+  anonKey: "" // 예: "eyJhbGciOiJIUzI1NiIsInR5cCI6..."
+};
+
+function getSupabaseConfig() {
+  const saved = localStorage.getItem(STORAGE_KEY_SUPABASE_CONFIG);
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      if (parsed.url && parsed.anonKey) return parsed;
+    } catch (e) {}
+  }
+  if (DEFAULT_SUPABASE_CONFIG.url && DEFAULT_SUPABASE_CONFIG.anonKey) {
+    return DEFAULT_SUPABASE_CONFIG;
+  }
+  return null;
+}
+
+function saveSupabaseConfig(config) {
+  localStorage.setItem(STORAGE_KEY_SUPABASE_CONFIG, JSON.stringify(config));
+  initSupabaseClient();
+}
+
+function removeSupabaseConfig() {
+  localStorage.removeItem(STORAGE_KEY_SUPABASE_CONFIG);
+  supabaseClient = null;
+  updateCloudSyncUI();
+}
+
+let supabaseClient = null;
+
+function initSupabaseClient() {
+  const config = getSupabaseConfig();
+  if (config && config.url && config.anonKey && window.supabase) {
+    try {
+      supabaseClient = window.supabase.createClient(config.url, config.anonKey);
+    } catch (e) {
+      console.warn("Supabase 클라이언트 생성 실패:", e);
+      supabaseClient = null;
     }
   } else {
-    syncBtn.classList.remove("connected");
-    syncBtn.textContent = `📁 posts.js 파일 자동 연결`;
-    if (badge) {
-      badge.textContent = "💾 posts.js 파일 동기화";
-      badge.classList.remove("active");
-    }
+    supabaseClient = null;
   }
+  updateCloudSyncUI();
 }
 
-async function autoSaveToConnectedFile() {
-  if (!postsFileHandle) return;
-  try {
-    const content = generatePostsJsFileContent(posts);
-    const writable = await postsFileHandle.createWritable();
-    await writable.write(content);
-    await writable.close();
-    showSyncToast("💾 posts.js 파일에 자동 동기화되었습니다!");
-  } catch (err) {
-    console.warn("posts.js 자동 저장 실패:", err);
-    postsFileHandle = null;
-    updateSyncButtonStatus(false);
-  }
-}
-
-async function connectAndSyncPostsFile() {
-  const content = generatePostsJsFileContent(posts);
-
-  // 1) File System Access API (Chrome, Edge 등)
-  if (window.showOpenFilePicker) {
-    try {
-      const [handle] = await window.showOpenFilePicker({
-        multiple: false,
-        types: [{
-          description: "JavaScript Files (*.js)",
-          accept: { "text/javascript": [".js"] }
-        }]
-      });
-
-      if (!handle) return;
-
-      const writable = await handle.createWritable();
-      await writable.write(content);
-      await writable.close();
-
-      postsFileHandle = handle;
-      updateSyncButtonStatus(true);
-      alert(`🎉 [${handle.name}] 파일과 실시간 동기화가 연결되었습니다!\n\n현재 홈페이지의 모든 글이 파일에 즉시 저장되었으며, 앞으로 글을 작성하거나 삭제할 때마다 컴퓨터의 "${handle.name}" 파일에 실시간으로 자동 저장됩니다.`);
-      return;
-    } catch (err) {
-      if (err.name === "AbortError") return;
-      console.warn("showOpenFilePicker 에러 또는 보안 컨텍스트 제한:", err);
-    }
-  }
-
-  if (window.showSaveFilePicker) {
-    try {
-      const handle = await window.showSaveFilePicker({
-        suggestedName: "posts.js",
-        types: [{
-          description: "JavaScript Files (*.js)",
-          accept: { "text/javascript": [".js"] }
-        }]
-      });
-      if (handle) {
-        const writable = await handle.createWritable();
-        await writable.write(content);
-        await writable.close();
-        postsFileHandle = handle;
-        updateSyncButtonStatus(true);
-        alert(`🎉 [${handle.name}] 파일에 성공적으로 저장되었습니다!\n앞으로 작성하는 글도 이 파일에 실시간 자동 저장됩니다.`);
-        return;
-      }
-    } catch (err) {
-      if (err.name === "AbortError") return;
-      console.warn("showSaveFilePicker 에러:", err);
-    }
-  }
-
-  // 2) 브라우저 환경상 파일 핸들이 차단된 경우: 다운로드 제공
-  downloadPostsJsFile();
-  alert("💡 현재 브라우저 보안 정책상 파일 직접 수정이 제한되어 최신 'posts.js' 파일을 자동으로 다운로드했습니다.\n\n다운로드된 파일을 'C:\\Users\\User\\Desktop\\Vibe_Code' 폴더에 덮어쓰기 해주시면 바로 반영됩니다!\n(또는 옆의 [📋 코드 복사] 버튼을 눌러 에디터에 붙여넣으셔도 됩니다.)");
-}
-
-function downloadPostsJsFile() {
-  const content = generatePostsJsFileContent(posts);
-  const blob = new Blob([content], { type: "text/javascript;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "posts.js";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showSyncToast("📥 posts.js 파일이 다운로드되었습니다!");
-}
-
-async function copyPostsCode() {
-  const content = generatePostsJsFileContent(posts);
-  try {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(content);
+function updateCloudSyncUI() {
+  const badge = document.getElementById("cloudSyncStatusBadge");
+  const config = getSupabaseConfig();
+  if (badge) {
+    if (config && supabaseClient) {
+      badge.textContent = "☁️ 클라우드 DB 연결됨";
+      badge.classList.add("connected");
+      badge.title = "어느 기기에서든 실시간으로 글이 저장·공개됩니다 (클릭하여 설정)";
     } else {
-      const ta = document.createElement("textarea");
-      ta.value = content;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
+      badge.textContent = "☁️ 클라우드 DB 미연동";
+      badge.classList.remove("connected");
+      badge.title = "클라우드 DB를 연결하면 다른 컴퓨터에서도 실시간 글 작성이 가능합니다 (클릭하여 설정)";
     }
-    showSyncToast("📋 posts.js 최신 코드가 클립보드에 복사되었습니다!");
-  } catch (err) {
-    alert("코드 복사에 실패했습니다. 파일 다운로드 버튼을 이용해주세요.");
   }
 }
 
-// =========================================
-// GitHub REST API 자동 커밋 & 배포 연동 관리
-// =========================================
-const STORAGE_KEY_GITHUB_CONFIG = "vibe_blog_github_config";
-
-function getGithubConfig() {
-  const saved = localStorage.getItem(STORAGE_KEY_GITHUB_CONFIG);
-  if (!saved) return null;
+async function fetchCloudPosts() {
+  if (!supabaseClient) return null;
   try {
-    return JSON.parse(saved);
-  } catch (e) {
+    const { data, error } = await supabaseClient
+      .from("posts")
+      .select("*")
+      .order("id", { ascending: false });
+
+    if (error) {
+      console.warn("클라우드 DB 글 조회 오류:", error.message);
+      return null;
+    }
+    return data;
+  } catch (err) {
+    console.warn("클라우드 DB 통신 오류:", err);
     return null;
   }
 }
 
-function saveGithubConfig(config) {
-  localStorage.setItem(STORAGE_KEY_GITHUB_CONFIG, JSON.stringify(config));
-  updateGithubSyncUI();
-}
-
-function removeGithubConfig() {
-  localStorage.removeItem(STORAGE_KEY_GITHUB_CONFIG);
-  updateGithubSyncUI();
-}
-
-function updateGithubSyncUI() {
-  const badge = document.getElementById("githubSyncStatusBadge");
-  const config = getGithubConfig();
-  if (badge) {
-    if (config && config.owner && config.repo && config.token) {
-      badge.textContent = `🐙 GitHub: ${config.owner}/${config.repo}`;
-      badge.classList.add("active");
-      badge.title = `GitHub [${config.owner}/${config.repo}] 저장소와 연동됨 (클릭하여 설정 변경)`;
-    } else {
-      badge.textContent = "🐙 GitHub 미연동";
-      badge.classList.remove("active");
-      badge.title = "GitHub 저장소와 연동하면 글 작성 시 자동 커밋 & 배포됩니다 (클릭하여 설정)";
-    }
-  }
-}
-
-async function testGithubConnection(owner, repo, branch, token) {
-  const url = `https://api.github.com/repos/${owner}/${repo}`;
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-  });
-
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data.message || `저장소 접근 실패 (HTTP ${res.status})`);
-  }
-
-  const repoData = await res.json();
-  return repoData;
-}
-
-async function commitPostsToGitHub(postsData, commitMessage) {
-  const config = getGithubConfig();
-  if (!config || !config.token || !config.owner || !config.repo) {
-    return { success: false, skipped: true };
-  }
-
-  const { owner, repo, branch = "main", token } = config;
-  const path = "posts.js";
-  const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
-
-  let fileSha = null;
+async function seedInitialPostsToCloud() {
+  if (!supabaseClient || INITIAL_POSTS.length === 0) return;
   try {
-    const getRes = await fetch(getUrl, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-    });
-    if (getRes.ok) {
-      const data = await getRes.json();
-      fileSha = data.sha;
-    } else if (getRes.status !== 404) {
-      const errData = await getRes.json().catch(() => ({}));
-      throw new Error(errData.message || `GitHub 파일 조회 실패 (HTTP ${getRes.status})`);
+    const { error } = await supabaseClient.from("posts").insert(INITIAL_POSTS);
+    if (!error) {
+      console.log("초기 기본 글이 클라우드 DB에 성공적으로 등록되었습니다.");
     }
-  } catch (err) {
-    console.error("GitHub SHA 조회 에러:", err);
-    throw err;
+  } catch (e) {
+    console.warn("초기 글 등록 생략:", e);
   }
-
-  const newContent = generatePostsJsFileContent(postsData);
-  const bytes = new TextEncoder().encode(newContent);
-  const binString = Array.from(bytes, (byte) => String.fromCharCode(byte)).join("");
-  const base64Content = btoa(binString);
-
-  const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-  const payload = {
-    message: commitMessage || `Update posts.js via vibe.log [${new Date().toLocaleString()}]`,
-    content: base64Content,
-    branch: branch,
-  };
-  if (fileSha) {
-    payload.sha = fileSha;
-  }
-
-  const putRes = await fetch(putUrl, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "application/vnd.github+json",
-      "Content-Type": "application/json",
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-    body: JSON.stringify(payload),
-  });
-
-  if (!putRes.ok) {
-    const errData = await putRes.json().catch(() => ({}));
-    throw new Error(errData.message || `GitHub 커밋 실패 (HTTP ${putRes.status})`);
-  }
-
-  const result = await putRes.json();
-  return { success: true, commitSha: result.commit?.sha };
 }
 
 function loadCustomTags() {
@@ -469,7 +291,7 @@ function updateAdminUI() {
     adminAuthBtnText.textContent = "로그아웃";
     adminAuthBtn.title = "관리자 로그아웃";
     deletePostBtn.classList.remove("hidden");
-    updateGithubSyncUI();
+    updateCloudSyncUI();
   } else {
     // 방문자 모드 (읽기 전용)
     openWriteModalBtn.classList.add("hidden");
@@ -910,18 +732,24 @@ function deleteCurrentPost() {
   if (!state.isAdmin) return;
   if (!confirm("정말로 이 글을 삭제하시겠습니까?")) return;
 
-  posts = posts.filter((p) => p.id !== state.currentPostId);
+  const deletedId = state.currentPostId;
+  posts = posts.filter((p) => p.id !== deletedId);
   savePosts(posts);
 
-  // GitHub 자동 커밋 처리
-  const ghConfig = getGithubConfig();
-  if (ghConfig) {
-    showSyncToast("🐙 GitHub에 삭제 커밋 중...");
-    commitPostsToGitHub(posts, `글 삭제 반영 (vibe.log)`)
-      .then((res) => {
-        if (res.success) showSyncToast("🚀 GitHub에 삭제가 반영되었습니다!");
-      })
-      .catch((err) => console.error("GitHub 삭제 커밋 실패:", err));
+  // Supabase 클라우드 실시간 삭제 처리
+  if (supabaseClient) {
+    showSyncToast("☁️ 클라우드 DB에서 글 삭제 중...");
+    supabaseClient
+      .from("posts")
+      .delete()
+      .eq("id", deletedId)
+      .then(({ error }) => {
+        if (error) {
+          console.error("클라우드 DB 삭제 실패:", error);
+        } else {
+          showSyncToast("🗑️ 클라우드 DB에서 글이 삭제되었습니다!");
+        }
+      });
   }
 
   alert("글이 삭제되었습니다.");
@@ -1303,142 +1131,162 @@ adminAuthBtn.addEventListener("click", () => {
 
 quickLogoutBtn.addEventListener("click", handleLogout);
 
-// posts.js 동기화 및 내보내기 버튼 이벤트 리스너
-const syncPostsFileBtn = document.getElementById("syncPostsFileBtn");
-const downloadPostsFileBtn = document.getElementById("downloadPostsFileBtn");
-const copyPostsCodeBtn = document.getElementById("copyPostsCodeBtn");
+// Supabase 클라우드 설정 모달 관련 DOM & 이벤트 리스너
+const cloudConfigModal = document.getElementById("cloudConfigModal");
+const openCloudModalBtn = document.getElementById("openCloudModalBtn");
+const cloudSyncStatusBadge = document.getElementById("cloudSyncStatusBadge");
+const closeCloudModalBtn = document.getElementById("closeCloudModalBtn");
+const closeCloudModalBackdrop = document.getElementById("closeCloudModalBackdrop");
+const cloudConfigForm = document.getElementById("cloudConfigForm");
+const supabaseUrlInput = document.getElementById("supabaseUrlInput");
+const supabaseKeyInput = document.getElementById("supabaseKeyInput");
+const testCloudConnectionBtn = document.getElementById("testCloudConnectionBtn");
+const disconnectCloudBtn = document.getElementById("disconnectCloudBtn");
+const cloudConnectionStatusMsg = document.getElementById("cloudConnectionStatusMsg");
+const copySqlBtn = document.getElementById("copySqlBtn");
+const sqlCodeBox = document.getElementById("sqlCodeBox");
 
-if (syncPostsFileBtn) syncPostsFileBtn.addEventListener("click", connectAndSyncPostsFile);
-if (downloadPostsFileBtn) downloadPostsFileBtn.addEventListener("click", downloadPostsJsFile);
-if (copyPostsCodeBtn) copyPostsCodeBtn.addEventListener("click", copyPostsCode);
+function openCloudConfigModal() {
+  if (!cloudConfigModal) return;
+  const config = getSupabaseConfig() || {};
+  supabaseUrlInput.value = config.url || "";
+  supabaseKeyInput.value = config.anonKey || "";
 
-// GitHub 연동 모달 관련 DOM & 이벤트 리스너
-const githubConfigModal = document.getElementById("githubConfigModal");
-const openGithubModalBtn = document.getElementById("openGithubModalBtn");
-const githubSyncStatusBadge = document.getElementById("githubSyncStatusBadge");
-const closeGithubModalBtn = document.getElementById("closeGithubModalBtn");
-const closeGithubModalBackdrop = document.getElementById("closeGithubModalBackdrop");
-const githubConfigForm = document.getElementById("githubConfigForm");
-const githubOwnerInput = document.getElementById("githubOwnerInput");
-const githubRepoInput = document.getElementById("githubRepoInput");
-const githubBranchInput = document.getElementById("githubBranchInput");
-const githubTokenInput = document.getElementById("githubTokenInput");
-const testGithubConnectionBtn = document.getElementById("testGithubConnectionBtn");
-const disconnectGithubBtn = document.getElementById("disconnectGithubBtn");
-const githubConnectionStatusMsg = document.getElementById("githubConnectionStatusMsg");
-
-function openGithubConfigModal() {
-  if (!githubConfigModal) return;
-  const config = getGithubConfig() || {};
-  githubOwnerInput.value = config.owner || "";
-  githubRepoInput.value = config.repo || "";
-  githubBranchInput.value = config.branch || "main";
-  githubTokenInput.value = config.token || "";
-
-  if (githubConnectionStatusMsg) {
-    githubConnectionStatusMsg.className = "connection-status-msg hidden";
-    githubConnectionStatusMsg.textContent = "";
+  if (cloudConnectionStatusMsg) {
+    cloudConnectionStatusMsg.className = "connection-status-msg hidden";
+    cloudConnectionStatusMsg.textContent = "";
   }
 
-  githubConfigModal.classList.remove("hidden");
-  setTimeout(() => githubOwnerInput.focus(), 50);
+  cloudConfigModal.classList.remove("hidden");
+  setTimeout(() => supabaseUrlInput.focus(), 50);
 }
 
-function closeGithubConfigModal() {
-  if (!githubConfigModal) return;
-  githubConfigModal.classList.add("hidden");
+function closeCloudConfigModal() {
+  if (!cloudConfigModal) return;
+  cloudConfigModal.classList.add("hidden");
 }
 
-if (openGithubModalBtn) openGithubModalBtn.addEventListener("click", openGithubConfigModal);
-if (githubSyncStatusBadge) githubSyncStatusBadge.addEventListener("click", openGithubConfigModal);
-if (closeGithubModalBtn) closeGithubModalBtn.addEventListener("click", closeGithubConfigModal);
-if (closeGithubModalBackdrop) closeGithubModalBackdrop.addEventListener("click", closeGithubConfigModal);
+if (openCloudModalBtn) openCloudModalBtn.addEventListener("click", openCloudConfigModal);
+if (cloudSyncStatusBadge) cloudSyncStatusBadge.addEventListener("click", openCloudConfigModal);
+if (closeCloudModalBtn) closeCloudModalBtn.addEventListener("click", closeCloudConfigModal);
+if (closeCloudModalBackdrop) closeCloudModalBackdrop.addEventListener("click", closeCloudConfigModal);
 
-if (githubConfigForm) {
-  githubConfigForm.addEventListener("submit", async (e) => {
+if (copySqlBtn && sqlCodeBox) {
+  copySqlBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(sqlCodeBox.textContent.trim());
+      copySqlBtn.textContent = "복사 완료! ✓";
+      setTimeout(() => (copySqlBtn.textContent = "SQL 복사하기"), 2000);
+    } catch (e) {
+      alert("직접 드래그하여 복사해 주세요.");
+    }
+  });
+}
+
+if (cloudConfigForm) {
+  cloudConfigForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const owner = githubOwnerInput.value.trim();
-    const repo = githubRepoInput.value.trim();
-    const branch = githubBranchInput.value.trim() || "main";
-    const token = githubTokenInput.value.trim();
+    const url = supabaseUrlInput.value.trim();
+    const anonKey = supabaseKeyInput.value.trim();
 
-    if (!owner || !repo || !token) {
-      alert("아이디, 저장소 이름, 토큰을 모두 입력해 주세요.");
+    if (!url || !anonKey) {
+      alert("Project URL과 Anon Key를 모두 입력해 주세요.");
       return;
     }
 
     try {
-      if (githubConnectionStatusMsg) {
-        githubConnectionStatusMsg.className = "connection-status-msg loading";
-        githubConnectionStatusMsg.textContent = "⏳ GitHub 저장소 연결 확인 중...";
-        githubConnectionStatusMsg.classList.remove("hidden");
+      if (cloudConnectionStatusMsg) {
+        cloudConnectionStatusMsg.className = "connection-status-msg loading";
+        cloudConnectionStatusMsg.textContent = "⏳ Supabase 클라우드 연결 테스트 중...";
+        cloudConnectionStatusMsg.classList.remove("hidden");
       }
 
-      await testGithubConnection(owner, repo, branch, token);
-      saveGithubConfig({ owner, repo, branch, token });
-
-      if (githubConnectionStatusMsg) {
-        githubConnectionStatusMsg.className = "connection-status-msg success";
-        githubConnectionStatusMsg.textContent = "✅ GitHub 연결 성공 및 설정 저장 완료!";
+      if (!window.supabase) {
+        throw new Error("Supabase SDK를 불러오는 중입니다. 잠시 후 다시 시도해 주세요.");
       }
 
-      showSyncToast("🐙 GitHub 저장소 연동이 완료되었습니다!");
-      setTimeout(() => closeGithubConfigModal(), 900);
+      const testClient = window.supabase.createClient(url, anonKey);
+      const { data, error } = await testClient.from("posts").select("id").limit(1);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      saveSupabaseConfig({ url, anonKey });
+
+      if (cloudConnectionStatusMsg) {
+        cloudConnectionStatusMsg.className = "connection-status-msg success";
+        cloudConnectionStatusMsg.textContent = "✅ 클라우드 DB 연결 성공! 설정이 저장되었습니다.";
+      }
+
+      showSyncToast("☁️ Supabase 클라우드 DB 연동 완료!");
+
+      // 최신 글 다시 불러오기
+      const cloudPosts = await fetchCloudPosts();
+      if (cloudPosts && cloudPosts.length > 0) {
+        posts = cloudPosts;
+        savePosts(posts);
+        updateHomeUI();
+      }
+
+      setTimeout(() => closeCloudConfigModal(), 900);
     } catch (err) {
-      if (githubConnectionStatusMsg) {
-        githubConnectionStatusMsg.className = "connection-status-msg error";
-        githubConnectionStatusMsg.textContent = `❌ 연결 실패: ${err.message}`;
+      if (cloudConnectionStatusMsg) {
+        cloudConnectionStatusMsg.className = "connection-status-msg error";
+        cloudConnectionStatusMsg.textContent = `❌ 연결 실패: ${err.message}\n(아래 SQL 안내를 참고해 posts 테이블을 먼저 생성했는지 확인해 주세요)`;
       }
     }
   });
 }
 
-if (testGithubConnectionBtn) {
-  testGithubConnectionBtn.addEventListener("click", async () => {
-    const owner = githubOwnerInput.value.trim();
-    const repo = githubRepoInput.value.trim();
-    const branch = githubBranchInput.value.trim() || "main";
-    const token = githubTokenInput.value.trim();
+if (testCloudConnectionBtn) {
+  testCloudConnectionBtn.addEventListener("click", async () => {
+    const url = supabaseUrlInput.value.trim();
+    const anonKey = supabaseKeyInput.value.trim();
 
-    if (!owner || !repo || !token) {
-      alert("아이디, 저장소 이름, 토큰을 모두 입력한 후 테스트해 주세요.");
+    if (!url || !anonKey) {
+      alert("URL과 Key를 입력한 후 테스트해 주세요.");
       return;
     }
 
     try {
-      if (githubConnectionStatusMsg) {
-        githubConnectionStatusMsg.className = "connection-status-msg loading";
-        githubConnectionStatusMsg.textContent = "⏳ 연결 테스트 중...";
-        githubConnectionStatusMsg.classList.remove("hidden");
+      if (cloudConnectionStatusMsg) {
+        cloudConnectionStatusMsg.className = "connection-status-msg loading";
+        cloudConnectionStatusMsg.textContent = "⏳ 연결 테스트 중...";
+        cloudConnectionStatusMsg.classList.remove("hidden");
       }
 
-      const repoInfo = await testGithubConnection(owner, repo, branch, token);
-      if (githubConnectionStatusMsg) {
-        githubConnectionStatusMsg.className = "connection-status-msg success";
-        githubConnectionStatusMsg.textContent = `✅ 연결 성공! 저장소: "${repoInfo.full_name}" (${repoInfo.private ? "비공개" : "공개"})`;
+      if (!window.supabase) throw new Error("Supabase SDK를 로딩 중입니다.");
+      const testClient = window.supabase.createClient(url, anonKey);
+      const { data, error } = await testClient.from("posts").select("id").limit(1);
+
+      if (error) throw new Error(error.message);
+
+      if (cloudConnectionStatusMsg) {
+        cloudConnectionStatusMsg.className = "connection-status-msg success";
+        cloudConnectionStatusMsg.textContent = "✅ Supabase 'posts' 테이블과 성공적으로 연결되었습니다!";
       }
     } catch (err) {
-      if (githubConnectionStatusMsg) {
-        githubConnectionStatusMsg.className = "connection-status-msg error";
-        githubConnectionStatusMsg.textContent = `❌ 연결 실패: ${err.message}`;
+      if (cloudConnectionStatusMsg) {
+        cloudConnectionStatusMsg.className = "connection-status-msg error";
+        cloudConnectionStatusMsg.textContent = `❌ 연결 실패: ${err.message}`;
       }
     }
   });
 }
 
-if (disconnectGithubBtn) {
-  disconnectGithubBtn.addEventListener("click", () => {
-    if (confirm("GitHub 연동을 해제하시겠습니까?")) {
-      removeGithubConfig();
-      githubOwnerInput.value = "";
-      githubRepoInput.value = "";
-      githubTokenInput.value = "";
-      if (githubConnectionStatusMsg) {
-        githubConnectionStatusMsg.className = "connection-status-msg";
-        githubConnectionStatusMsg.textContent = "연동이 해제되었습니다.";
+if (disconnectCloudBtn) {
+  disconnectCloudBtn.addEventListener("click", () => {
+    if (confirm("클라우드 DB 연동을 해제하시겠습니까?")) {
+      removeSupabaseConfig();
+      supabaseUrlInput.value = "";
+      supabaseKeyInput.value = "";
+      if (cloudConnectionStatusMsg) {
+        cloudConnectionStatusMsg.className = "connection-status-msg";
+        cloudConnectionStatusMsg.textContent = "연동이 해제되었습니다.";
       }
-      showSyncToast("🐙 GitHub 연동이 해제되었습니다.");
-      setTimeout(() => closeGithubConfigModal(), 700);
+      showSyncToast("☁️ 클라우드 DB 연동이 해제되었습니다.");
+      setTimeout(() => closeCloudConfigModal(), 700);
     }
   });
 }
@@ -1703,20 +1551,22 @@ writePostForm.addEventListener("submit", (e) => {
   posts.unshift(newPost);
   savePosts(posts);
 
-  // GitHub 자동 커밋 처리
-  const ghConfig = getGithubConfig();
-  if (ghConfig) {
-    showSyncToast("🐙 GitHub 저장소에 자동 커밋 중...");
-    commitPostsToGitHub(posts, `새 글 발행: "${title}" (vibe.log)`)
-      .then((res) => {
-        if (res.success) {
-          showSyncToast("🚀 GitHub에 커밋 완료! (1~2분 뒤 배포 반영)");
+  // Supabase 클라우드 실시간 저장
+  if (supabaseClient) {
+    showSyncToast("☁️ 클라우드 DB에 실시간 저장 중...");
+    supabaseClient
+      .from("posts")
+      .insert([newPost])
+      .then(({ error }) => {
+        if (error) {
+          console.error("클라우드 저장 실패:", error);
+          alert(`⚠️ 클라우드 저장 실패: ${error.message}\n(글은 로컬에 저장되었습니다)`);
+        } else {
+          showSyncToast("🚀 글이 등록되었습니다! (모든 기기 실시간 반영)");
         }
-      })
-      .catch((err) => {
-        console.error("GitHub 커밋 실패:", err);
-        alert(`⚠️ GitHub 커밋 실패: ${err.message}\n(글은 브라우저 로컬에 안전하게 저장되었습니다.)`);
       });
+  } else {
+    showSyncToast("글이 등록되었습니다. (로컬 모드)");
   }
 
   closeModal();
@@ -1791,5 +1641,20 @@ function initLocationSection() {
 
 // 초기화
 initTheme();
+initSupabaseClient();
 updateHomeUI();
 initLocationSection();
+
+// 비동기 클라우드 포스트 로딩
+(async function loadInitialData() {
+  if (supabaseClient) {
+    const cloudPosts = await fetchCloudPosts();
+    if (cloudPosts && cloudPosts.length > 0) {
+      posts = cloudPosts;
+      savePosts(posts);
+      updateHomeUI();
+    } else if (cloudPosts && cloudPosts.length === 0) {
+      await seedInitialPostsToCloud();
+    }
+  }
+})();

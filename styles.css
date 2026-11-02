@@ -263,78 +263,16 @@ button {
   color: #ffffff;
 }
 
-/* GitHub 연동 버튼 및 배지 */
-.btn-admin-github {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  background-color: #24292f;
-  color: #ffffff;
-  padding: 0.3rem 0.7rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-}
-
-[data-theme="dark"] .btn-admin-github {
-  background-color: #2b3137;
-  border-color: #444c56;
-}
-
-.btn-admin-github:hover {
-  background-color: #000000;
-  transform: translateY(-1px);
-}
-
-.github-sync-badge {
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.76rem;
-  font-weight: 600;
-  padding: 0.18rem 0.6rem;
-  background-color: rgba(36, 41, 47, 0.08);
-  border-radius: 999px;
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-[data-theme="dark"] .github-sync-badge {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ececec;
-}
-
-.github-sync-badge.active {
-  background-color: #2da44e;
-  border-color: #2da44e;
-  color: #ffffff;
-}
-
-.github-sync-badge:hover {
-  transform: translateY(-1px);
-}
-
-.admin-indicator-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  flex-wrap: wrap;
-}
-
-.btn-admin-sync {
+/* 클라우드 DB 연동 버튼 및 상태 배지 */
+.btn-admin-cloud {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
   background-color: var(--accent-color);
   color: #ffffff;
-  padding: 0.3rem 0.7rem;
+  padding: 0.3rem 0.75rem;
   border-radius: 6px;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
@@ -342,34 +280,45 @@ button {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.btn-admin-sync:hover {
+.btn-admin-cloud:hover {
   filter: brightness(1.1);
   transform: translateY(-1px);
 }
 
-.btn-admin-sync.connected {
-  background-color: #2b8a3e;
-  box-shadow: 0 0 0 2px rgba(43, 138, 62, 0.25);
-}
-
-.btn-admin-download {
+.cloud-sync-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  background-color: var(--bg-primary);
-  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.18rem 0.6rem;
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  color: var(--text-primary);
   border: 1px solid var(--border-color);
-  padding: 0.28rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.btn-admin-download:hover {
-  color: var(--text-primary);
-  background-color: var(--bg-secondary);
+[data-theme="dark"] .cloud-sync-badge {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ececec;
+}
+
+.cloud-sync-badge.connected {
+  background-color: #2b8a3e;
+  border-color: #2b8a3e;
+  color: #ffffff;
+}
+
+.cloud-sync-badge:hover {
+  transform: translateY(-1px);
+}
+
+.admin-indicator-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .btn-text-logout {
@@ -383,12 +332,12 @@ button {
   border: none;
 }
 
-/* GitHub 설정 모달 전용 스타일 */
-.github-dialog {
-  max-width: 540px;
+/* Cloud 설정 모달 전용 스타일 */
+.cloud-dialog {
+  max-width: 560px;
 }
 
-.github-guide-card {
+.cloud-guide-card {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -399,29 +348,61 @@ button {
   color: var(--text-secondary);
 }
 
-.github-guide-card p {
+.cloud-guide-card p {
   margin-bottom: 0.4rem;
 }
 
-.github-guide-card ul {
+.cloud-guide-card ul {
   padding-left: 1.2rem;
   margin-bottom: 0;
 }
 
-.github-guide-card li {
+.cloud-guide-card li {
   margin-bottom: 0.35rem;
 }
 
-.github-guide-card code {
-  background-color: var(--code-bg);
-  padding: 0.15rem 0.35rem;
-  border-radius: 4px;
-  font-size: 0.82rem;
-  font-family: monospace;
-  color: var(--accent-color);
+.cloud-sql-help {
+  margin-top: 1rem;
+  background-color: var(--bg-secondary);
+  border: 1px dashed var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
 }
 
-.github-modal-footer {
+.cloud-sql-help summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.sql-code-box {
+  background-color: #1a1a1a;
+  color: #a9ff68;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  overflow-x: auto;
+  margin: 0.6rem 0;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.btn-copy-sql {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-copy-sql:hover {
+  background-color: var(--bg-elevated);
+}
+
+.cloud-modal-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
