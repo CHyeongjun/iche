@@ -728,30 +728,38 @@ function openPostDetail(postId) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function deleteCurrentPost() {
+async function deleteCurrentPost() {
   if (!state.isAdmin) return;
   if (!confirm("정말로 이 글을 삭제하시겠습니까?")) return;
 
-  const deletedId = state.currentPostId;
-  posts = posts.filter((p) => p.id !== deletedId);
-  savePosts(posts);
+  const deletedId = Number(state.currentPostId);
 
-  // Supabase 클라우드 실시간 삭제 처리
+  // 1) Supabase 클라우드 실시간 삭제 처리
   if (supabaseClient) {
     showSyncToast("☁️ 클라우드 DB에서 글 삭제 중...");
-    supabaseClient
-      .from("posts")
-      .delete()
-      .eq("id", deletedId)
-      .then(({ error }) => {
-        if (error) {
-          console.error("클라우드 DB 삭제 실패:", error);
-        } else {
-          showSyncToast("🗑️ 클라우드 DB에서 글이 삭제되었습니다!");
-        }
-      });
+    try {
+      const { error } = await supabaseClient
+        .from("posts")
+        .delete()
+        .eq("id", deletedId);
+
+      if (error) {
+        console.error("클라우드 DB 삭제 실패:", error);
+        alert(`⚠️ 클라우드 DB 삭제 실패: ${error.message}\n(Supabase SQL Editor에서 삭제 권한 정책을 확인해 주세요)`);
+        return;
+      }
+    } catch (err) {
+      console.error("클라우드 삭제 통신 오류:", err);
+      alert(`⚠️ 삭제 실패: ${err.message}`);
+      return;
+    }
   }
 
+  // 2) 로컬 상태 및 localStorage에서도 삭제
+  posts = posts.filter((p) => Number(p.id) !== deletedId);
+  savePosts(posts);
+
+  showSyncToast("🗑️ 글이 성공적으로 삭제되었습니다!");
   alert("글이 삭제되었습니다.");
   switchView("home");
   updateHomeUI();
@@ -1680,12 +1688,10 @@ initLocationSection();
 (async function loadInitialData() {
   if (supabaseClient) {
     const cloudPosts = await fetchCloudPosts();
-    if (cloudPosts && cloudPosts.length > 0) {
+    if (cloudPosts) {
       posts = cloudPosts;
       savePosts(posts);
       updateHomeUI();
-    } else if (cloudPosts && cloudPosts.length === 0) {
-      await seedInitialPostsToCloud();
     }
   }
 })();
