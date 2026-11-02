@@ -6,8 +6,20 @@ const STORAGE_KEY_TAGS = "vibe_blog_tags";
 const STORAGE_KEY_AUTH = "vibe_blog_is_admin";
 const STORAGE_KEY_VIEW_MODE = "vibe_blog_view_mode";
 
-// 관리자 기본 비밀번호 (추후 변경 가능)
-const ADMIN_PASSWORD_HASH = "7466";
+// 관리자 비밀번호 해시 (Salted SHA-256 단방향 암호화 - 원본 암호 노출 차단)
+const ADMIN_PASSWORD_HASH = "666c8f6c063a2d8dcb97ddcad4e641b5f038e391e3120330a8f97c64464d20a8";
+const PASSWORD_SALT = "vibe_blog_admin_salt_#2026_";
+const STORAGE_KEY_CUSTOM_HASH = "vibe_blog_admin_hash";
+
+// 비밀번호 SHA-256 해시 함수
+async function hashPassword(plainText) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(PASSWORD_SALT + plainText);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hashBuffer))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
 
 function loadPosts() {
   const saved = localStorage.getItem(STORAGE_KEY_POSTS);
@@ -175,16 +187,23 @@ function updateAdminUI() {
   }
 }
 
-function handleLogin(password) {
-  if (password === ADMIN_PASSWORD_HASH) {
-    state.isAdmin = true;
-    localStorage.setItem(STORAGE_KEY_AUTH, "true");
-    closeAuthModal();
-    updateAdminUI();
-    renderTags();
-  } else {
+async function handleLogin(password) {
+  try {
+    const hashedInput = await hashPassword(password);
+    const validHash = localStorage.getItem(STORAGE_KEY_CUSTOM_HASH) || ADMIN_PASSWORD_HASH;
+    if (hashedInput === validHash) {
+      state.isAdmin = true;
+      localStorage.setItem(STORAGE_KEY_AUTH, "true");
+      closeAuthModal();
+      updateAdminUI();
+      renderTags();
+    } else {
+      loginErrorMsg.classList.remove("hidden");
+      adminPasswordInput.focus();
+    }
+  } catch (err) {
+    console.error("비밀번호 검증 오류", err);
     loginErrorMsg.classList.remove("hidden");
-    adminPasswordInput.focus();
   }
 }
 
@@ -513,14 +532,14 @@ function renderMultiPhotoGallery(images, altTitle = "", isPreview = false) {
     subThumbsHtml = `
       <div class="gallery-sub-thumbnails" aria-label="전체 사진 썸네일 목록">
         ${images
-          .map(
-            (imgSrc, i) => `
+        .map(
+          (imgSrc, i) => `
           <button type="button" class="sub-thumb-btn" data-lightbox-src="${imgSrc}" title="사진 ${i + 1} 원본 크게보기">
             <img src="${imgSrc}" alt="${altTitle} 썸네일 ${i + 1}" loading="lazy" />
           </button>
         `
-          )
-          .join("")}
+        )
+        .join("")}
       </div>
     `;
   }
@@ -779,9 +798,9 @@ function renderPostPreview() {
 
   const formattedContent = rawContent
     ? rawContent
-        .split(/\n\s*\n/)
-        .map((paragraph) => `<p>${paragraph.replace(/\n/g, "<br>")}</p>`)
-        .join("")
+      .split(/\n\s*\n/)
+      .map((paragraph) => `<p>${paragraph.replace(/\n/g, "<br>")}</p>`)
+      .join("")
     : `<p class="preview-placeholder-text">(본문 내용이 작성되면 실제 글 읽기 화면 스타일로 문단과 줄바꿈이 깔끔하게 표시됩니다)</p>`;
 
   // 1) 목록 카드 뷰 렌더링
@@ -984,9 +1003,9 @@ loginModal.addEventListener("click", (e) => {
   if (e.target === loginModal) closeAuthModal();
 });
 
-adminLoginForm.addEventListener("submit", (e) => {
+adminLoginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  handleLogin(adminPasswordInput.value.trim());
+  await handleLogin(adminPasswordInput.value.trim());
 });
 
 // 태그 관리(추가/삭제) 모달 제어
