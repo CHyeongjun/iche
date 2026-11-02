@@ -60,8 +60,8 @@ const STORAGE_KEY_SUPABASE_CONFIG = "vibe_blog_supabase_config";
 
 // 프로젝트 코드에 직접 URL과 Anon Key를 입력해두시면 모든 기기에서 자동 연결됩니다:
 const DEFAULT_SUPABASE_CONFIG = {
-  url: "", // 예: "https://your-project.supabase.co"
-  anonKey: "" // 예: "eyJhbGciOiJIUzI1NiIsInR5cCI6..."
+  url: "https://pafbflrxrubmqkdjouyjk.supabase.co", // 사용자 프로젝트 URL
+  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhZmJmbHJ4cnViaW1xa2Rqb3V5amsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc1MTYxOTE0MywiZXhwIjoyMDY3MTk1MTQzfQ.T8D5l9G12NmrY-Q9j95D6z1mQy32Y5M29l7jXl9_p_4"
 };
 
 function getSupabaseConfig() {
@@ -70,7 +70,7 @@ function getSupabaseConfig() {
     try {
       const parsed = JSON.parse(saved);
       if (parsed.url && parsed.anonKey) return parsed;
-    } catch (e) {}
+    } catch (e) { }
   }
   if (DEFAULT_SUPABASE_CONFIG.url && DEFAULT_SUPABASE_CONFIG.anonKey) {
     return DEFAULT_SUPABASE_CONFIG;
@@ -1183,18 +1183,47 @@ if (copySqlBtn && sqlCodeBox) {
   });
 }
 
+function cleanSupabaseUrl(rawUrl) {
+  let u = (rawUrl || "").trim();
+  if (u.includes("supabase.com/dashboard")) {
+    throw new Error("대시보드 웹페이지 주소가 아니라, Supabase의 'Project Settings ➜ API' 에 있는 'Project URL' (예: https://xxxx.supabase.co)을 입력하셔야 합니다.");
+  }
+  if (!u.startsWith("http://") && !u.startsWith("https://")) {
+    u = "https://" + u;
+  }
+  u = u.replace(/\/+$/, "");
+  u = u.replace(/\/rest\/v1\/?$/, "");
+  return u;
+}
+
+function formatSupabaseError(err) {
+  const msg = err.message || String(err);
+  if (msg.includes("Failed to fetch") || msg.includes("NetworkError") || err.name === "TypeError") {
+    return "네트워크 연결 실패: Project URL을 잘못 입력하셨거나 접속할 수 없습니다.\nURL 형태가 'https://xxxx.supabase.co' 인지 확인해 주세요. (대시보드 주소 X)";
+  }
+  if ((msg.includes("relation") && msg.includes("does not exist")) || err.code === "42P01") {
+    return "연결은 되었으나 'posts' 테이블이 생성되지 않았습니다!\nSupabase 대시보드 ➜ SQL Editor에서 아래 [테이블 생성 SQL]을 복사해 실행(Run)해 주세요.";
+  }
+  if (msg.includes("Invalid API key") || msg.includes("JWT") || msg.includes("apikey") || msg.includes("invalid claim")) {
+    return "API Key 오류: Supabase의 Project Settings ➜ API ➜ 'anon public' 키를 정확히 복사했는지 확인해 주세요.";
+  }
+  return msg;
+}
+
 if (cloudConfigForm) {
   cloudConfigForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const url = supabaseUrlInput.value.trim();
+    const rawUrl = supabaseUrlInput.value.trim();
     const anonKey = supabaseKeyInput.value.trim();
 
-    if (!url || !anonKey) {
+    if (!rawUrl || !anonKey) {
       alert("Project URL과 Anon Key를 모두 입력해 주세요.");
       return;
     }
 
     try {
+      const url = cleanSupabaseUrl(rawUrl);
+
       if (cloudConnectionStatusMsg) {
         cloudConnectionStatusMsg.className = "connection-status-msg loading";
         cloudConnectionStatusMsg.textContent = "⏳ Supabase 클라우드 연결 테스트 중...";
@@ -1209,7 +1238,7 @@ if (cloudConfigForm) {
       const { data, error } = await testClient.from("posts").select("id").limit(1);
 
       if (error) {
-        throw new Error(error.message);
+        throw error;
       }
 
       saveSupabaseConfig({ url, anonKey });
@@ -1233,7 +1262,7 @@ if (cloudConfigForm) {
     } catch (err) {
       if (cloudConnectionStatusMsg) {
         cloudConnectionStatusMsg.className = "connection-status-msg error";
-        cloudConnectionStatusMsg.textContent = `❌ 연결 실패: ${err.message}\n(아래 SQL 안내를 참고해 posts 테이블을 먼저 생성했는지 확인해 주세요)`;
+        cloudConnectionStatusMsg.textContent = `❌ ${formatSupabaseError(err)}`;
       }
     }
   });
@@ -1241,15 +1270,17 @@ if (cloudConfigForm) {
 
 if (testCloudConnectionBtn) {
   testCloudConnectionBtn.addEventListener("click", async () => {
-    const url = supabaseUrlInput.value.trim();
+    const rawUrl = supabaseUrlInput.value.trim();
     const anonKey = supabaseKeyInput.value.trim();
 
-    if (!url || !anonKey) {
+    if (!rawUrl || !anonKey) {
       alert("URL과 Key를 입력한 후 테스트해 주세요.");
       return;
     }
 
     try {
+      const url = cleanSupabaseUrl(rawUrl);
+
       if (cloudConnectionStatusMsg) {
         cloudConnectionStatusMsg.className = "connection-status-msg loading";
         cloudConnectionStatusMsg.textContent = "⏳ 연결 테스트 중...";
@@ -1260,7 +1291,7 @@ if (testCloudConnectionBtn) {
       const testClient = window.supabase.createClient(url, anonKey);
       const { data, error } = await testClient.from("posts").select("id").limit(1);
 
-      if (error) throw new Error(error.message);
+      if (error) throw error;
 
       if (cloudConnectionStatusMsg) {
         cloudConnectionStatusMsg.className = "connection-status-msg success";
@@ -1269,7 +1300,7 @@ if (testCloudConnectionBtn) {
     } catch (err) {
       if (cloudConnectionStatusMsg) {
         cloudConnectionStatusMsg.className = "connection-status-msg error";
-        cloudConnectionStatusMsg.textContent = `❌ 연결 실패: ${err.message}`;
+        cloudConnectionStatusMsg.textContent = `❌ ${formatSupabaseError(err)}`;
       }
     }
   });

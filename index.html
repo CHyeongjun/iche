@@ -8,8 +8,13 @@
   <link rel="stylesheet" as="style" crossorigin
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="styles.css" />
-  <!-- Supabase 클라우드 데이터베이스 JS SDK -->
+  <!-- Supabase 클라우드 데이터베이스 JS SDK (이중 CDN 백업) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    if (!window.supabase) {
+      document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\/script>');
+    }
+  </script>
 </head>
 
 <body>
@@ -77,7 +82,8 @@
         </button>
       </div>
       <div class="admin-indicator-actions">
-        <button type="button" class="btn-admin-cloud" id="openCloudModalBtn" title="어느 기기에서든 실시간으로 글이 저장·공개되는 Supabase 클라우드 DB 설정">
+        <button type="button" class="btn-admin-cloud" id="openCloudModalBtn"
+          title="어느 기기에서든 실시간으로 글이 저장·공개되는 Supabase 클라우드 DB 설정">
           ⚙️ 클라우드 DB 연동
         </button>
         <button type="button" class="btn-text-logout" id="quickLogoutBtn">로그아웃</button>
@@ -552,13 +558,15 @@
 
           <div class="form-group">
             <label for="supabaseUrlInput">Project URL <span class="required">*</span></label>
-            <input type="text" id="supabaseUrlInput" class="form-control" placeholder="https://xxxxxxxxxxxx.supabase.co" required />
+            <input type="text" id="supabaseUrlInput" class="form-control" placeholder="https://xxxxxxxxxxxx.supabase.co"
+              required />
             <small class="form-help-text">Supabase 대시보드 ➜ Project Settings ➜ API ➜ Project URL</small>
           </div>
 
           <div class="form-group">
             <label for="supabaseKeyInput">Anon Public API Key <span class="required">*</span></label>
-            <input type="password" id="supabaseKeyInput" class="form-control" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." autocomplete="off" required />
+            <input type="password" id="supabaseKeyInput" class="form-control"
+              placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." autocomplete="off" required />
             <small class="form-help-text">
               • Supabase 대시보드 ➜ Project Settings ➜ API ➜ Project API keys (anon, public)<br>
               • 이 키는 브라우저 공개용 안전 키이며, 클라우드 DB와 실시간 연결됩니다.
@@ -574,17 +582,23 @@ create table if not exists posts (
   title text not null,
   category text not null,
   date text not null,
-  tags text[] default '{}',
+  tags jsonb default '[]'::jsonb,
   image text,
-  images text[] default '{}',
+  images jsonb default '[]'::jsonb,
   excerpt text,
   content text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
 alter table posts enable row level security;
+
+drop policy if exists "공개 읽기" on posts;
 create policy "공개 읽기" on posts for select using (true);
+
+drop policy if exists "공개 쓰기" on posts;
 create policy "공개 쓰기" on posts for insert with check (true);
+
+drop policy if exists "공개 삭제" on posts;
 create policy "공개 삭제" on posts for delete using (true);</pre>
               <button type="button" class="btn-copy-sql" id="copySqlBtn">SQL 복사하기</button>
             </details>
