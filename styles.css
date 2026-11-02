@@ -218,12 +218,12 @@ button {
   display: none;
 }
 
-/* 관리자 활성 인디케이터 바 */
+/* 관리자 활성 인디케이터 바 & posts.js 파일 동기화 툴바 */
 .admin-indicator-bar {
   background-color: var(--accent-soft);
   border-bottom: 1px solid var(--accent-color);
-  padding: 0.45rem 0;
-  font-size: 0.86rem;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
   color: var(--accent-color);
 }
 
@@ -231,12 +231,273 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-indicator-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.sync-status-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .sync-status-badge {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+}
+
+.sync-status-badge.active {
+  background-color: var(--accent-color);
+  color: #ffffff;
+}
+
+/* GitHub 연동 버튼 및 배지 */
+.btn-admin-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: #24292f;
+  color: #ffffff;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .btn-admin-github {
+  background-color: #2b3137;
+  border-color: #444c56;
+}
+
+.btn-admin-github:hover {
+  background-color: #000000;
+  transform: translateY(-1px);
+}
+
+.github-sync-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.18rem 0.6rem;
+  background-color: rgba(36, 41, 47, 0.08);
+  border-radius: 999px;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .github-sync-badge {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ececec;
+}
+
+.github-sync-badge.active {
+  background-color: #2da44e;
+  border-color: #2da44e;
+  color: #ffffff;
+}
+
+.github-sync-badge:hover {
+  transform: translateY(-1px);
+}
+
+.admin-indicator-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.btn-admin-sync {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: var(--accent-color);
+  color: #ffffff;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-admin-sync:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-admin-sync.connected {
+  background-color: #2b8a3e;
+  box-shadow: 0 0 0 2px rgba(43, 138, 62, 0.25);
+}
+
+.btn-admin-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.28rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-admin-download:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
 }
 
 .btn-text-logout {
   text-decoration: underline;
   font-weight: 600;
+  font-size: 0.82rem;
   cursor: pointer;
+  color: var(--accent-color);
+  margin-left: 0.3rem;
+  background: none;
+  border: none;
+}
+
+/* GitHub 설정 모달 전용 스타일 */
+.github-dialog {
+  max-width: 540px;
+}
+
+.github-guide-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+  color: var(--text-secondary);
+}
+
+.github-guide-card p {
+  margin-bottom: 0.4rem;
+}
+
+.github-guide-card ul {
+  padding-left: 1.2rem;
+  margin-bottom: 0;
+}
+
+.github-guide-card li {
+  margin-bottom: 0.35rem;
+}
+
+.github-guide-card code {
+  background-color: var(--code-bg);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-family: monospace;
+  color: var(--accent-color);
+}
+
+.github-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-help-text {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+  line-height: 1.45;
+}
+
+.form-help-text a {
+  color: var(--accent-color);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.connection-status-msg {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  margin-top: 0.75rem;
+}
+
+.connection-status-msg.success {
+  background-color: rgba(43, 138, 62, 0.12);
+  color: #2b8a3e;
+  border: 1px solid #2b8a3e;
+}
+
+.connection-status-msg.error {
+  background-color: rgba(224, 49, 49, 0.12);
+  color: #e03131;
+  border: 1px solid #e03131;
+}
+
+.connection-status-msg.loading {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+/* 글로벌 동기화 토스트 알림 */
+.sync-global-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background-color: #191f28;
+  color: #ffffff;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  z-index: 99999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+[data-theme="dark"] .sync-global-toast {
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #444444;
+}
+
+.sync-global-toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
 }
 
 /* =========================================
