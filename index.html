@@ -4,17 +4,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 콘텐츠 보안 정책(CSP): 허용된 출처 외의 스크립트 실행 차단 (XSS로 로그인 세션이 탈취되는 것을 완화) -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>온세미로 - 농사 · 일상 · 보일러 이야기</title>
   <link rel="stylesheet" as="style" crossorigin
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="styles.css" />
-  <!-- Supabase 클라우드 데이터베이스 JS SDK (이중 CDN 백업) -->
+  <!-- 동기화 SDK (로드 실패 시 app.js가 백업 CDN을 자동으로 주입) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    if (!window.supabase) {
-      document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\/script>');
-    }
-  </script>
 </head>
 
 <body>
@@ -332,6 +331,7 @@
         </div>
         <div class="auth-error-msg hidden" id="loginErrorMsg">비밀번호가 올바르지 않습니다. 다시 확인해 주세요.</div>
         <div class="modal-footer">
+          <button type="button" class="btn-cancel" id="openCloudFromLoginBtn">동기화 설정</button>
           <button type="button" class="btn-cancel" id="cancelLoginBtn">취소</button>
           <button type="submit" class="btn-submit">로그인</button>
         </div>
@@ -596,8 +596,8 @@
     </div>
   </div>
 
-  <script src="posts.js?v=3"></script>
-  <script src="app.js?v=3"></script>
+  <script src="posts.js?v=4"></script>
+  <script src="app.js?v=4"></script>
 </body>
 
 </html>
