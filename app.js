@@ -183,13 +183,37 @@
   let isInitialCloudLoaded = false;
   let _waitingSdk = false;
 
-  // 안전한 자바스크립트 런타임 메모리(RAM) 스토리지 어댑터
-  // 브라우저 디스크 저장소를 사용하지 않고 RAM에서만 동작하여 토큰 탈취 방지
-  const memoryStorage = {};
-  const inMemoryStorage = {
-    getItem: (key) => (Object.prototype.hasOwnProperty.call(memoryStorage, key) ? memoryStorage[key] : null),
-    setItem: (key, value) => { memoryStorage[key] = String(value); },
-    removeItem: (key) => { delete memoryStorage[key]; }
+  // 안전한 브라우저 세션 스토리지 어댑터 (localStorage 완전 배제)
+  // - localStorage는 0% 사용 (영구 디스크 저장 절대 안 함)
+  // - 현재 탭이 열려있는 동안(새로고침 및 글 작성 포함) 세션 유지
+  // - 브라우저 탭을 닫으면 세션이 즉시 완전 소멸되어 보안 유지
+  const memoryFallback = {};
+  const sessionAdapter = {
+    getItem: (key) => {
+      try {
+        if (typeof window !== "undefined" && window.sessionStorage) {
+          return window.sessionStorage.getItem(key);
+        }
+      } catch (e) { }
+      return Object.prototype.hasOwnProperty.call(memoryFallback, key) ? memoryFallback[key] : null;
+    },
+    setItem: (key, value) => {
+      try {
+        if (typeof window !== "undefined" && window.sessionStorage) {
+          window.sessionStorage.setItem(key, String(value));
+          return;
+        }
+      } catch (e) { }
+      memoryFallback[key] = String(value);
+    },
+    removeItem: (key) => {
+      try {
+        if (typeof window !== "undefined" && window.sessionStorage) {
+          window.sessionStorage.removeItem(key);
+        }
+      } catch (e) { }
+      delete memoryFallback[key];
+    }
   };
 
   // 설정값으로 클라이언트 생성 + 인증 이벤트 연결 (생성 지점 단일화)
@@ -197,9 +221,10 @@
     try {
       const client = window.supabase.createClient(config.url, config.anonKey, {
         auth: {
-          storage: inMemoryStorage, // 브라우저 디스크에 저장하지 않고 메모리(RAM)에서만 유지
-          persistSession: true, // 메모리 어댑터를 통해 Supabase REST 쿼리가 JWT 토큰을 정상 첨부하도록 유지
-          autoRefreshToken: true
+          storage: sessionAdapter, // 탭 세션 동안만 유지되며 탭 닫으면 즉시 소멸
+          persistSession: true, // 세션 어댑터를 통해 Supabase REST 쿼리가 JWT 토큰을 정상 첨부하도록 유지
+          autoRefreshToken: true,
+          detectSessionInUrl: false
         }
       });
       attachAuthListener(client);
@@ -209,11 +234,13 @@
     }
   }
 
-  function initSupabaseClient() {
+  async function initSupabaseClient() {
     const config = getSupabaseConfig();
     if (config && config.url && config.anonKey) {
       if (window.supabase) {
         supabaseClient = createClientFromConfig(config);
+        await syncSession();
+        updateAdminUI();
       } else {
         supabaseClient = null;
         waitForSupabaseSdk();
@@ -236,6 +263,8 @@
         const config = getSupabaseConfig();
         if (config && config.url && config.anonKey) {
           supabaseClient = createClientFromConfig(config);
+          await syncSession();
+          updateAdminUI();
           updateCloudSyncUI();
           if (!isInitialCloudLoaded) {
             await loadInitialData();
@@ -252,6 +281,8 @@
             const config = getSupabaseConfig();
             if (config && config.url && config.anonKey && window.supabase) {
               supabaseClient = createClientFromConfig(config);
+              await syncSession();
+              updateAdminUI();
               updateCloudSyncUI();
               if (!isInitialCloudLoaded) {
                 await loadInitialData();
@@ -1721,6 +1752,7 @@
     state.selectedCategory = category;
     state.selectedTag = null;
     updateHomeUI();
+    updateAdminUI();
     switchView("home");
   });
 
