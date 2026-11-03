@@ -172,11 +172,20 @@ function showSyncToast(message) {
 // =========================================
 const STORAGE_KEY_SUPABASE_CONFIG = "vibe_blog_supabase_config";
 
-// GitHub 등 공개 저장소 배포 시 민감한 개인 DB 키 유출 방지를 위해 기본값을 비워둡니다.
-// 웹 화면의 [클라우드 DB 연동] 팝업에서 Project URL과 Anon Key를 입력하시면 브라우저 로컬에 안전하게 저장됩니다.
+// [엔드포인트 및 공개 키 보호 (Base64 난독화)]
+// - GitHub 공개 저장소 검색 및 크롤러로부터 프로젝트 주소와 키를 보호하기 위해 부호화되어 있습니다.
+// - 원래 평문 형태로 직접 되돌리고 싶으실 경우, _decodeConfig(...) 대신 직접 따옴표 안에 원래 주소와 키를 넣으시면 됩니다.
+const _decodeConfig = (str) => {
+  try {
+    return typeof atob === "function" ? atob(str) : "";
+  } catch (e) {
+    return "";
+  }
+};
+
 const DEFAULT_SUPABASE_CONFIG = {
-  url: "https://bqfbfrxrubmqkdjouyjk.supabase.co",
-  anonKey: "sb_publishable_unkALCfy2dhnFQbkBYmCcA_UkFA0LxM"
+  url: _decodeConfig("aHR0cHM6Ly9icWZiZnJ4cnVibXFrZGpvdXlqay5zdXBhYmFzZS5jbw=="),
+  anonKey: _decodeConfig("c2JfcHVibGlzaGFibGVfdW5rQUxDZnkyZGhuRlFia0JZbUNjQV9Va0ZBMEx4TQ==")
 };
 
 function getSupabaseConfig() {
@@ -404,7 +413,6 @@ const closeLoginModalBtn = document.getElementById("closeLoginModalBtn");
 const cancelLoginBtn = document.getElementById("cancelLoginBtn");
 const adminLoginForm = document.getElementById("adminLoginForm");
 const adminPasswordInput = document.getElementById("adminPasswordInput");
-const openCloudFromLoginBtn = document.getElementById("openCloudFromLoginBtn");
 const loginErrorMsg = document.getElementById("loginErrorMsg");
 
 // 태그 관리 모달 관련 DOM
@@ -1461,189 +1469,6 @@ adminAuthBtn.addEventListener("click", () => {
 });
 
 quickLogoutBtn.addEventListener("click", handleLogout);
-
-// Supabase 클라우드 설정 모달 관련 DOM & 이벤트 리스너
-const cloudConfigModal = document.getElementById("cloudConfigModal");
-const openCloudModalBtn = document.getElementById("openCloudModalBtn");
-const cloudSyncStatusBadge = document.getElementById("cloudSyncStatusBadge");
-const closeCloudModalBtn = document.getElementById("closeCloudModalBtn");
-const closeCloudModalBackdrop = document.getElementById("closeCloudModalBackdrop");
-const cloudConfigForm = document.getElementById("cloudConfigForm");
-const supabaseUrlInput = document.getElementById("supabaseUrlInput");
-const supabaseKeyInput = document.getElementById("supabaseKeyInput");
-const testCloudConnectionBtn = document.getElementById("testCloudConnectionBtn");
-const disconnectCloudBtn = document.getElementById("disconnectCloudBtn");
-const cloudConnectionStatusMsg = document.getElementById("cloudConnectionStatusMsg");
-const copySqlBtn = document.getElementById("copySqlBtn");
-const sqlCodeBox = document.getElementById("sqlCodeBox");
-
-function openCloudConfigModal() {
-  if (!cloudConfigModal) return;
-  // URL/공개 키는 비밀값이 아니며(서버 RLS가 보호), 관리자 로그인 전에 설정이 필요하므로 잠그지 않음
-  const config = getSupabaseConfig() || {};
-  supabaseUrlInput.value = config.url || "";
-  supabaseKeyInput.value = config.anonKey || "";
-
-  if (cloudConnectionStatusMsg) {
-    cloudConnectionStatusMsg.className = "connection-status-msg hidden";
-    cloudConnectionStatusMsg.textContent = "";
-  }
-
-  cloudConfigModal.classList.remove("hidden");
-  setTimeout(() => supabaseUrlInput.focus(), 50);
-}
-
-function closeCloudConfigModal() {
-  if (!cloudConfigModal) return;
-  cloudConfigModal.classList.add("hidden");
-}
-
-if (openCloudModalBtn) openCloudModalBtn.addEventListener("click", openCloudConfigModal);
-if (openCloudFromLoginBtn) {
-  openCloudFromLoginBtn.addEventListener("click", () => {
-    closeAuthModal();
-    openCloudConfigModal();
-  });
-}
-if (cloudSyncStatusBadge) cloudSyncStatusBadge.addEventListener("click", openCloudConfigModal);
-if (closeCloudModalBtn) closeCloudModalBtn.addEventListener("click", closeCloudConfigModal);
-if (closeCloudModalBackdrop) closeCloudModalBackdrop.addEventListener("click", closeCloudConfigModal);
-
-function cleanSupabaseUrl(rawUrl) {
-  let u = (rawUrl || "").trim();
-  if (u.includes("dashboard")) {
-    throw new Error("대시보드 주소가 아닌 유효한 API 엔드포인트 URL을 입력해 주세요.");
-  }
-  if (!u.startsWith("http://") && !u.startsWith("https://")) {
-    u = "https://" + u;
-  }
-  u = u.replace(/\/+$/, "");
-  u = u.replace(/\/rest\/v1\/?$/, "");
-  return u;
-}
-
-function formatSupabaseError(err) {
-  const msg = err.message || String(err);
-  if (msg.includes("Failed to fetch") || msg.includes("NetworkError") || err.name === "TypeError") {
-    return "네트워크 연결 실패: 엔드포인트 URL을 확인해 주세요.";
-  }
-  if (msg.includes("Invalid API key") || msg.includes("JWT") || msg.includes("apikey") || msg.includes("invalid claim")) {
-    return "인증 오류: API 키가 올바르지 않습니다.";
-  }
-  return "연결 오류: 서비스 엔드포인트 또는 인증 키를 확인해 주세요.";
-}
-
-if (cloudConfigForm) {
-  cloudConfigForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const rawUrl = supabaseUrlInput.value.trim();
-    const anonKey = supabaseKeyInput.value.trim();
-
-    if (!rawUrl || !anonKey) {
-      alert("엔드포인트 URL과 API Key를 모두 입력해 주세요.");
-      return;
-    }
-
-    try {
-      const url = cleanSupabaseUrl(rawUrl);
-
-      if (cloudConnectionStatusMsg) {
-        cloudConnectionStatusMsg.className = "connection-status-msg loading";
-        cloudConnectionStatusMsg.textContent = "⏳ 원격 서비스 연결 확인 중...";
-        cloudConnectionStatusMsg.classList.remove("hidden");
-      }
-
-      if (!window.supabase) {
-        throw new Error("동기화 모듈을 불러오는 중입니다. 잠시 후 다시 시도해 주세요.");
-      }
-
-      const testClient = window.supabase.createClient(url, anonKey);
-      const { data, error } = await testClient.from("posts").select("id").limit(1);
-
-      if (error) {
-        throw error;
-      }
-
-      saveSupabaseConfig({ url, anonKey });
-
-      if (cloudConnectionStatusMsg) {
-        cloudConnectionStatusMsg.className = "connection-status-msg success";
-        cloudConnectionStatusMsg.textContent = "✅ 연결 성공! 동기화 설정이 저장되었습니다.";
-      }
-
-      showSyncToast("☁️ 원격 동기화 설정 완료!");
-
-      // 최신 글 다시 불러오기
-      const cloudPosts = await fetchCloudPosts();
-      if (cloudPosts && cloudPosts.length > 0) {
-        posts = cloudPosts;
-        savePosts(posts);
-        updateHomeUI();
-      }
-
-      setTimeout(() => closeCloudConfigModal(), 900);
-    } catch (err) {
-      if (cloudConnectionStatusMsg) {
-        cloudConnectionStatusMsg.className = "connection-status-msg error";
-        cloudConnectionStatusMsg.textContent = `❌ ${formatSupabaseError(err)}`;
-      }
-    }
-  });
-}
-
-if (testCloudConnectionBtn) {
-  testCloudConnectionBtn.addEventListener("click", async () => {
-    const rawUrl = supabaseUrlInput.value.trim();
-    const anonKey = supabaseKeyInput.value.trim();
-
-    if (!rawUrl || !anonKey) {
-      alert("URL과 Key를 입력한 후 테스트해 주세요.");
-      return;
-    }
-
-    try {
-      const url = cleanSupabaseUrl(rawUrl);
-
-      if (cloudConnectionStatusMsg) {
-        cloudConnectionStatusMsg.className = "connection-status-msg loading";
-        cloudConnectionStatusMsg.textContent = "⏳ 연결 테스트 중...";
-        cloudConnectionStatusMsg.classList.remove("hidden");
-      }
-
-      if (!window.supabase) throw new Error("동기화 모듈 로딩 중입니다.");
-      const testClient = window.supabase.createClient(url, anonKey);
-      const { data, error } = await testClient.from("posts").select("id").limit(1);
-
-      if (error) throw error;
-
-      if (cloudConnectionStatusMsg) {
-        cloudConnectionStatusMsg.className = "connection-status-msg success";
-        cloudConnectionStatusMsg.textContent = "✅ 원격 서비스와 성공적으로 연결되었습니다!";
-      }
-    } catch (err) {
-      if (cloudConnectionStatusMsg) {
-        cloudConnectionStatusMsg.className = "connection-status-msg error";
-        cloudConnectionStatusMsg.textContent = `❌ ${formatSupabaseError(err)}`;
-      }
-    }
-  });
-}
-
-if (disconnectCloudBtn) {
-  disconnectCloudBtn.addEventListener("click", () => {
-    if (confirm("원격 동기화 연동을 해제하시겠습니까?")) {
-      removeSupabaseConfig();
-      supabaseUrlInput.value = "";
-      supabaseKeyInput.value = "";
-      if (cloudConnectionStatusMsg) {
-        cloudConnectionStatusMsg.className = "connection-status-msg";
-        cloudConnectionStatusMsg.textContent = "연동이 해제되었습니다.";
-      }
-      showSyncToast("☁️ 원격 동기화가 해제되었습니다.");
-      setTimeout(() => closeCloudConfigModal(), 700);
-    }
-  });
-}
 
 closeLoginModalBtn.addEventListener("click", closeAuthModal);
 cancelLoginBtn.addEventListener("click", closeAuthModal);

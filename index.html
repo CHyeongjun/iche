@@ -71,20 +71,13 @@
     </div>
   </header>
 
-  <!-- 관리자 로그인 안내 배너 및 동기화 툴바 -->
+  <!-- 관리자 로그인 안내 배너 -->
   <div class="admin-indicator-bar hidden" id="adminIndicatorBar">
     <div class="container admin-indicator-inner">
       <div class="admin-indicator-info">
         <span>🔐 <strong>관리자 모드</strong> 접속 중</span>
-        <button type="button" class="cloud-sync-badge" id="cloudSyncStatusBadge" title="동기화 상태 (클릭 시 설정)">
-          ☁️ 동기화 미연결
-        </button>
       </div>
       <div class="admin-indicator-actions">
-        <button type="button" class="btn-admin-cloud" id="openCloudModalBtn"
-          title="원격 저장소 실시간 동기화 설정">
-          ⚙️ 동기화 설정
-        </button>
         <button type="button" class="btn-text-logout" id="quickLogoutBtn">로그아웃</button>
       </div>
     </div>
@@ -331,7 +324,6 @@
         </div>
         <div class="auth-error-msg hidden" id="loginErrorMsg">비밀번호가 올바르지 않습니다. 다시 확인해 주세요.</div>
         <div class="modal-footer">
-          <button type="button" class="btn-cancel" id="openCloudFromLoginBtn">동기화 설정</button>
           <button type="button" class="btn-cancel" id="cancelLoginBtn">취소</button>
           <button type="submit" class="btn-submit">로그인</button>
         </div>
@@ -538,53 +530,7 @@
     </div>
   </div>
 
-  <!-- 원격 데이터 동기화 설정 모달 -->
-  <div class="modal-overlay hidden" id="cloudConfigModal">
-    <div class="modal-backdrop" id="closeCloudModalBackdrop"></div>
-    <div class="modal-dialog cloud-dialog">
-      <div class="modal-header">
-        <h2 class="modal-title">☁️ 원격 동기화 설정</h2>
-        <button type="button" class="modal-close-btn" id="closeCloudModalBtn" aria-label="닫기">✕</button>
-      </div>
-      <form id="cloudConfigForm">
-        <div class="modal-body">
-          <div class="cloud-guide-card">
-            <p>💡 <strong>원격 동기화 안내:</strong></p>
-            <ul>
-              <li>엔드포인트 URL과 액세스 키를 등록하시면 작성한 글이 실시간으로 원격 저장소와 동기화됩니다.</li>
-              <li>입력한 모든 접속 정보는 브라우저 내부 로컬에만 안전하게 보관됩니다.</li>
-            </ul>
-          </div>
 
-          <div class="form-group">
-            <label for="supabaseUrlInput">서비스 엔드포인트 URL <span class="required">*</span></label>
-            <input type="text" id="supabaseUrlInput" class="form-control" placeholder="https://..."
-              required />
-            <small class="form-help-text">연동할 서비스의 API 엔드포인트 URL을 입력해 주세요.</small>
-          </div>
-
-          <div class="form-group">
-            <label for="supabaseKeyInput">액세스 토큰 (API Key) <span class="required">*</span></label>
-            <input type="password" id="supabaseKeyInput" class="form-control"
-              placeholder="API Key 입력" autocomplete="off" required />
-            <small class="form-help-text">
-              공개 API 접근 키를 입력해 주세요.
-            </small>
-          </div>
-
-          <div id="cloudConnectionStatusMsg" class="connection-status-msg hidden"></div>
-        </div>
-
-        <div class="modal-footer cloud-modal-footer">
-          <button type="button" class="btn-cancel" id="disconnectCloudBtn">연동 해제</button>
-          <div style="display: flex; gap: 0.5rem;">
-            <button type="button" class="btn-secondary" id="testCloudConnectionBtn">연결 테스트</button>
-            <button type="submit" class="btn-submit" id="saveCloudConfigBtn">연결 저장하기</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
 
 
   <!-- 사진 크게 보기 라이트박스 팝업 -->
@@ -596,8 +542,8 @@
     </div>
   </div>
 
-  <script src="posts.js?v=10"></script>
-  <script src="app.js?v=10"></script>
+  <script src="posts.js?v=12"></script>
+  <script src="app.js?v=12"></script>
 </body>
 
 </html>
