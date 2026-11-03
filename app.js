@@ -18,39 +18,17 @@ const STORAGE_KEY_VIEW_MODE = "vibe_blog_view_mode";
 // 관리자 인증 (서버 검증 방식 - Supabase Auth + DB RLS)
 // =========================================
 // [보안 원칙]
-// - 브라우저의 JS 코드와 localStorage/sessionStorage는 사용자가 언제든 보고 수정할 수 있습니다.
-//   따라서 프론트엔드에는 어떤 비밀값(비밀번호 해시, 서명 키 등)도 두지 않습니다.
-// - 로그인은 Supabase Auth 서버가 처리하며, 발급되는 JWT는 서버만 아는 비밀키로 서명되어
-//   브라우저에서 위조할 수 없습니다.
-// - 실제 쓰기/삭제 권한은 DB의 RLS 정책이 서버에서 최종 판단합니다.
-// - checkAdminAuth()는 "관리자 버튼을 보여줄지" 결정하는 UI 용도일 뿐이며,
-//   조작하더라도 DB 쓰기/삭제는 서버에서 거부됩니다.
-
-// 구버전 클라이언트 측 인증 데이터 정리 (더 이상 사용하지 않음)
-[
-  "vibe_blog_is_admin",
-  "vibe_blog_admin_hash",
-  "vibe_blog_admin_hash_sig",
-  "vibe_blog_login_throttle"
-].forEach((key) => {
-  try {
-    localStorage.removeItem(key);
-    sessionStorage.removeItem(key);
-  } catch (e) { }
-});
+// - 인증 세션은 브라우저 localStorage에 일체 저장하지 않고, 오직 메모리(RAM)에서만 유지합니다.
+// - F12 개발자 도구의 localStorage, sessionStorage를 열어도 인증 토큰이나 비밀값이 일체 노출되지 않습니다.
+// - 클라이언트에는 권한 검사 함수가 없으며, 실제 모든 쓰기/삭제 권한은 PostgreSQL 서버의 RLS 정책이 검증합니다.
 
 // 단일 비밀번호 로그인을 위한 고정 내부 관리자 이메일 계정
 const ADMIN_AUTH_EMAIL = "admin@vibe.blog";
 
-let authSession = null; // Supabase 세션 (UI 표시용)
-
-// UI 표시용 관리자 여부 (보안 판단은 서버 RLS가 담당)
-function checkAdminAuth() {
-  return !!(authSession && authSession.user);
-}
+let authSession = null; // 메모리 상의 Supabase 세션 (UI 동기화용)
 
 // 서버 세션 확인 (UI 동기화)
-async function refreshAdminStatus() {
+async function syncSession() {
   if (!supabaseClient) {
     authSession = null;
     return false;
@@ -69,7 +47,7 @@ function attachAuthListener(client) {
   client.auth.onAuthStateChange((event, session) => {
     authSession = session || null;
     setTimeout(async () => {
-      await refreshAdminStatus();
+      await syncSession();
       if (typeof updateAdminUI === "function") updateAdminUI();
       if (typeof renderTags === "function") renderTags();
     }, 0);
@@ -230,11 +208,24 @@ let supabaseClient = null;
 let isInitialCloudLoaded = false;
 let _waitingSdk = false;
 
+// localStorage 대신 안전한 자바스크립트 메모리(RAM) 스토리지 어댑터
+// 브라우저 디스크(localStorage/sessionStorage)에는 일체 저장되지 않고 RAM에서만 동작하여 F12 탈취 방지
+const memoryStorage = {};
+const inMemoryStorage = {
+  getItem: (key) => (Object.prototype.hasOwnProperty.call(memoryStorage, key) ? memoryStorage[key] : null),
+  setItem: (key, value) => { memoryStorage[key] = String(value); },
+  removeItem: (key) => { delete memoryStorage[key]; }
+};
+
 // 설정값으로 클라이언트 생성 + 인증 이벤트 연결 (생성 지점 단일화)
 function createClientFromConfig(config) {
   try {
     const client = window.supabase.createClient(config.url, config.anonKey, {
-      auth: { persistSession: true, autoRefreshToken: true }
+      auth: {
+        storage: inMemoryStorage, // localStorage에 토큰을 저장하지 않고 메모리(RAM)에서만 유지
+        persistSession: true, // 메모리 어댑터를 통해 Supabase REST 쿼리가 JWT 토큰을 정상 첨부하도록 유지
+        autoRefreshToken: true
+      }
     });
     attachAuthListener(client);
     return client;
@@ -358,12 +349,11 @@ let customTags = loadCustomTags();
 // 상태 관리 (전역 변수 변조 방어)
 // =========================================
 const state = {
-  // 관리자 UI 표시 여부 (실제 권한은 서버 RLS가 판단하므로 이 값을 조작해도 DB 쓰기/삭제는 불가)
+  // 관리자 UI 표시 여부 (실제 DB 권한은 서버 RLS가 판단하므로 이 값을 조작해도 서버 쓰기/삭제 불가)
   get isAdmin() {
-    return checkAdminAuth();
+    return !!(authSession && authSession.user);
   },
   set isAdmin(val) {
-    // true 강제 대입은 무시, false는 UI 상태만 초기화
     if (!val) {
       authSession = null;
     }
@@ -533,7 +523,7 @@ async function handleLogin(password) {
     }
 
     authSession = data ? data.session : null;
-    await refreshAdminStatus();
+    await syncSession();
 
     adminPasswordInput.value = "";
     closeAuthModal();
@@ -681,8 +671,8 @@ function renderTags() {
 
 // 태그 등록
 function registerNewTag(tagName) {
-  if (!checkAdminAuth()) {
-    alert("관리자 권한이 없습니다.");
+  if (!authSession) {
+    alert("관리자 로그인이 필요합니다.");
     return;
   }
   const cleanTag = escapeHtml(tagName.trim().replace(/^#/, "")).slice(0, 30);
@@ -698,8 +688,8 @@ function registerNewTag(tagName) {
 
 // 태그 삭제 (태그 풀 및 기존 글에서 일괄 제거)
 function removeTagGlobally(tagToRemove) {
-  if (!checkAdminAuth()) {
-    alert("관리자 권한이 없습니다.");
+  if (!authSession) {
+    alert("관리자 로그인이 필요합니다.");
     return;
   }
   if (!confirm(`'#${tagToRemove}' 태그를 완전히 삭제하시겠습니까?\n(해당 태그가 적용된 글에서도 함께 삭제됩니다)`)) {
@@ -1007,13 +997,16 @@ async function deleteCurrentPost() {
       .select("id");
 
     if (error || !data || data.length === 0) {
-      await refreshAdminStatus();
+      console.error("Supabase 글 삭제 실패 원인:", error || "삭제된 행 0건 (RLS 권한 거부)");
+      await syncSession();
       updateAdminUI();
-      alert("⚠️ 삭제 권한이 없거나 세션이 만료되었습니다. 다시 로그인해 주세요.");
+      const errorMsg = error ? error.message : "삭제 권한이 없거나 서버 RLS 정책에 의해 차단되었습니다.";
+      alert(`⚠️ 삭제 실패: ${errorMsg}`);
       return;
     }
   } catch (err) {
-    alert("⚠️ 삭제 처리 중 오류가 발생했습니다.");
+    console.error("삭제 예외 발생:", err);
+    alert("⚠️ 삭제 처리 중 오류가 발생했습니다: " + err.message);
     return;
   }
 
@@ -1321,7 +1314,7 @@ const MAX_SINGLE_IMAGE_SIZE = 5 * 1024 * 1024; // 파일당 최대 5MB (DoS 및 
 const ALLOWED_IMAGE_MIMES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 
 function handleMultipleImagesSelect(files) {
-  if (!checkAdminAuth()) {
+  if (!authSession) {
     alert("관리자만 이미지를 업로드할 수 있습니다.");
     return;
   }
@@ -1898,13 +1891,16 @@ writePostForm.addEventListener("submit", async (e) => {
   try {
     const { error } = await supabaseClient.from("posts").insert([newPost]);
     if (error) {
-      await refreshAdminStatus();
+      console.error("Supabase 글 저장 실패 원인:", error);
+      await syncSession();
       updateAdminUI();
-      alert("⚠️ 저장 권한이 없거나 세션이 만료되었습니다. 다시 로그인해 주세요.");
+      const errorMsg = error.message || error.details || "알 수 없는 오류";
+      alert(`⚠️ DB 저장 실패 (${error.code || "에러"}): ${errorMsg}\n\n[진단 팁] F12 콘솔의 상세 로그를 확인하거나, Supabase SQL Editor에서 최신 database_schema.sql을 실행했는지 확인해 주세요.`);
       return;
     }
   } catch (err) {
-    alert("⚠️ 저장 중 오류가 발생했습니다.");
+    console.error("저장 예외 발생:", err);
+    alert("⚠️ 저장 중 예외가 발생했습니다: " + err.message);
     return;
   } finally {
     if (submitBtnEl) submitBtnEl.disabled = false;
