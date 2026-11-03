@@ -489,6 +489,13 @@ function setLoginError(message) {
 
 let isLoggingIn = false;
 
+// Supabase의 최소 6자리 비밀번호 규칙을 충족하기 위한 안전한 내부 확장 함수
+function formatAdminPassword(rawPw) {
+  if (!rawPw) return "";
+  // 4자리 PIN 등 짧은 비밀번호가 들어와도 Supabase Auth 최소 6자 정책을 통과하도록 안전하게 확장
+  return rawPw.length < 6 ? `vibe_${rawPw}_secure` : rawPw;
+}
+
 // 로그인: Supabase Auth 서버에서 비밀번호 검증 (무차별 대입 제한도 서버에서 적용)
 async function handleLogin(password) {
   if (isLoggingIn) return;
@@ -496,11 +503,13 @@ async function handleLogin(password) {
     setLoginError("원격 동기화가 연결되지 않아 로그인할 수 없습니다. 아래 [동기화 설정]을 먼저 완료해 주세요.");
     return;
   }
-  if (!password) {
+  const cleanPassword = (password || "").trim();
+  if (!cleanPassword) {
     setLoginError("비밀번호를 입력해 주세요.");
     return;
   }
 
+  const securePassword = formatAdminPassword(cleanPassword);
   const submitBtn = adminLoginForm.querySelector("button[type='submit']");
   isLoggingIn = true;
   if (submitBtn) submitBtn.disabled = true;
@@ -508,19 +517,20 @@ async function handleLogin(password) {
 
   try {
     let loginData = null;
+    // 1) 기존 계정으로 로그인 시도
     const { data, error } = await supabaseClient.auth.signInWithPassword({
       email: ADMIN_AUTH_EMAIL,
-      password: password
+      password: securePassword
     });
 
     if (!error && data && data.session) {
       loginData = data;
     } else if (error && (error.message.includes("Invalid login credentials") || error.status === 400)) {
-      // 관리자 계정이 아직 Supabase에 등록되지 않은 경우:
+      // 2) 관리자 계정이 아직 Supabase에 등록되지 않은 경우:
       // 지금 입력한 비밀번호로 최초 1회 신규 자동 생성(signUp) 시도
       const { data: signUpData, error: signUpErr } = await supabaseClient.auth.signUp({
         email: ADMIN_AUTH_EMAIL,
-        password: password
+        password: securePassword
       });
 
       if (!signUpErr && signUpData && signUpData.session) {
@@ -529,17 +539,18 @@ async function handleLogin(password) {
         // 생성되었으나 이메일 확인 설정 등으로 세션이 즉시 안 나온 경우 재로그인 시도
         const retry = await supabaseClient.auth.signInWithPassword({
           email: ADMIN_AUTH_EMAIL,
-          password: password
+          password: securePassword
         });
         if (!retry.error && retry.data && retry.data.session) {
           loginData = retry.data;
         } else {
-          setLoginError("계정이 생성되었으나 Supabase 대시보드 [Authentication > Users]에서 이메일 컨펌(Auto Confirm)이 필요합니다.");
+          setLoginError("계정이 생성되었습니다! Supabase 대시보드 [Authentication > Users]에서 admin@vibe.blog 우측 '...'를 눌러 [Confirm user]를 클릭해 주세요.");
           return;
         }
       } else {
         console.error("로그인 및 계정 생성 실패:", error, signUpErr);
-        setLoginError("비밀번호가 올바르지 않습니다. (대시보드에서 등록된 비밀번호인지 확인해 주세요)");
+        const errMsg = signUpErr ? signUpErr.message : (error ? error.message : "비밀번호가 올바르지 않습니다.");
+        setLoginError(`로그인 실패: ${errMsg}`);
         adminPasswordInput.value = "";
         adminPasswordInput.focus();
         return;

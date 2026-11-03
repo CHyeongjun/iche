@@ -66,5 +66,5 @@ create policy "관리자 삭제" on public.posts
   for delete to authenticated
   using (lower(coalesce(auth.jwt() ->> 'email', '')) = 'admin@vibe.blog');
 
--- 4. 이전에 SQL로 잘못 생성되었을 수 있는 불완전한 잔여 계정 정리
-delete from auth.users where email = 'admin@vibe.blog';
+-- 4. (선택사항) 만약 이전에 잘못 생성된 찌꺼기 계정으로 로그인이 꼬였을 때만 아래 주석을 풀고 1회 실행하세요.
+-- delete from auth.users where email = 'admin@vibe.blog';
