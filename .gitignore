@@ -8,6 +8,8 @@ desktop.ini
 .env.local
 .env.*.local
 *.log
+database_schema.sql
+*.sql
 
 # Editor and IDE files
 .vscode/

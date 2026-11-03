@@ -1,7 +1,14 @@
-// =========================================
-// 데이터 관리 (localStorage 동기화)
-// =========================================
-const STORAGE_KEY_POSTS = "vibe_blog_posts";
+/**
+ * Vibe Code Blog Application
+ * 전역 스코프 완전 격리 (F12 콘솔 변수/함수 변조 및 직접 호출 원천 차단 IIFE)
+ */
+(function () {
+  "use strict";
+
+  // =========================================
+  // 데이터 관리 (localStorage 동기화)
+  // =========================================
+  const STORAGE_KEY_POSTS = "vibe_blog_posts";
 const STORAGE_KEY_TAGS = "vibe_blog_tags";
 const STORAGE_KEY_AUTH = "vibe_blog_is_admin";
 const STORAGE_KEY_VIEW_MODE = "vibe_blog_view_mode";
@@ -237,19 +244,31 @@ const AuthRateLimiter = {
 };
 
 /**
- * 8. 세션 기반 관리자 인증 검증 함수 (Pass-the-Hash 방어 & 서명 무결성 검증)
- * - 비밀번호 해시 원문이 아닌 CSPRNG 난수 토큰과 암호화 서명(sig)을 검증
+ * 8. 세션 기반 관리자 인증 검증 함수 (다중 권한 탈취 및 조작 방어)
+ * - localStorage의 단순 "true" / "1" 조작 시도 원천 차단 (Honeypot Trap)
+ * - 비밀번호 해시 원문이 아닌 CSPRNG 난수 토큰과 암호화 서명(sig) 검증
  * - 비정상적 만료시간 조작 차단
  * - localStorage 세션 영구 보관 취약점 제거 (sessionStorage 전용 격리)
  */
 function checkAdminAuth() {
-  // localStorage에 잔존하는 레거시 취약 세션 강제 정리
-  if (localStorage.getItem(STORAGE_KEY_AUTH)) {
+  // 1. localStorage를 통한 단순 "true" 및 문자열 주입 시도 즉시 감지 및 파기 (Honey-token Trap)
+  if (localStorage.getItem(STORAGE_KEY_AUTH) !== null) {
+    console.warn("🚨 [보안 경고] localStorage를 통한 관리자 권한 조작 시도가 감지되어 즉시 파기합니다.");
     localStorage.removeItem(STORAGE_KEY_AUTH);
+    sessionStorage.removeItem(STORAGE_KEY_AUTH);
+    return false;
   }
 
   const rawSession = sessionStorage.getItem(STORAGE_KEY_AUTH);
   if (!rawSession) return false;
+
+  // 2. sessionStorage의 단순 "true", "1" 등 원시 문자열 조작 즉시 파기
+  const trimmed = String(rawSession).trim();
+  if (trimmed === "true" || trimmed === "1" || trimmed === "isAdmin" || !trimmed.startsWith("{")) {
+    console.warn("🚨 [보안 경고] 비정상적인 세션 문자열 주입이 감지되어 세션을 파기합니다.");
+    sessionStorage.removeItem(STORAGE_KEY_AUTH);
+    return false;
+  }
 
   try {
     const session = JSON.parse(rawSession);
@@ -298,6 +317,17 @@ function checkAdminAuth() {
     return false;
   }
 }
+
+// 스토리지 임의 변조 실시간 감시 (F12 Storage 탭 조작 실시간 차단)
+window.addEventListener("storage", (e) => {
+  if (e.key === STORAGE_KEY_AUTH || e.key === STORAGE_KEY_CUSTOM_HASH) {
+    console.warn("🚨 [보안 경고] 스토리지 키 변조 감지 - 세션 무결성 검증 실행");
+    if (!checkAdminAuth()) {
+      updateAdminUI();
+      renderTags();
+    }
+  }
+});
 
 // =========================================
 // XSS 방어 및 HTML 보안 새니타이징 유틸리티
@@ -522,13 +552,13 @@ function updateCloudSyncUI() {
   const config = getSupabaseConfig();
   if (badge) {
     if (config && supabaseClient) {
-      badge.textContent = "☁️ 클라우드 DB 연결됨";
+      badge.textContent = "☁️ 동기화 켜짐";
       badge.classList.add("connected");
-      badge.title = "어느 기기에서든 실시간으로 글이 저장·공개됩니다 (클릭하여 설정)";
+      badge.title = "원격 동기화가 활성화되어 있습니다 (클릭하여 설정)";
     } else {
-      badge.textContent = "☁️ 클라우드 DB 미연동";
+      badge.textContent = "☁️ 동기화 미연결";
       badge.classList.remove("connected");
-      badge.title = "클라우드 DB를 연결하면 다른 컴퓨터에서도 실시간 글 작성이 가능합니다 (클릭하여 설정)";
+      badge.title = "원격 동기화를 연결하면 여러 기기에서 실시간 동기화가 가능합니다 (클릭하여 설정)";
     }
   }
 }
@@ -542,25 +572,11 @@ async function fetchCloudPosts() {
       .order("id", { ascending: false });
 
     if (error) {
-      console.warn("클라우드 DB 글 조회 오류:", error.message);
       return null;
     }
     return data;
   } catch (err) {
-    console.warn("클라우드 DB 통신 오류:", err);
     return null;
-  }
-}
-
-async function seedInitialPostsToCloud() {
-  if (!supabaseClient || INITIAL_POSTS.length === 0) return;
-  try {
-    const { error } = await supabaseClient.from("posts").insert(INITIAL_POSTS);
-    if (!error) {
-      console.log("초기 기본 글이 클라우드 DB에 성공적으로 등록되었습니다.");
-    }
-  } catch (e) {
-    console.warn("초기 글 등록 생략:", e);
   }
 }
 
@@ -588,10 +604,21 @@ let posts = loadPosts();
 let customTags = loadCustomTags();
 
 // =========================================
-// 상태 관리
+// 상태 관리 (전역 변수 변조 방어)
 // =========================================
 const state = {
-  isAdmin: checkAdminAuth(),
+  // 관리자 권한 플래그 (보안 강화: 단순 불리언 프로퍼티 대신 Getter/Setter로 콘솔 임의 조작 원천 차단)
+  get isAdmin() {
+    return checkAdminAuth();
+  },
+  set isAdmin(val) {
+    // 외부 콘솔 조작(예: state.isAdmin = true) 방어:
+    // 유효한 서명 세션이 없는 상태에서 강제로 true로 설정하는 행위는 무시됩니다.
+    if (!val) {
+      sessionStorage.removeItem(STORAGE_KEY_AUTH);
+      localStorage.removeItem(STORAGE_KEY_AUTH);
+    }
+  },
   selectedCategory: "전체",
   selectedTag: null,
   currentView: "home", // 'home' | 'post' | 'about'
@@ -781,7 +808,6 @@ async function handleLogin(password) {
       // 로그인 성공: 브루트포스 속도 제한 초기화
       AuthRateLimiter.reset();
 
-      state.isAdmin = true;
       const sessionToken = generateSecureToken();
       const exp = Date.now() + SESSION_MAX_LIFETIME;
       const sig = computeSessionSignature(sessionToken, exp);
@@ -959,7 +985,11 @@ function renderTags() {
 
 // 태그 등록
 function registerNewTag(tagName) {
-  const cleanTag = tagName.trim().replace(/^#/, "");
+  if (!checkAdminAuth()) {
+    alert("관리자 권한이 없습니다.");
+    return;
+  }
+  const cleanTag = escapeHtml(tagName.trim().replace(/^#/, "")).slice(0, 30);
   if (!cleanTag) return;
 
   if (!customTags.includes(cleanTag)) {
@@ -972,6 +1002,10 @@ function registerNewTag(tagName) {
 
 // 태그 삭제 (태그 풀 및 기존 글에서 일괄 제거)
 function removeTagGlobally(tagToRemove) {
+  if (!checkAdminAuth()) {
+    alert("관리자 권한이 없습니다.");
+    return;
+  }
   if (!confirm(`'#${tagToRemove}' 태그를 완전히 삭제하시겠습니까?\n(해당 태그가 적용된 글에서도 함께 삭제됩니다)`)) {
     return;
   }
@@ -1268,26 +1302,21 @@ async function deleteCurrentPost() {
 
   const deletedId = Number(state.currentPostId);
 
-  // 1) Supabase 클라우드 실시간 삭제 처리
+  // 1) 원격 실시간 삭제 처리
   if (supabaseClient) {
-    showSyncToast("☁️ 클라우드 DB에서 글 삭제 중...");
+    showSyncToast("글 삭제 처리 중...");
     try {
-      const { error, count } = await supabaseClient
+      const { error } = await supabaseClient
         .from("posts")
         .delete({ count: "exact" })
         .eq("id", deletedId);
 
       if (error) {
-        console.error("클라우드 DB 삭제 실패:", error);
-        alert(`⚠️ 클라우드 DB 삭제 실패: ${error.message}\n(Supabase SQL Editor에서 삭제 권한 정책을 확인해 주세요)`);
+        alert("⚠️ 원격 삭제에 실패했습니다. 관리자 권한을 확인해 주세요.");
         return;
       }
-      if (count === 0) {
-        console.warn("클라우드 DB에서 삭제된 행 수가 0입니다. (이미 삭제되었거나 RLS 정책 확인 필요)");
-      }
     } catch (err) {
-      console.error("클라우드 삭제 통신 오류:", err);
-      alert(`⚠️ 삭제 실패: ${err.message}`);
+      alert("⚠️ 삭제 처리 중 오류가 발생했습니다.");
       return;
     }
   }
@@ -1407,6 +1436,11 @@ function renderManageTagList() {
 }
 
 function openManageTagsModal() {
+  if (!state.isAdmin) {
+    alert("관리자만 태그를 관리할 수 있습니다. 먼저 관리자로 로그인해 주세요.");
+    openAuthModal();
+    return;
+  }
   newTagNameInput.value = "";
   renderManageTagList();
   manageTagsModal.classList.remove("hidden");
@@ -1586,14 +1620,35 @@ function resetWriteForm() {
   switchPreviewSubView("card");
 }
 
-function handleMultipleImagesSelect(files) {
-  if (!files || files.length === 0) return;
+const MAX_IMAGE_COUNT = 10;
+const MAX_SINGLE_IMAGE_SIZE = 5 * 1024 * 1024; // 파일당 최대 5MB (DoS 및 스토리지 고갈 방어)
+const ALLOWED_IMAGE_MIMES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 
-  const validFiles = Array.from(files).filter((f) => f.type.startsWith("image/"));
-  if (validFiles.length === 0) {
-    alert("이미지 파일만 업로드할 수 있습니다.");
+function handleMultipleImagesSelect(files) {
+  if (!checkAdminAuth()) {
+    alert("관리자만 이미지를 업로드할 수 있습니다.");
     return;
   }
+  if (!files || files.length === 0) return;
+
+  if (state.uploadedImages.length + files.length > MAX_IMAGE_COUNT) {
+    alert(`이미지는 최대 ${MAX_IMAGE_COUNT}장까지만 업로드할 수 있습니다.`);
+    return;
+  }
+
+  const validFiles = Array.from(files).filter((f) => {
+    if (!ALLOWED_IMAGE_MIMES.includes(f.type)) {
+      alert(`'${escapeHtml(f.name)}' 파일은 허용되지 않는 이미지 형식입니다. (JPG, PNG, GIF, WEBP 지원)`);
+      return false;
+    }
+    if (f.size > MAX_SINGLE_IMAGE_SIZE) {
+      alert(`'${escapeHtml(f.name)}' 파일의 용량이 너무 큽니다. (파일당 최대 5MB)`);
+      return false;
+    }
+    return true;
+  });
+
+  if (validFiles.length === 0) return;
 
   let loadedCount = 0;
   validFiles.forEach((file) => {
@@ -1704,6 +1759,11 @@ const sqlCodeBox = document.getElementById("sqlCodeBox");
 
 function openCloudConfigModal() {
   if (!cloudConfigModal) return;
+  if (!checkAdminAuth()) {
+    alert("클라우드 DB 연동 설정은 관리자만 변경할 수 있습니다. 먼저 관리자로 로그인해 주세요.");
+    openAuthModal();
+    return;
+  }
   const config = getSupabaseConfig() || {};
   supabaseUrlInput.value = config.url || "";
   supabaseKeyInput.value = config.anonKey || "";
@@ -1727,22 +1787,10 @@ if (cloudSyncStatusBadge) cloudSyncStatusBadge.addEventListener("click", openClo
 if (closeCloudModalBtn) closeCloudModalBtn.addEventListener("click", closeCloudConfigModal);
 if (closeCloudModalBackdrop) closeCloudModalBackdrop.addEventListener("click", closeCloudConfigModal);
 
-if (copySqlBtn && sqlCodeBox) {
-  copySqlBtn.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(sqlCodeBox.textContent.trim());
-      copySqlBtn.textContent = "복사 완료! ✓";
-      setTimeout(() => (copySqlBtn.textContent = "SQL 복사하기"), 2000);
-    } catch (e) {
-      alert("직접 드래그하여 복사해 주세요.");
-    }
-  });
-}
-
 function cleanSupabaseUrl(rawUrl) {
   let u = (rawUrl || "").trim();
-  if (u.includes("supabase.com/dashboard")) {
-    throw new Error("대시보드 웹페이지 주소가 아니라, Supabase의 'Project Settings ➜ API' 에 있는 'Project URL' (예: https://xxxx.supabase.co)을 입력하셔야 합니다.");
+  if (u.includes("dashboard")) {
+    throw new Error("대시보드 주소가 아닌 유효한 API 엔드포인트 URL을 입력해 주세요.");
   }
   if (!u.startsWith("http://") && !u.startsWith("https://")) {
     u = "https://" + u;
@@ -1755,25 +1803,26 @@ function cleanSupabaseUrl(rawUrl) {
 function formatSupabaseError(err) {
   const msg = err.message || String(err);
   if (msg.includes("Failed to fetch") || msg.includes("NetworkError") || err.name === "TypeError") {
-    return "네트워크 연결 실패: Project URL을 잘못 입력하셨거나 접속할 수 없습니다.\nURL 형태가 'https://xxxx.supabase.co' 인지 확인해 주세요. (대시보드 주소 X)";
-  }
-  if ((msg.includes("relation") && msg.includes("does not exist")) || err.code === "42P01") {
-    return "연결은 되었으나 'posts' 테이블이 생성되지 않았습니다!\nSupabase 대시보드 ➜ SQL Editor에서 아래 [테이블 생성 SQL]을 복사해 실행(Run)해 주세요.";
+    return "네트워크 연결 실패: 엔드포인트 URL을 확인해 주세요.";
   }
   if (msg.includes("Invalid API key") || msg.includes("JWT") || msg.includes("apikey") || msg.includes("invalid claim")) {
-    return "API Key 오류: Supabase의 Project Settings ➜ API ➜ 'anon public' 키를 정확히 복사했는지 확인해 주세요.";
+    return "인증 오류: API 키가 올바르지 않습니다.";
   }
-  return msg;
+  return "연결 오류: 서비스 엔드포인트 또는 인증 키를 확인해 주세요.";
 }
 
 if (cloudConfigForm) {
   cloudConfigForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (!checkAdminAuth()) {
+      alert("관리자 권한이 없습니다.");
+      return;
+    }
     const rawUrl = supabaseUrlInput.value.trim();
     const anonKey = supabaseKeyInput.value.trim();
 
     if (!rawUrl || !anonKey) {
-      alert("Project URL과 Anon Key를 모두 입력해 주세요.");
+      alert("엔드포인트 URL과 API Key를 모두 입력해 주세요.");
       return;
     }
 
@@ -1782,12 +1831,12 @@ if (cloudConfigForm) {
 
       if (cloudConnectionStatusMsg) {
         cloudConnectionStatusMsg.className = "connection-status-msg loading";
-        cloudConnectionStatusMsg.textContent = "⏳ Supabase 클라우드 연결 테스트 중...";
+        cloudConnectionStatusMsg.textContent = "⏳ 원격 서비스 연결 확인 중...";
         cloudConnectionStatusMsg.classList.remove("hidden");
       }
 
       if (!window.supabase) {
-        throw new Error("Supabase SDK를 불러오는 중입니다. 잠시 후 다시 시도해 주세요.");
+        throw new Error("동기화 모듈을 불러오는 중입니다. 잠시 후 다시 시도해 주세요.");
       }
 
       const testClient = window.supabase.createClient(url, anonKey);
@@ -1801,10 +1850,10 @@ if (cloudConfigForm) {
 
       if (cloudConnectionStatusMsg) {
         cloudConnectionStatusMsg.className = "connection-status-msg success";
-        cloudConnectionStatusMsg.textContent = "✅ 클라우드 DB 연결 성공! 설정이 저장되었습니다.";
+        cloudConnectionStatusMsg.textContent = "✅ 연결 성공! 동기화 설정이 저장되었습니다.";
       }
 
-      showSyncToast("☁️ Supabase 클라우드 DB 연동 완료!");
+      showSyncToast("☁️ 원격 동기화 설정 완료!");
 
       // 최신 글 다시 불러오기
       const cloudPosts = await fetchCloudPosts();
@@ -1826,6 +1875,10 @@ if (cloudConfigForm) {
 
 if (testCloudConnectionBtn) {
   testCloudConnectionBtn.addEventListener("click", async () => {
+    if (!checkAdminAuth()) {
+      alert("관리자 권한이 없습니다.");
+      return;
+    }
     const rawUrl = supabaseUrlInput.value.trim();
     const anonKey = supabaseKeyInput.value.trim();
 
@@ -1843,7 +1896,7 @@ if (testCloudConnectionBtn) {
         cloudConnectionStatusMsg.classList.remove("hidden");
       }
 
-      if (!window.supabase) throw new Error("Supabase SDK를 로딩 중입니다.");
+      if (!window.supabase) throw new Error("동기화 모듈 로딩 중입니다.");
       const testClient = window.supabase.createClient(url, anonKey);
       const { data, error } = await testClient.from("posts").select("id").limit(1);
 
@@ -1851,7 +1904,7 @@ if (testCloudConnectionBtn) {
 
       if (cloudConnectionStatusMsg) {
         cloudConnectionStatusMsg.className = "connection-status-msg success";
-        cloudConnectionStatusMsg.textContent = "✅ Supabase 'posts' 테이블과 성공적으로 연결되었습니다!";
+        cloudConnectionStatusMsg.textContent = "✅ 원격 서비스와 성공적으로 연결되었습니다!";
       }
     } catch (err) {
       if (cloudConnectionStatusMsg) {
@@ -1864,7 +1917,11 @@ if (testCloudConnectionBtn) {
 
 if (disconnectCloudBtn) {
   disconnectCloudBtn.addEventListener("click", () => {
-    if (confirm("클라우드 DB 연동을 해제하시겠습니까?")) {
+    if (!checkAdminAuth()) {
+      alert("관리자 권한이 없습니다.");
+      return;
+    }
+    if (confirm("원격 동기화 연동을 해제하시겠습니까?")) {
       removeSupabaseConfig();
       supabaseUrlInput.value = "";
       supabaseKeyInput.value = "";
@@ -1872,7 +1929,7 @@ if (disconnectCloudBtn) {
         cloudConnectionStatusMsg.className = "connection-status-msg";
         cloudConnectionStatusMsg.textContent = "연동이 해제되었습니다.";
       }
-      showSyncToast("☁️ 클라우드 DB 연동이 해제되었습니다.");
+      showSyncToast("☁️ 원격 동기화가 해제되었습니다.");
       setTimeout(() => closeCloudConfigModal(), 700);
     }
   });
@@ -1901,6 +1958,10 @@ manageTagsModal.addEventListener("click", (e) => {
 
 // 태그 관리 모달 내 추가 버튼 클릭
 submitAddTagBtn.addEventListener("click", () => {
+  if (!state.isAdmin) {
+    alert("관리자 권한이 없습니다.");
+    return;
+  }
   const val = newTagNameInput.value.trim();
   if (!val) return;
   registerNewTag(val);
@@ -1919,6 +1980,10 @@ newTagNameInput.addEventListener("keydown", (e) => {
 manageTagList.addEventListener("click", (e) => {
   const delBtn = e.target.closest("[data-delete-tag]");
   if (!delBtn) return;
+  if (!state.isAdmin) {
+    alert("관리자 권한이 없습니다.");
+    return;
+  }
   const tagToDelete = delBtn.getAttribute("data-delete-tag");
   removeTagGlobally(tagToDelete);
 });
@@ -2140,18 +2205,17 @@ writePostForm.addEventListener("submit", (e) => {
   posts.unshift(newPost);
   savePosts(posts);
 
-  // Supabase 클라우드 실시간 저장
+  // 원격 실시간 저장
   if (supabaseClient) {
-    showSyncToast("☁️ 클라우드 DB에 실시간 저장 중...");
+    showSyncToast("실시간 저장 중...");
     supabaseClient
       .from("posts")
       .insert([newPost])
       .then(({ error }) => {
         if (error) {
-          console.error("클라우드 저장 실패:", error);
-          alert(`⚠️ 클라우드 저장 실패: ${error.message}\n(글은 로컬에 저장되었습니다)`);
+          alert("⚠️ 원격 저장에 실패했습니다. (글은 로컬에 저장되었습니다)");
         } else {
-          showSyncToast("🚀 글이 등록되었습니다! (모든 기기 실시간 반영)");
+          showSyncToast("🚀 글이 성공적으로 등록되었습니다!");
         }
       });
   } else {
@@ -2247,3 +2311,5 @@ async function loadInitialData() {
   }
 }
 loadInitialData();
+
+})();

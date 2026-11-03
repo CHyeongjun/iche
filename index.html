@@ -72,19 +72,19 @@
     </div>
   </header>
 
-  <!-- 관리자 로그인 안내 배너 및 클라우드 DB 연동 툴바 -->
+  <!-- 관리자 로그인 안내 배너 및 동기화 툴바 -->
   <div class="admin-indicator-bar hidden" id="adminIndicatorBar">
     <div class="container admin-indicator-inner">
       <div class="admin-indicator-info">
         <span>🔐 <strong>관리자 모드</strong> 접속 중</span>
-        <button type="button" class="cloud-sync-badge" id="cloudSyncStatusBadge" title="클라우드 DB 연동 상태 (클릭 시 설정)">
-          ☁️ 클라우드 DB 미연동
+        <button type="button" class="cloud-sync-badge" id="cloudSyncStatusBadge" title="동기화 상태 (클릭 시 설정)">
+          ☁️ 동기화 미연결
         </button>
       </div>
       <div class="admin-indicator-actions">
         <button type="button" class="btn-admin-cloud" id="openCloudModalBtn"
-          title="어느 기기에서든 실시간으로 글이 저장·공개되는 Supabase 클라우드 DB 설정">
-          ⚙️ 클라우드 DB 연동
+          title="원격 저장소 실시간 동기화 설정">
+          ⚙️ 동기화 설정
         </button>
         <button type="button" class="btn-text-logout" id="quickLogoutBtn">로그아웃</button>
       </div>
@@ -538,70 +538,38 @@
     </div>
   </div>
 
-  <!-- Supabase 클라우드 데이터베이스 연동 설정 모달 -->
+  <!-- 원격 데이터 동기화 설정 모달 -->
   <div class="modal-overlay hidden" id="cloudConfigModal">
     <div class="modal-backdrop" id="closeCloudModalBackdrop"></div>
     <div class="modal-dialog cloud-dialog">
       <div class="modal-header">
-        <h2 class="modal-title">☁️ Supabase 클라우드 DB 연동 설정</h2>
+        <h2 class="modal-title">☁️ 원격 동기화 설정</h2>
         <button type="button" class="modal-close-btn" id="closeCloudModalBtn" aria-label="닫기">✕</button>
       </div>
       <form id="cloudConfigForm">
         <div class="modal-body">
           <div class="cloud-guide-card">
-            <p>💡 <strong>클라우드 DB 연동의 장점:</strong></p>
+            <p>💡 <strong>원격 동기화 안내:</strong></p>
             <ul>
-              <li><strong>어느 컴퓨터나 스마트폰에서든</strong> 웹사이트에 접속해 글을 쓰면 즉시 저장되고 모든 방문자에게 0.1초 만에 공개됩니다.</li>
-              <li>Git 설치나 파일 다운로드/동기화 작업이 <strong>전혀 필요 없습니다.</strong></li>
+              <li>엔드포인트 URL과 액세스 키를 등록하시면 작성한 글이 실시간으로 원격 저장소와 동기화됩니다.</li>
+              <li>입력한 모든 접속 정보는 브라우저 내부 로컬에만 안전하게 보관됩니다.</li>
             </ul>
           </div>
 
           <div class="form-group">
-            <label for="supabaseUrlInput">Project URL <span class="required">*</span></label>
-            <input type="text" id="supabaseUrlInput" class="form-control" placeholder="https://xxxxxxxxxxxx.supabase.co"
+            <label for="supabaseUrlInput">서비스 엔드포인트 URL <span class="required">*</span></label>
+            <input type="text" id="supabaseUrlInput" class="form-control" placeholder="https://..."
               required />
-            <small class="form-help-text">Supabase 대시보드 ➜ Project Settings ➜ API ➜ Project URL</small>
+            <small class="form-help-text">연동할 서비스의 API 엔드포인트 URL을 입력해 주세요.</small>
           </div>
 
           <div class="form-group">
-            <label for="supabaseKeyInput">Anon Public API Key <span class="required">*</span></label>
+            <label for="supabaseKeyInput">액세스 토큰 (API Key) <span class="required">*</span></label>
             <input type="password" id="supabaseKeyInput" class="form-control"
-              placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." autocomplete="off" required />
+              placeholder="API Key 입력" autocomplete="off" required />
             <small class="form-help-text">
-              • Supabase 대시보드 ➜ Project Settings ➜ API ➜ Project API keys (anon, public)<br>
-              • 이 키는 브라우저 공개용 안전 키이며, 클라우드 DB와 실시간 연결됩니다.
+              공개 API 접근 키를 입력해 주세요.
             </small>
-          </div>
-
-          <div class="cloud-sql-help">
-            <details>
-              <summary>📋 <strong>최초 1회: Supabase 테이블 생성 SQL 보기 (클릭)</strong></summary>
-              <pre class="sql-code-box" id="sqlCodeBox">-- Supabase SQL Editor에 아래 쿼리를 붙여넣고 Run 버튼을 누르시면 됩니다:
-create table if not exists posts (
-  id bigint primary key,
-  title text not null,
-  category text not null,
-  date text not null,
-  tags jsonb default '[]'::jsonb,
-  image text,
-  images jsonb default '[]'::jsonb,
-  excerpt text,
-  content text,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
-);
-
-alter table posts enable row level security;
-
-drop policy if exists "공개 읽기" on posts;
-create policy "공개 읽기" on posts for select using (true);
-
-drop policy if exists "공개 쓰기" on posts;
-create policy "공개 쓰기" on posts for insert with check (true);
-
-drop policy if exists "공개 삭제" on posts;
-create policy "공개 삭제" on posts for delete using (true);</pre>
-              <button type="button" class="btn-copy-sql" id="copySqlBtn">SQL 복사하기</button>
-            </details>
           </div>
 
           <div id="cloudConnectionStatusMsg" class="connection-status-msg hidden"></div>
