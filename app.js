@@ -507,26 +507,56 @@ async function handleLogin(password) {
   loginErrorMsg.classList.add("hidden");
 
   try {
+    let loginData = null;
     const { data, error } = await supabaseClient.auth.signInWithPassword({
       email: ADMIN_AUTH_EMAIL,
       password: password
     });
-    if (error) {
+
+    if (!error && data && data.session) {
+      loginData = data;
+    } else if (error && (error.message.includes("Invalid login credentials") || error.status === 400)) {
+      // 관리자 계정이 아직 Supabase에 등록되지 않은 경우:
+      // 지금 입력한 비밀번호로 최초 1회 신규 자동 생성(signUp) 시도
+      const { data: signUpData, error: signUpErr } = await supabaseClient.auth.signUp({
+        email: ADMIN_AUTH_EMAIL,
+        password: password
+      });
+
+      if (!signUpErr && signUpData && signUpData.session) {
+        loginData = signUpData;
+      } else if (!signUpErr && signUpData && signUpData.user && !signUpData.session) {
+        // 생성되었으나 이메일 확인 설정 등으로 세션이 즉시 안 나온 경우 재로그인 시도
+        const retry = await supabaseClient.auth.signInWithPassword({
+          email: ADMIN_AUTH_EMAIL,
+          password: password
+        });
+        if (!retry.error && retry.data && retry.data.session) {
+          loginData = retry.data;
+        } else {
+          setLoginError("계정이 생성되었으나 Supabase 대시보드 [Authentication > Users]에서 이메일 컨펌(Auto Confirm)이 필요합니다.");
+          return;
+        }
+      } else {
+        console.error("로그인 및 계정 생성 실패:", error, signUpErr);
+        setLoginError("비밀번호가 올바르지 않습니다. (대시보드에서 등록된 비밀번호인지 확인해 주세요)");
+        adminPasswordInput.value = "";
+        adminPasswordInput.focus();
+        return;
+      }
+    } else {
       console.error("로그인 에러 상세:", error);
-      if (error.status === 429) {
+      if (error && error.status === 429) {
         setLoginError("로그인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요.");
       } else {
-        const detail = error.message === "Invalid login credentials"
-          ? "비밀번호가 올바르지 않거나 관리자 계정(admin@vibe.blog)이 없습니다."
-          : `로그인 실패: ${error.message}`;
-        setLoginError(detail);
+        setLoginError(`로그인 실패: ${error ? error.message : "알 수 없는 오류"}`);
       }
       adminPasswordInput.value = "";
       adminPasswordInput.focus();
       return;
     }
 
-    authSession = data ? data.session : null;
+    authSession = loginData ? loginData.session : null;
     await syncSession();
 
     adminPasswordInput.value = "";

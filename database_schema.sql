@@ -4,13 +4,9 @@
 -- [사용 방법]
 -- 1. Supabase 대시보드(https://supabase.com)에 로그인 후 해당 프로젝트를 엽니다.
 -- 2. 왼쪽 메뉴에서 [SQL Editor]를 클릭하고 [New query]를 누릅니다.
--- 3. 아래 SQL 전체를 복사하여 붙여넣습니다.
--- 4. 맨 아래 4번 항목의 '여기에_원하는_비밀번호_입력' 부분에 실제 사용할 관리자 비밀번호를 입력합니다.
--- 5. [Run] (실행) 버튼을 클릭하면 모든 테이블 생성, RLS 보안 정책, 관리자 계정이 즉시 세팅됩니다!
+-- 3. 아래 SQL 전체를 복사하여 붙여넣고 [Run] (실행) 버튼을 클릭합니다.
+-- 4. "Success. No rows returned"가 뜨면 완료됩니다!
 -- ==============================================================================
-
--- 0. 비밀번호 암호화 확장 활성화
-create extension if not exists pgcrypto;
 
 -- 1. 블로그 포스트 테이블 생성
 create table if not exists public.posts (
@@ -70,75 +66,5 @@ create policy "관리자 삭제" on public.posts
   for delete to authenticated
   using (lower(coalesce(auth.jwt() ->> 'email', '')) = 'admin@vibe.blog');
 
--- 4. 관리자 계정 생성 및 비밀번호 설정 (자동화 스크립트)
--- ★ 아래 '여기에_원하는_비밀번호_입력' 부분을 실제 사용할 관리자 비밀번호로 변경하세요!
--- ★ 추후 비밀번호를 바꾸고 싶을 때도 비밀번호만 바꿔서 다시 Run 하시면 됩니다.
-do $$
-declare
-  -- ▼▼▼ 여기에 사용할 비밀번호를 입력하세요 ▼▼▼
-  v_password text := '7466';
-  -- ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-  v_user_id uuid := gen_random_uuid();
-  v_encrypted_pw text;
-begin
-  v_encrypted_pw := crypt(v_password, gen_salt('bf'));
-
-  -- 계정이 이미 존재할 때: 비밀번호 변경
-  if exists (select 1 from auth.users where email = 'admin@vibe.blog') then
-    update auth.users
-    set encrypted_password = v_encrypted_pw,
-        updated_at = now()
-    where email = 'admin@vibe.blog';
-  else
-    -- 계정이 없을 때: 관리자 계정 신규 생성
-    insert into auth.users (
-      instance_id,
-      id,
-      aud,
-      role,
-      email,
-      encrypted_password,
-      email_confirmed_at,
-      raw_app_meta_data,
-      raw_user_meta_data,
-      created_at,
-      updated_at
-    ) values (
-      '00000000-0000-0000-0000-000000000000',
-      v_user_id,
-      'authenticated',
-      'authenticated',
-      'admin@vibe.blog',
-      v_encrypted_pw,
-      now(),
-      '{"provider":"email","providers":["email"]}',
-      '{}',
-      now(),
-      now()
-    );
-
-    insert into auth.identities (
-      id,
-      user_id,
-      identity_data,
-      provider,
-      provider_id,
-      last_sign_in_at,
-      created_at,
-      updated_at
-    ) values (
-      v_user_id,
-      v_user_id,
-      format('{"sub":"%s","email":"%s"}', v_user_id::text, 'admin@vibe.blog')::jsonb,
-      'email',
-      v_user_id::text,
-      now(),
-      now(),
-      now()
-    );
-  end if;
-end $$;
-
--- 5. (안내) 외부 가입 차단 설정 권장
--- Supabase 대시보드 > [Authentication] > [Sign In / Providers] > [Email] 에서
--- "Allow new users to sign up" 설정을 꺼주시면 외부인이 임의로 계정을 만드는 것까지 완벽히 차단됩니다.
+-- 4. 이전에 SQL로 잘못 생성되었을 수 있는 불완전한 잔여 계정 정리
+delete from auth.users where email = 'admin@vibe.blog';
