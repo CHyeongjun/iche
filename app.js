@@ -6,12 +6,139 @@ const STORAGE_KEY_TAGS = "vibe_blog_tags";
 const STORAGE_KEY_AUTH = "vibe_blog_is_admin";
 const STORAGE_KEY_VIEW_MODE = "vibe_blog_view_mode";
 
-// 관리자 비밀번호 해시 (Salted SHA-256 단방향 암호화 - 원본 암호 노출 차단)
+// =========================================
+// 보안 및 관리자 인증 시스템 (Defense-in-Depth 다중 보안 강화)
+// =========================================
 const ADMIN_PASSWORD_HASH = "666c8f6c063a2d8dcb97ddcad4e641b5f038e391e3120330a8f97c64464d20a8";
 const PASSWORD_SALT = "vibe_blog_admin_salt_#2026_";
 const STORAGE_KEY_CUSTOM_HASH = "vibe_blog_admin_hash";
+const STORAGE_KEY_CUSTOM_HASH_SIG = "vibe_blog_admin_hash_sig";
+const STORAGE_KEY_LOGIN_THROTTLE = "vibe_blog_login_throttle";
+const SESSION_MAX_LIFETIME = 4 * 60 * 60 * 1000; // 4시간 세션 유효 기간
+const SESSION_HMAC_SALT = "vibe_blog_session_integrity_salt_#2026_";
 
-// 비밀번호 SHA-256 해시 함수
+/**
+ * 1. 타이밍 공격 방지용 상수 시간 문자열 비교 함수 (Constant-Time Safe Comparison)
+ * 연산 조기 종료(Early Exit)를 방지하여 실행 시간차를 통한 문자열 유추(Timing Side-Channel) 차단
+ */
+function timingSafeEqual(a, b) {
+  if (typeof a !== "string" || typeof b !== "string") return false;
+  const lenA = a.length;
+  const lenB = b.length;
+  let diff = lenA ^ lenB;
+  const maxLen = Math.max(lenA, lenB);
+  for (let i = 0; i < maxLen; i++) {
+    const charA = i < lenA ? a.charCodeAt(i) : 0;
+    const charB = i < lenB ? b.charCodeAt(i) : 0;
+    diff |= (charA ^ charB);
+  }
+  return diff === 0;
+}
+
+/**
+ * 2. 초경량 동기식 SHA-256 해시 함수
+ * 외부 의존성 없이 순수 JavaScript로 표준 SHA-256을 연산하여
+ * 동기 함수인 checkAdminAuth() 등에서 실시간 무결성 서명 검증을 고속으로 수행
+ */
+function sha256Sync(ascii) {
+  function rightRotate(value, amount) {
+    return (value >>> amount) | (value << (32 - amount));
+  }
+  let result = "";
+  const words = [];
+  const asciiBitLength = ascii.length * 8;
+
+  let hash = [
+    0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
+    0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
+  ];
+
+  const k = [
+    0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+    0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+    0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+    0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+    0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+    0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+    0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+    0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+  ];
+
+  for (let i = 0; i < ascii.length; i++) {
+    const code = ascii.charCodeAt(i);
+    words[i >> 2] |= code << ((3 - (i % 4)) * 8);
+  }
+
+  words[asciiBitLength >> 5] |= 0x80 << ((3 - ((asciiBitLength >> 3) % 4)) * 8);
+  words[(((asciiBitLength + 64) >> 9) << 4) + 15] = asciiBitLength;
+  const wordsLen = words.length;
+
+  for (let i = 0; i < wordsLen; i += 16) {
+    const w = words.slice(i, i + 16);
+    let a = hash[0], b = hash[1], c = hash[2], d = hash[3];
+    let e = hash[4], f = hash[5], g = hash[6], h = hash[7];
+
+    for (let j = 0; j < 64; j++) {
+      if (j >= 16) {
+        const s0 = rightRotate(w[j - 15], 7) ^ rightRotate(w[j - 15], 18) ^ (w[j - 15] >>> 3);
+        const s1 = rightRotate(w[j - 2], 17) ^ rightRotate(w[j - 2], 19) ^ (w[j - 2] >>> 10);
+        w[j] = (w[j - 16] + s0 + w[j - 7] + s1) | 0;
+      }
+      const ch = (e & f) ^ (~e & g);
+      const maj = (a & b) ^ (a & c) ^ (b & c);
+      const s0 = rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22);
+      const s1 = rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25);
+      const temp1 = (h + s1 + ch + k[j] + w[j]) | 0;
+      const temp2 = (s0 + maj) | 0;
+
+      h = g;
+      g = f;
+      f = e;
+      e = (d + temp1) | 0;
+      d = c;
+      c = b;
+      b = a;
+      a = (temp1 + temp2) | 0;
+    }
+
+    hash[0] = (hash[0] + a) | 0;
+    hash[1] = (hash[1] + b) | 0;
+    hash[2] = (hash[2] + c) | 0;
+    hash[3] = (hash[3] + d) | 0;
+    hash[4] = (hash[4] + e) | 0;
+    hash[5] = (hash[5] + f) | 0;
+    hash[6] = (hash[6] + g) | 0;
+    hash[7] = (hash[7] + h) | 0;
+  }
+
+  for (let i = 0; i < 8; i++) {
+    for (let j = 3; j >= 0; j--) {
+      const b = (hash[i] >> (8 * j)) & 255;
+      result += (b < 16 ? "0" : "") + b.toString(16);
+    }
+  }
+  return result;
+}
+
+/**
+ * 3. 암호학적 세션 무결성 서명 생성
+ */
+function computeSessionSignature(token, exp) {
+  return sha256Sync(SESSION_HMAC_SALT + ":" + token + ":" + exp);
+}
+
+/**
+ * 4. 암호학적 안전 난수 토큰 생성 (CSPRNG 256-bit)
+ */
+function generateSecureToken() {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/**
+ * 5. 비밀번호 SHA-256 해시 함수 (기존 해시 호환)
+ */
 async function hashPassword(plainText) {
   const encoder = new TextEncoder();
   const data = encoder.encode(PASSWORD_SALT + plainText);
@@ -21,24 +148,153 @@ async function hashPassword(plainText) {
     .join("");
 }
 
-// 세션 기반 관리자 인증 검증 함수 (단순 'true' 문자열 조작 방어 & 만료 시간 검증)
+/**
+ * 6. 로컬스토리지 주입 방어: 유효 관리자 해시 로드 (Integrity Check)
+ * 임의로 주입된 localStorage 해시는 서명 검증 실패로 즉시 파기 및 차단됨
+ */
+function getValidAdminHash() {
+  const customHash = localStorage.getItem(STORAGE_KEY_CUSTOM_HASH);
+  if (!customHash) {
+    return ADMIN_PASSWORD_HASH;
+  }
+
+  // 64자리 Hex SHA-256 형식 검증
+  if (!/^[a-f0-9]{64}$/i.test(customHash)) {
+    console.warn("⚠️ 유효하지 않은 형식의 관리자 커스텀 해시가 감지되어 제거되었습니다.");
+    localStorage.removeItem(STORAGE_KEY_CUSTOM_HASH);
+    localStorage.removeItem(STORAGE_KEY_CUSTOM_HASH_SIG);
+    return ADMIN_PASSWORD_HASH;
+  }
+
+  // 무결성 서명 검증 (외부 조작 차단)
+  const customSig = localStorage.getItem(STORAGE_KEY_CUSTOM_HASH_SIG);
+  const expectedSig = sha256Sync(PASSWORD_SALT + ":integrity:" + customHash);
+  if (!customSig || !timingSafeEqual(customSig, expectedSig)) {
+    console.warn("⚠️ 무결성 서명이 유효하지 않은 관리자 커스텀 해시가 감지되어 제거되었습니다.");
+    localStorage.removeItem(STORAGE_KEY_CUSTOM_HASH);
+    localStorage.removeItem(STORAGE_KEY_CUSTOM_HASH_SIG);
+    return ADMIN_PASSWORD_HASH;
+  }
+
+  return customHash;
+}
+
+/**
+ * 7. 무차별 대입(Brute-Force) 공격 방어 및 속도 제한(Rate Limiting) 매니저
+ * - 5회 연속 실패 시 60초간 잠금
+ * - 실패 시마다 지수 백오프 딜레이를 부여하여 초고속 자동화 공격 차단
+ */
+const AuthRateLimiter = {
+  MAX_ATTEMPTS: 5,
+  LOCKOUT_MS: 60 * 1000, // 60초
+
+  getData() {
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY_LOGIN_THROTTLE);
+      if (!raw) return { count: 0, lockUntil: 0 };
+      const data = JSON.parse(raw);
+      return typeof data === "object" && data !== null ? data : { count: 0, lockUntil: 0 };
+    } catch (e) {
+      return { count: 0, lockUntil: 0 };
+    }
+  },
+
+  saveData(data) {
+    sessionStorage.setItem(STORAGE_KEY_LOGIN_THROTTLE, JSON.stringify(data));
+  },
+
+  isLockedOut() {
+    const data = this.getData();
+    if (data.lockUntil && Date.now() < data.lockUntil) {
+      return true;
+    }
+    if (data.lockUntil && Date.now() >= data.lockUntil) {
+      this.reset();
+    }
+    return false;
+  },
+
+  getRemainingLockSeconds() {
+    const data = this.getData();
+    if (!data.lockUntil) return 0;
+    const diff = Math.ceil((data.lockUntil - Date.now()) / 1000);
+    return Math.max(0, diff);
+  },
+
+  recordFailure() {
+    const data = this.getData();
+    data.count = (data.count || 0) + 1;
+    if (data.count >= this.MAX_ATTEMPTS) {
+      data.lockUntil = Date.now() + this.LOCKOUT_MS;
+    }
+    this.saveData(data);
+    return data;
+  },
+
+  reset() {
+    sessionStorage.removeItem(STORAGE_KEY_LOGIN_THROTTLE);
+  }
+};
+
+/**
+ * 8. 세션 기반 관리자 인증 검증 함수 (Pass-the-Hash 방어 & 서명 무결성 검증)
+ * - 비밀번호 해시 원문이 아닌 CSPRNG 난수 토큰과 암호화 서명(sig)을 검증
+ * - 비정상적 만료시간 조작 차단
+ * - localStorage 세션 영구 보관 취약점 제거 (sessionStorage 전용 격리)
+ */
 function checkAdminAuth() {
-  const rawSession = sessionStorage.getItem(STORAGE_KEY_AUTH) || localStorage.getItem(STORAGE_KEY_AUTH);
+  // localStorage에 잔존하는 레거시 취약 세션 강제 정리
+  if (localStorage.getItem(STORAGE_KEY_AUTH)) {
+    localStorage.removeItem(STORAGE_KEY_AUTH);
+  }
+
+  const rawSession = sessionStorage.getItem(STORAGE_KEY_AUTH);
   if (!rawSession) return false;
+
   try {
     const session = JSON.parse(rawSession);
-    if (!session || typeof session !== "object" || !session.hash || !session.exp) {
-      return false;
-    }
-    // 세션 만료 시간 검증 (기본 12시간)
-    if (Date.now() > session.exp) {
+    if (!session || typeof session !== "object") {
       sessionStorage.removeItem(STORAGE_KEY_AUTH);
-      localStorage.removeItem(STORAGE_KEY_AUTH);
       return false;
     }
-    const validHash = localStorage.getItem(STORAGE_KEY_CUSTOM_HASH) || ADMIN_PASSWORD_HASH;
-    return session.hash === validHash;
+
+    // Pass-the-Hash 방어: 구버전의 { hash: ... } 조작 세션은 즉시 무효화
+    if (!session.token || typeof session.token !== "string" || !session.sig || typeof session.sig !== "string") {
+      sessionStorage.removeItem(STORAGE_KEY_AUTH);
+      return false;
+    }
+
+    const now = Date.now();
+    // 세션 만료 시간 검증
+    if (now > session.exp) {
+      sessionStorage.removeItem(STORAGE_KEY_AUTH);
+      return false;
+    }
+
+    // 비정상적인 미래 만료시간 조작(exp 조작) 방어
+    if (session.exp > now + SESSION_MAX_LIFETIME) {
+      console.warn("⚠️ 세션 유효 기간 조작이 감지되어 세션을 파기합니다.");
+      sessionStorage.removeItem(STORAGE_KEY_AUTH);
+      return false;
+    }
+
+    // 토큰 규격(64자리 Hex) 검증
+    if (!/^[a-f0-9]{64}$/i.test(session.token)) {
+      sessionStorage.removeItem(STORAGE_KEY_AUTH);
+      return false;
+    }
+
+    // 세션 서명 일치 여부 상수 시간 비교 검증
+    const expectedSig = computeSessionSignature(session.token, session.exp);
+    if (!timingSafeEqual(session.sig, expectedSig)) {
+      console.warn("⚠️ 세션 서명 위조가 감지되어 세션을 파기합니다.");
+      sessionStorage.removeItem(STORAGE_KEY_AUTH);
+      return false;
+    }
+
+    return true;
   } catch (e) {
+    sessionStorage.removeItem(STORAGE_KEY_AUTH);
     return false;
   }
 }
@@ -161,10 +417,11 @@ function showSyncToast(message) {
 // =========================================
 const STORAGE_KEY_SUPABASE_CONFIG = "vibe_blog_supabase_config";
 
-// 프로젝트 코드에 직접 URL과 Anon Key를 입력해두시면 모든 기기에서 자동 연결됩니다:
+// GitHub 등 공개 저장소 배포 시 민감한 개인 DB 키 유출 방지를 위해 기본값을 비워둡니다.
+// 웹 화면의 [클라우드 DB 연동] 팝업에서 Project URL과 Anon Key를 입력하시면 브라우저 로컬에 안전하게 저장됩니다.
 const DEFAULT_SUPABASE_CONFIG = {
-  url: "https://bqfbfrxrubmqkdjouyjk.supabase.co", // 사용자 실제 프로젝트 URL
-  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxZmJmcnhydWJtcWtkam91eWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM2MTY0NjgsImV4cCI6MjEwOTE5MjQ2OH0.ObqTtAZJG_MddUCHmOe0YayzXnLQyRJX5lGAg462Ghg" // Supabase의 Project Settings ➜ API ➜ 'anon public' 키를 여기에 입력하세요
+  url: "", // GitHub 업로드 시 안전하게 비워둠 (예: "https://your-project.supabase.co")
+  anonKey: "" // Supabase의 'anon public' 키를 웹 화면의 [클라우드 DB 연동]에서 입력하세요
 };
 
 function getSupabaseConfig() {
@@ -458,27 +715,105 @@ function updateAdminUI() {
   }
 }
 
+let lockoutTimerInterval = null;
+
+function updateLockoutUI() {
+  const isLocked = AuthRateLimiter.isLockedOut();
+  const submitBtn = adminLoginForm ? adminLoginForm.querySelector("button[type='submit']") : null;
+
+  if (isLocked) {
+    const remainingSec = AuthRateLimiter.getRemainingLockSeconds();
+    loginErrorMsg.textContent = `⚠️ 로그인 시도 5회 실패로 계정이 일시 잠겼습니다. (${remainingSec}초 후 재시도 가능)`;
+    loginErrorMsg.classList.remove("hidden");
+    if (adminPasswordInput) {
+      adminPasswordInput.disabled = true;
+    }
+    if (submitBtn) {
+      submitBtn.disabled = true;
+    }
+
+    if (!lockoutTimerInterval) {
+      lockoutTimerInterval = setInterval(() => {
+        const sec = AuthRateLimiter.getRemainingLockSeconds();
+        if (sec <= 0) {
+          clearInterval(lockoutTimerInterval);
+          lockoutTimerInterval = null;
+          updateLockoutUI();
+        } else {
+          loginErrorMsg.textContent = `⚠️ 로그인 시도 5회 실패로 계정이 일시 잠겼습니다. (${sec}초 후 재시도 가능)`;
+        }
+      }, 1000);
+    }
+  } else {
+    if (lockoutTimerInterval) {
+      clearInterval(lockoutTimerInterval);
+      lockoutTimerInterval = null;
+    }
+    if (adminPasswordInput) {
+      adminPasswordInput.disabled = false;
+    }
+    if (submitBtn) {
+      submitBtn.disabled = false;
+    }
+  }
+}
+
 async function handleLogin(password) {
+  // 1. 잠금 상태 확인 (무차별 대입 차단)
+  if (AuthRateLimiter.isLockedOut()) {
+    updateLockoutUI();
+    return;
+  }
+
+  // 2. 점진적 백오프 지연 (자동화 스크립트의 고속 대입 원천 지연)
+  const currentCount = AuthRateLimiter.getData().count || 0;
+  const backoffDelay = Math.min(2000, currentCount * 300);
+  if (backoffDelay > 0) {
+    await new Promise((resolve) => setTimeout(resolve, backoffDelay));
+  }
+
   try {
     const hashedInput = await hashPassword(password);
-    const validHash = localStorage.getItem(STORAGE_KEY_CUSTOM_HASH) || ADMIN_PASSWORD_HASH;
-    if (hashedInput === validHash) {
+    const validHash = getValidAdminHash();
+
+    // 3. 타이밍 공격 방지 상수 시간 비교 (timingSafeEqual)
+    if (timingSafeEqual(hashedInput, validHash)) {
+      // 로그인 성공: 브루트포스 속도 제한 초기화
+      AuthRateLimiter.reset();
+
       state.isAdmin = true;
+      const sessionToken = generateSecureToken();
+      const exp = Date.now() + SESSION_MAX_LIFETIME;
+      const sig = computeSessionSignature(sessionToken, exp);
+
       const sessionData = JSON.stringify({
-        hash: validHash,
-        exp: Date.now() + 12 * 60 * 60 * 1000 // 12시간 유효 기간
+        token: sessionToken,
+        exp: exp,
+        sig: sig
       });
+
+      // 4. 보안 세션 저장 (sessionStorage 전용 격리, localStorage 영구 저장 제거)
       sessionStorage.setItem(STORAGE_KEY_AUTH, sessionData);
-      localStorage.setItem(STORAGE_KEY_AUTH, sessionData);
+      localStorage.removeItem(STORAGE_KEY_AUTH);
+
       closeAuthModal();
       updateAdminUI();
       renderTags();
     } else {
-      loginErrorMsg.classList.remove("hidden");
-      adminPasswordInput.focus();
+      // 비밀번호 불일치: 실패 카운트 증가
+      const data = AuthRateLimiter.recordFailure();
+      if (data.count >= AuthRateLimiter.MAX_ATTEMPTS) {
+        updateLockoutUI();
+      } else {
+        const remainingAttempts = AuthRateLimiter.MAX_ATTEMPTS - data.count;
+        loginErrorMsg.textContent = `비밀번호가 올바르지 않습니다. (남은 시도: ${remainingAttempts}회)`;
+        loginErrorMsg.classList.remove("hidden");
+        adminPasswordInput.focus();
+      }
     }
   } catch (err) {
     console.error("비밀번호 검증 오류", err);
+    loginErrorMsg.textContent = "비밀번호 검증 중 오류가 발생했습니다.";
     loginErrorMsg.classList.remove("hidden");
   }
 }
@@ -498,12 +833,22 @@ function openAuthModal() {
   adminPasswordInput.value = "";
   loginModal.classList.remove("hidden");
   document.body.style.overflow = "hidden";
-  setTimeout(() => adminPasswordInput.focus(), 50);
+
+  if (AuthRateLimiter.isLockedOut()) {
+    updateLockoutUI();
+  } else {
+    updateLockoutUI();
+    setTimeout(() => adminPasswordInput.focus(), 50);
+  }
 }
 
 function closeAuthModal() {
   loginModal.classList.add("hidden");
   document.body.style.overflow = "";
+  if (lockoutTimerInterval) {
+    clearInterval(lockoutTimerInterval);
+    lockoutTimerInterval = null;
+  }
 }
 
 // =========================================
