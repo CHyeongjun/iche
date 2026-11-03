@@ -175,8 +175,8 @@ const STORAGE_KEY_SUPABASE_CONFIG = "vibe_blog_supabase_config";
 // GitHub 등 공개 저장소 배포 시 민감한 개인 DB 키 유출 방지를 위해 기본값을 비워둡니다.
 // 웹 화면의 [클라우드 DB 연동] 팝업에서 Project URL과 Anon Key를 입력하시면 브라우저 로컬에 안전하게 저장됩니다.
 const DEFAULT_SUPABASE_CONFIG = {
-  url: "", // GitHub 업로드 시 안전하게 비워둠 (예: "https://your-project.supabase.co")
-  anonKey: "" // Supabase의 'anon public' 키를 웹 화면의 [클라우드 DB 연동]에서 입력하세요
+  url: "https://bqfbfrxrubmqkdjouyjk.supabase.co",
+  anonKey: "sb_publishable_unkALCfy2dhnFQbkBYmCcA_UkFA0LxM"
 };
 
 function getSupabaseConfig() {
@@ -517,50 +517,36 @@ async function handleLogin(password) {
 
   try {
     let loginData = null;
-    // 1) 기존 계정으로 로그인 시도
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-      email: ADMIN_AUTH_EMAIL,
-      password: securePassword
-    });
+    let lastError = null;
 
-    if (!error && data && data.session) {
-      loginData = data;
-    } else if (error && (error.message.includes("Invalid login credentials") || error.status === 400)) {
-      // 2) 관리자 계정이 아직 Supabase에 등록되지 않은 경우:
-      // 지금 입력한 비밀번호로 최초 1회 신규 자동 생성(signUp) 시도
-      const { data: signUpData, error: signUpErr } = await supabaseClient.auth.signUp({
+    // 4자리 PIN 등 짧은 비밀번호와 Supabase 최소 6자리 정책 간의 호환성을 위해 후보 비밀번호 순차 검증
+    const candidatePasswords = [
+      cleanPassword,
+      `vibe_${cleanPassword}_secure`,
+      `${cleanPassword}${cleanPassword}`,
+      `${cleanPassword}00`
+    ];
+
+    // 1) 로그인 시도 (후보 중 일치하는 비밀번호로 인증)
+    for (const pw of candidatePasswords) {
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
         email: ADMIN_AUTH_EMAIL,
-        password: securePassword
+        password: pw
       });
-
-      if (!signUpErr && signUpData && signUpData.session) {
-        loginData = signUpData;
-      } else if (!signUpErr && signUpData && signUpData.user && !signUpData.session) {
-        // 생성되었으나 이메일 확인 설정 등으로 세션이 즉시 안 나온 경우 재로그인 시도
-        const retry = await supabaseClient.auth.signInWithPassword({
-          email: ADMIN_AUTH_EMAIL,
-          password: securePassword
-        });
-        if (!retry.error && retry.data && retry.data.session) {
-          loginData = retry.data;
-        } else {
-          setLoginError("계정이 생성되었습니다! Supabase 대시보드 [Authentication > Users]에서 admin@vibe.blog 우측 '...'를 눌러 [Confirm user]를 클릭해 주세요.");
-          return;
-        }
-      } else {
-        console.error("로그인 및 계정 생성 실패:", error, signUpErr);
-        const errMsg = signUpErr ? signUpErr.message : (error ? error.message : "비밀번호가 올바르지 않습니다.");
-        setLoginError(`로그인 실패: ${errMsg}`);
-        adminPasswordInput.value = "";
-        adminPasswordInput.focus();
-        return;
+      if (!error && data && data.session) {
+        loginData = data;
+        lastError = null;
+        break;
       }
-    } else {
-      console.error("로그인 에러 상세:", error);
-      if (error && error.status === 429) {
+      lastError = error;
+    }
+
+    if (!loginData) {
+      console.error("로그인 에러 상세:", lastError);
+      if (lastError && lastError.status === 429) {
         setLoginError("로그인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요.");
       } else {
-        setLoginError(`로그인 실패: ${error ? error.message : "알 수 없는 오류"}`);
+        setLoginError("비밀번호가 올바르지 않거나 관리자 계정(admin@vibe.blog)이 생성되지 않았습니다. 아래 안내에 따라 Supabase 대시보드에서 계정을 1회 생성해 주세요.");
       }
       adminPasswordInput.value = "";
       adminPasswordInput.focus();
