@@ -76,7 +76,7 @@ create policy "관리자 삭제" on public.posts
 do $$
 declare
   -- ▼▼▼ 여기에 사용할 비밀번호를 입력하세요 ▼▼▼
-  v_password text := 7466;
+  v_password text := '7466';
   -- ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
   v_user_id uuid := gen_random_uuid();
   v_encrypted_pw text;

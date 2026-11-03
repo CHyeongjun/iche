@@ -512,10 +512,14 @@ async function handleLogin(password) {
       password: password
     });
     if (error) {
+      console.error("로그인 에러 상세:", error);
       if (error.status === 429) {
         setLoginError("로그인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요.");
       } else {
-        setLoginError("비밀번호가 올바르지 않습니다.");
+        const detail = error.message === "Invalid login credentials"
+          ? "비밀번호가 올바르지 않거나 관리자 계정(admin@vibe.blog)이 없습니다."
+          : `로그인 실패: ${error.message}`;
+        setLoginError(detail);
       }
       adminPasswordInput.value = "";
       adminPasswordInput.focus();
