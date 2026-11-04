@@ -11,6 +11,12 @@ desktop.ini
 database_schema.sql
 *.sql
 
+# Source and build scripts (Local only - 원본 소스 및 빌더 파일 은닉)
+app.src.js
+*.src.js
+build.ps1
+.obf_runner.html
+
 # Editor and IDE files
 .vscode/
 .idea/
