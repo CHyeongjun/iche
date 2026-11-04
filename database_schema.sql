@@ -66,5 +66,16 @@ create policy "관리자 삭제" on public.posts
   for delete to authenticated
   using (lower(coalesce(auth.jwt() ->> 'email', '')) = 'admin@vibe.blog');
 
--- 4. (선택사항) 만약 이전에 잘못 생성된 찌꺼기 계정으로 로그인이 꼬였을 때만 아래 주석을 풀고 1회 실행하세요.
+-- ==============================================================================
+-- 4. 🔒 최소 권한 원칙(Principle of Least Privilege) 적용
+-- ==============================================================================
+-- 비로그인(anon) 사용자가 posts 테이블 외에 다른 내부 스키마나 함수, 권한 정보를
+-- 탐색하거나 조작하지 못하도록 서버 레벨에서 접근 권한을 철저하게 최소화합니다.
+revoke all on schema public from anon;
+grant usage on schema public to anon, authenticated;
+revoke all on all tables in schema public from anon;
+grant select on public.posts to anon;
+grant select, insert, update, delete on public.posts to authenticated;
+
+-- 5. (선택사항) 만약 이전에 잘못 생성된 찌꺼기 계정으로 로그인이 꼬였을 때만 아래 주석을 풀고 1회 실행하세요.
 -- delete from auth.users where email = 'admin@vibe.blog';

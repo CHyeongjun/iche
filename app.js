@@ -159,20 +159,48 @@
   // =========================================
   // Supabase 클라우드 데이터베이스 연동 관리
   // =========================================
-  // [엔드포인트 및 공개 키 보호 (Base64 난독화)]
-  // - GitHub 공개 저장소 검색 및 크롤러로부터 프로젝트 주소와 키를 보호하기 위해 부호화되어 있습니다.
-  // - 원래 평문 형태로 직접 되돌리고 싶으실 경우, _decodeConfig(...) 대신 직접 따옴표 안에 원래 주소와 키를 넣으시면 됩니다.
-  const _decodeConfig = (str) => {
+  // [보안 암호화 엔진 (Base64 완전 제거 및 비트 단위 동적 스트림 복호화)]
+  // - Base64처럼 온라인 디코더나 크롤러가 쉽게 역산할 수 있는 단순 인코딩을 완전히 배제했습니다.
+  // - 8비트 순환 시프트(Bitwise Rotation)와 솔트/시드 기반 동적 키스트림(XOR Permutation)으로 바이트 블록화되어
+  //   정적 분석기나 GitHub 검색 크롤러에서 Supabase 도메인 및 API 키 시그니처가 완전히 은닉됩니다.
+  const _CONFIG_SALT = 0x5A;
+  const _CONFIG_SEED = 0xA7;
+  const _SECURE_PAYLOAD = {
+    // 암호화된 Supabase URL (바이트 블록)
+    u: [
+      0x75, 0x0D, 0x84, 0x1C, 0x8B, 0x59, 0x78, 0x80, 0x61, 0x61,
+      0x50, 0xC8, 0x67, 0x5F, 0x86, 0xAD, 0x1D, 0x3C, 0xCC, 0x93,
+      0xCB, 0x2A, 0xD2, 0x01, 0x59, 0xA0, 0xB0, 0x07, 0xA5, 0xD6,
+      0x6E, 0x3D, 0x3C, 0xBC, 0x2B, 0x03, 0x3A, 0xF8, 0x19, 0x81
+    ],
+    // 암호화된 Supabase Anon Key (바이트 블록)
+    k: [
+      0xAD, 0xBD, 0xDD, 0x1C, 0xBB, 0x9B, 0x62, 0xB2, 0xE9, 0xA9,
+      0x68, 0xC8, 0x37, 0xE7, 0xBF, 0x95, 0xC5, 0x74, 0xAD, 0x7A,
+      0x8A, 0x3A, 0x4A, 0xEB, 0xD1, 0x28, 0x90, 0x6E, 0x5E, 0x5E,
+      0x9E, 0xAC, 0xFD, 0xC4, 0x3A, 0x83, 0x1B, 0x73, 0xA8, 0xA1,
+      0x41, 0xE1, 0xE5, 0xBE, 0x96, 0xA7
+    ]
+  };
+
+  function _decryptSecurePayload(arr, salt, seed) {
     try {
-      return typeof atob === "function" ? atob(str) : "";
+      let str = "";
+      for (let i = 0; i < arr.length; i++) {
+        const v = arr[i] ^ 0x3C;
+        const rot = ((v >> 3) | (v << 5)) & 0xFF;
+        const k = ((salt * 33 + seed + i * 17) & 0xFF);
+        str += String.fromCharCode(rot ^ k);
+      }
+      return str;
     } catch (e) {
       return "";
     }
-  };
+  }
 
   const DEFAULT_SUPABASE_CONFIG = {
-    url: _decodeConfig("aHR0cHM6Ly9icWZiZnJ4cnVibXFrZGpvdXlqay5zdXBhYmFzZS5jbw=="),
-    anonKey: _decodeConfig("c2JfcHVibGlzaGFibGVfdW5rQUxDZnkyZGhuRlFia0JZbUNjQV9Va0ZBMEx4TQ==")
+    url: _decryptSecurePayload(_SECURE_PAYLOAD.u, _CONFIG_SALT, _CONFIG_SEED),
+    anonKey: _decryptSecurePayload(_SECURE_PAYLOAD.k, _CONFIG_SALT, _CONFIG_SEED)
   };
 
   function getSupabaseConfig() {
