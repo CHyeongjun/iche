@@ -9,6 +9,8 @@
     content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>온세미로 - 농사 · 일상 · 보일러 이야기</title>
+  <!-- 개발자 도구 및 디버그 접근 차단 가드 (로딩 최상단 0초 즉시 실행) -->
+  <script src="guard.js?v=2"></script>
   <link rel="stylesheet" as="style" crossorigin
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="styles.css" />
@@ -543,7 +545,7 @@
   </div>
 
   <script src="posts.js?v=13"></script>
-  <script src="app.js?v=19"></script>
+  <script src="app.js?v=20"></script>
 </body>
 
 </html>
