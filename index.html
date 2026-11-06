@@ -188,17 +188,17 @@
         </div>
 
         <!-- 댓글 작성 폼 -->
-        <form id="commentForm" class="comment-form">
+        <form id="commentForm" class="comment-form" autocomplete="off">
           <div class="comment-form-row">
             <div class="comment-field author-field">
-              <input type="text" id="commentAuthorInput" class="form-control" placeholder="이름 또는 닉네임" maxlength="20" required />
+              <input type="text" id="commentAuthorInput" name="comment_author_nickname" class="form-control" placeholder="이름 또는 닉네임" maxlength="20" autocomplete="off" data-lpignore="true" data-form-type="other" required />
             </div>
             <div class="comment-field pw-field">
-              <input type="password" id="commentPasswordInput" class="form-control" placeholder="비밀번호 (삭제 시 필요)" maxlength="20" required />
+              <input type="password" id="commentPasswordInput" name="comment_del_pin" class="form-control" placeholder="비밀번호 (삭제 시 필요)" maxlength="20" autocomplete="new-password" data-lpignore="true" data-form-type="other" required />
             </div>
           </div>
           <div class="comment-field text-field">
-            <textarea id="commentContentInput" class="form-control textarea" rows="3" placeholder="따뜻한 댓글을 남겨보세요." maxlength="1000" required></textarea>
+            <textarea id="commentContentInput" name="comment_content_body" class="form-control textarea" rows="3" placeholder="따뜻한 댓글을 남겨보세요." maxlength="1000" autocomplete="off" required></textarea>
           </div>
           <div class="comment-form-actions">
             <button type="submit" class="btn-submit btn-comment-submit" id="submitCommentBtn">댓글 등록</button>
@@ -611,7 +611,7 @@
   </div>
 
   <script src="posts.js?v=13"></script>
-  <script src="app.js?v=26"></script>
+  <script src="app.js?v=27"></script>
 </body>
 
 </html>
