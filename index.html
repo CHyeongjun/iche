@@ -488,11 +488,68 @@
               </div>
             </div>
 
-            <!-- 본문 내용 -->
+            <!-- 본문 내용 및 서식 툴바 -->
             <div class="form-group">
-              <label for="postContentInput">본문 내용</label>
-              <textarea id="postContentInput" class="form-control textarea" rows="9" placeholder="사진에 담긴 이야기나 상세한 팁을 작성하세요."
-                required></textarea>
+              <div class="form-label-row">
+                <label for="postContentInput">본문 내용</label>
+                <span class="form-sub-hint">글자 크기 및 서식 단축키 지원</span>
+              </div>
+
+              <!-- 본문 서식 & 세부 글자 크기 툴바 -->
+              <div class="editor-toolbar">
+                <!-- 1) 1px 단위 글자 크기 세부 조정 (스텝퍼 + 직접입력) -->
+                <div class="editor-toolbar-group font-size-group">
+                  <span class="toolbar-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                      <line x1="9" y1="20" x2="15" y2="20"></line>
+                      <line x1="12" y1="4" x2="12" y2="20"></line>
+                    </svg>
+                    글자크기
+                  </span>
+                  <div class="stepper-box">
+                    <button type="button" class="stepper-btn" id="fontSizeDecBtn" title="1px 작게 (최소 12px)">−</button>
+                    <input type="number" id="postFontSizeInput" class="stepper-number-input" value="16" min="12" max="48" step="1" title="1px 단위 직접 입력 (12~48px)" />
+                    <span class="stepper-unit">px</span>
+                    <button type="button" class="stepper-btn" id="fontSizeIncBtn" title="1px 크게 (최대 48px)">+</button>
+                  </div>
+                </div>
+
+                <!-- 2) 줄간격 세부 조정 -->
+                <div class="editor-toolbar-group line-height-group">
+                  <span class="toolbar-label">줄간격</span>
+                  <select id="postLineHeightSelect" class="toolbar-select" aria-label="줄간격">
+                    <option value="1.5">1.5배 (촘촘히)</option>
+                    <option value="1.65">1.65배 (알맞게)</option>
+                    <option value="1.8" selected>1.8배 (기본)</option>
+                    <option value="2.0">2.0배 (넓게)</option>
+                    <option value="2.2">2.2배 (아주 넓게)</option>
+                  </select>
+                </div>
+
+                <!-- 3) 빠른 서식 단축 버튼 -->
+                <div class="editor-toolbar-group quick-styles-group">
+                  <button type="button" class="toolbar-btn" id="formatH1Btn" title="큰 제목 (# )">
+                    H1
+                  </button>
+                  <button type="button" class="toolbar-btn" id="formatH2Btn" title="소제목 (## )">
+                    H2
+                  </button>
+                  <button type="button" class="toolbar-btn" id="formatBoldBtn" title="굵게 (**텍스트**)">
+                    <strong>B</strong>
+                  </button>
+                  <button type="button" class="toolbar-btn" id="formatHighlightBtn" title="형광펜 (==텍스트==)">
+                    <span class="highlight-icon">형광펜</span>
+                  </button>
+                  <button type="button" class="toolbar-btn text-size-btn" id="formatCustomSizeBtn" title="선택한 글자만 현재 크기(px)로 개별 지정">
+                    <span class="custom-size-badge">선택크기</span>
+                  </button>
+                </div>
+              </div>
+
+              <textarea id="postContentInput" class="form-control textarea textarea-with-toolbar fs-base" rows="9"
+                placeholder="사진에 담긴 이야기나 상세한 팁을 작성하세요." required></textarea>
             </div>
           </div>
 
@@ -554,7 +611,7 @@
   </div>
 
   <script src="posts.js?v=13"></script>
-  <script src="app.js?v=24"></script>
+  <script src="app.js?v=26"></script>
 </body>
 
 </html>

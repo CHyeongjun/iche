@@ -1204,6 +1204,76 @@ button {
   margin-bottom: 0.45rem;
 }
 
+/* 본문 글자 크기 프리셋 (에디터 & 본문 공통) */
+.fs-sm,
+.post-content-wrap.fs-sm {
+  font-size: 0.9rem !important;
+  line-height: 1.7;
+}
+
+.fs-base,
+.post-content-wrap.fs-base {
+  font-size: 1.05rem !important;
+  line-height: 1.85;
+}
+
+.fs-md,
+.post-content-wrap.fs-md {
+  font-size: 1.18rem !important;
+  line-height: 1.9;
+}
+
+.fs-lg,
+.post-content-wrap.fs-lg {
+  font-size: 1.32rem !important;
+  line-height: 1.95;
+}
+
+.fs-xl,
+.post-content-wrap.fs-xl {
+  font-size: 1.5rem !important;
+  line-height: 2;
+}
+
+/* 본문 내 소제목 및 형광펜 강조 스타일 */
+.content-heading-lg {
+  font-size: 1.45em;
+  font-weight: 700;
+  margin: 1.8rem 0 0.8rem 0;
+  color: var(--text-primary);
+  line-height: 1.4;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.4rem;
+}
+
+.content-heading-md {
+  font-size: 1.25em;
+  font-weight: 700;
+  margin: 1.5rem 0 0.65rem 0;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+.content-heading-sm {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 1.2rem 0 0.5rem 0;
+  color: var(--text-primary);
+}
+
+.content-mark {
+  background-color: #fef08a;
+  color: #1f2937;
+  padding: 0.12rem 0.35rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+[data-theme="dark"] .content-mark {
+  background-color: rgba(234, 179, 8, 0.32);
+  color: #fef08a;
+}
+
 /* =========================================
    소개 (About) 뷰 & 푸터
    ========================================= */
@@ -2288,6 +2358,160 @@ button {
 
 .editor-pane .form-group {
   margin-bottom: 0;
+}
+
+/* 본문 작성 툴바 (글자 크기 & 빠른 서식) */
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.editor-toolbar-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.toolbar-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+}
+
+.toolbar-select {
+  padding: 0.28rem 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  width: auto;
+}
+
+.toolbar-select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+/* 글자 크기 스텝퍼 (1px 단위 세부 조정) */
+.stepper-box {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.stepper-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 26px;
+  border: none;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease;
+}
+
+.stepper-btn:hover {
+  background-color: var(--accent-soft);
+  color: var(--accent-color);
+}
+
+.stepper-btn:active {
+  transform: scale(0.92);
+}
+
+.stepper-number-input {
+  width: 36px;
+  height: 26px;
+  border: none;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 0;
+  -moz-appearance: textfield;
+}
+
+.stepper-number-input::-webkit-outer-spin-button,
+.stepper-number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.stepper-unit {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 0 0.35rem 0 0.2rem;
+  user-select: none;
+}
+
+.custom-size-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+.toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 26px;
+  padding: 0 0.45rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.toolbar-btn:hover {
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+  background-color: var(--accent-soft);
+}
+
+.highlight-icon {
+  background: linear-gradient(180deg, transparent 55%, #fef08a 55%);
+  padding: 0 2px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.textarea-with-toolbar {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  transition: font-size 0.15s ease, line-height 0.15s ease;
 }
 
 .preview-pane {
