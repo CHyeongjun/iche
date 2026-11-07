@@ -1,617 +1,337 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="light">
+<html lang="ko">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- 콘텐츠 보안 정책(CSP): 허용된 출처 외의 스크립트 실행 차단 (XSS로 로그인 세션이 탈취되는 것을 완화) -->
+  <!-- 콘텐츠 보안 정책(CSP): 허용된 출처 외 스크립트 실행 차단 (XSS 완화) -->
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net data:; img-src 'self' data: blob: https:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <title>온세미로 - 농사 · 일상 · 보일러 이야기</title>
-  <!-- 개발자 도구 및 디버그 접근 차단 가드 (로딩 최상단 0초 즉시 실행) -->
+  <title>개인 기록 보관소 - Personal Record Hub</title>
+
+  <!-- 🛡️ 0초 안티 디버깅 센티널 보안 가드 (로딩 최상단 필수) -->
   <script src="guard.js?v=2"></script>
-  <link rel="stylesheet" as="style" crossorigin
+
+  <!-- 웹폰트 & 스타일시트 -->
+  <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="styles.css" />
-  <!-- 동기화 SDK (로드 실패 시 app.js가 백업 CDN을 자동으로 주입) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
+  <link rel="stylesheet" href="styles.css?v=8" />
 </head>
 
 <body>
-  <!-- 상단 네비게이션 헤더 -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="#" class="brand" id="brandLink">
-        <span class="brand-title">온세미로</span>
-      </a>
+  <!-- 🌌 3D 사이버네틱 입체 공간 배경 레이어 -->
+  <div class="cyber-spatial-backdrop" aria-hidden="true">
+    <div class="cyber-ambient-light"></div>
+    <div class="cyber-horizon-glow"></div>
+    <div class="cyber-grid-3d"></div>
+    <div class="cyber-vignette"></div>
+  </div>
 
-      <nav class="site-nav">
-        <button type="button" class="nav-link active" data-view="home">글 목록</button>
-        <button type="button" class="nav-link" data-view="about">소개</button>
+  <!-- 관리자 모드 활성화 알림 바 -->
+  <div class="admin-indicator-bar hidden" id="adminIndicatorBar">
+    <div class="admin-indicator-content">
+      <span>👑 <strong>관리자 모드</strong>로 접속 중입니다.</span>
+    </div>
+  </div>
 
-        <!-- 관리자 전용 글쓰기 버튼 -->
-        <button type="button" class="nav-link nav-write-btn hidden" id="openWriteModalBtn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 20h9"></path>
-            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+  <!-- 상단 헤더 -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="#" class="brand-link" id="brandHomeBtn">
+          <span class="brand-badge">Iche's</span>
+          <span class="brand-title">Archive</span>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          글쓰기
+          <input type="text" id="searchInput" class="search-input" placeholder="기록 검색 (제목, 내용, 태그)..."
+            autocomplete="off" />
+          <button type="button" class="search-clear-btn hidden" id="searchClearBtn">✕</button>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- 새 기록 작성 버튼 (관리자 전용) -->
+        <button type="button" class="btn-primary btn-new-record hidden" id="openWriteModalBtn">
+          <span>+ 새 기록 작성</span>
         </button>
 
-        <!-- 관리자 로그인 / 로그아웃 버튼 -->
-        <button type="button" class="admin-auth-btn" id="adminAuthBtn" title="관리자 로그인">
-          <svg class="icon-lock" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
-          <span class="auth-btn-text" id="adminAuthBtnText">관리자</span>
+        <!-- 관리자 로그인/로그아웃 버튼 -->
+        <button type="button" class="btn-admin-auth" id="adminAuthBtn" title="Login">
+          <span id="adminAuthBtnText">Login</span>
         </button>
-
-        <!-- 테마 전환 버튼 -->
-        <button type="button" class="theme-toggle" id="themeToggle" aria-label="테마 전환" title="라이트/다크 모드 전환">
-          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-      </nav>
+      </div>
     </div>
   </header>
 
-  <!-- 관리자 로그인 안내 배너 -->
-  <div class="admin-indicator-bar hidden" id="adminIndicatorBar">
-    <div class="container admin-indicator-inner">
-      <div class="admin-indicator-info">
-        <span>🔐 <strong>관리자 모드</strong> 접속 중</span>
+  <!-- 메인 레이아웃 -->
+  <main class="app-main">
+    <!-- 컨트롤 바: 필터 탭 & 카테고리 -->
+    <div class="control-bar" id="controlBar">
+      <div class="visibility-tabs" id="visibilityTabs">
+        <button type="button" class="tab-btn active" data-filter="all">All</button>
+        <button type="button" class="tab-btn" data-filter="public">🌐 Public</button>
+        <button type="button" class="tab-btn tab-private hidden" id="privateFilterTab" data-filter="private">🔒
+          Private</button>
       </div>
-      <div class="admin-indicator-actions">
-        <button type="button" class="btn-text-logout" id="quickLogoutBtn">로그아웃</button>
+
+      <div class="category-pills" id="categoryPills">
+        <!-- 카테고리 칩들이 JS에 의해 동적 렌더링됩니다 -->
       </div>
     </div>
-  </div>
 
-  <!-- 메인 콘텐츠 영역 -->
-  <main class="container main-content">
-    <!-- 1. 홈(글 목록) 뷰 -->
-    <section id="homeView" class="view-section">
-      <!-- 프로필 & 소개 히어로 -->
-      <div class="author-hero">
-        <div class="author-avatar">🌱</div>
-        <div class="author-info">
-          <h1 class="author-name">농사 · 일상 · 보일러 기록소</h1>
-          <p class="author-bio">텃밭 가꾸기와 시골살이, 보일러 수리와 일상 이야기를 사진과 함께 기록합니다.</p>
+    <!-- 1. 기록 목록 뷰 -->
+    <section class="records-view" id="recordsView">
+      <div class="records-header">
+        <div class="records-count-info">
+          총 <strong id="recordsCountNumber">0</strong>개의 기록
         </div>
       </div>
 
-      <!-- 카테고리 탭 (목차: 전체, 농사, 일상, 보일러) -->
-      <div class="category-bar" id="categoryBar" role="tablist" aria-label="카테고리 목차">
-        <!-- JS에서 렌더링 -->
-      </div>
-
-      <!-- 태그 필터 바 -->
-      <div class="tag-filter-wrapper">
-        <div class="tag-bar-left">
-          <div class="tag-list" id="tagBar" aria-label="태그 필터">
-            <!-- JS에서 렌더링 -->
-          </div>
-          <!-- 관리자 전용 태그 관리 버튼 (추가/삭제 팝업) -->
-          <div class="admin-tag-actions hidden" id="adminTagActions">
-            <button type="button" class="tag-manage-trigger-btn" id="openManageTagsModalBtn" title="태그 추가 및 삭제 관리">
-              ⚙️ 태그 관리
-            </button>
-          </div>
+      <div class="records-grid" id="recordsGrid">
+        <!-- 기록 카드들이 동적으로 렌더링됩니다 -->
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>기록을 안전하게 불러오는 중입니다...</p>
         </div>
-        <button type="button" class="reset-filter-btn hidden" id="resetFilterBtn">
-          필터 초기화 ✕
-        </button>
-      </div>
-
-      <!-- 보기 형식 전환 툴바 (리스트 vs 앨범형) -->
-      <div class="view-mode-toolbar">
-        <div class="post-count-info">
-          <span>전체 <strong id="postFilteredCount">0</strong>편의 글</span>
-        </div>
-        <div class="view-mode-switch" role="group" aria-label="글 목록 보기 형태 선택">
-          <button type="button" class="view-mode-btn active" id="viewModeListBtn" data-view-mode="list"
-            title="리스트 형식으로 보기">
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="8" y1="6" x2="21" y2="6"></line>
-              <line x1="8" y1="12" x2="21" y2="12"></line>
-              <line x1="8" y1="18" x2="21" y2="18"></line>
-              <line x1="3" y1="6" x2="3.01" y2="6"></line>
-              <line x1="3" y1="12" x2="3.01" y2="12"></line>
-              <line x1="3" y1="18" x2="3.01" y2="18"></line>
-            </svg>
-            <span>리스트</span>
-          </button>
-          <button type="button" class="view-mode-btn" id="viewModeAlbumBtn" data-view-mode="album"
-            title="앨범(갤러리) 형식으로 보기">
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="7" height="7"></rect>
-              <rect x="14" y="3" width="7" height="7"></rect>
-              <rect x="14" y="14" width="7" height="7"></rect>
-              <rect x="3" y="14" width="7" height="7"></rect>
-            </svg>
-            <span>앨범형</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 포스트 리스트 -->
-      <div class="post-list" id="postList">
-        <!-- JS에서 렌더링 -->
       </div>
     </section>
 
-    <!-- 2. 포스트 상세 읽기 뷰 -->
-    <article id="postDetailView" class="view-section hidden">
-      <div class="detail-top-nav">
-        <button type="button" class="back-btn" id="backToListBtn">
-          ← 목록으로 돌아가기
+    <!-- 2. 기록 상세 읽기 뷰 -->
+    <section class="record-detail-view hidden" id="recordDetailView">
+      <div class="detail-actions-bar">
+        <button type="button" class="btn-back" id="backToListBtn">
+          <span>← 목록으로 돌아가기</span>
         </button>
-        <!-- 관리자 전용 글 삭제 버튼 -->
-        <button type="button" class="delete-post-btn hidden" id="deletePostBtn">
-          🗑️ 이 글 삭제
-        </button>
-      </div>
-      <div id="postDetailContent">
-        <!-- JS에서 렌더링 -->
-      </div>
-
-      <!-- 댓글 영역 -->
-      <section class="comments-section" id="commentsSection">
-        <div class="comments-header">
-          <h3 class="comments-title">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-            </svg>
-            댓글 <span class="comments-count" id="commentsCountBadge">0</span>
-          </h3>
-        </div>
-
-        <!-- 댓글 작성 폼 -->
-        <form id="commentForm" class="comment-form" autocomplete="off">
-          <div class="comment-form-row">
-            <div class="comment-field author-field">
-              <input type="text" id="commentAuthorInput" name="comment_author_nickname" class="form-control" placeholder="이름 또는 닉네임" maxlength="20" autocomplete="off" data-lpignore="true" data-form-type="other" required />
-            </div>
-            <div class="comment-field pw-field">
-              <input type="password" id="commentPasswordInput" name="comment_del_pin" class="form-control" placeholder="비밀번호 (삭제 시 필요)" maxlength="20" autocomplete="new-password" data-lpignore="true" data-form-type="other" required />
-            </div>
-          </div>
-          <div class="comment-field text-field">
-            <textarea id="commentContentInput" name="comment_content_body" class="form-control textarea" rows="3" placeholder="따뜻한 댓글을 남겨보세요." maxlength="1000" autocomplete="off" required></textarea>
-          </div>
-          <div class="comment-form-actions">
-            <button type="submit" class="btn-submit btn-comment-submit" id="submitCommentBtn">댓글 등록</button>
-          </div>
-        </form>
-
-        <!-- 댓글 목록 -->
-        <div id="commentsListContainer" class="comments-list">
-          <div class="empty-comments">댓글을 불러오는 중입니다...</div>
-        </div>
-      </section>
-    </article>
-
-    <!-- 3. 소개(About) 뷰 -->
-    <section id="aboutView" class="view-section hidden">
-      <div class="about-card">
-        <h1 class="about-title">온세미로, 텃밭,보일러, 그리고 일상</h1>
-        <p class="about-text">
-          <strong>텃밭</strong>의 기쁨, 소소하고 편안한 <strong>일상</strong>의 순간들,
-          그리고 겨울을 따뜻하게 지키는 <strong>보일러</strong> 기술 노하우를 생생한 사진과 함께 기록합니다.
-        </p>
-        <div class="about-meta">
-          <div class="about-meta-item">
-            <span class="meta-label">주요 주제</span>
-            <span class="meta-value">텃밭 농사, 작물 관리, 보일러 수리/점검, 일상 기록</span>
-          </div>
-          <div class="about-meta-item">
-            <span class="meta-label">문의 / 소통</span>
-            <span class="meta-value">
-              <a href="tel:010-5537-8278" class="contact-tel-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  style="vertical-align: -2px; margin-right: 4px;">
-                  <path
-                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-                  </path>
-                </svg>
-                전화 연결하기 (010-5537-8278)
-              </a>
-            </span>
-          </div>
-        </div>
-
-        <!-- 위치 & 찾아오시는 길 안내 카드 -->
-        <div class="about-location-card">
-          <div class="location-card-header">
-            <div class="location-title-box">
-              <div class="location-pin-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-              </div>
-              <div>
-                <h2 class="location-heading">위치 및 찾아오시는 길</h2>
-                <p class="location-subheading">온세미로 보일러 안내</p>
-              </div>
-            </div>
-            <span class="location-tag-badge">방문 전 연락 필수</span>
-          </div>
-
-          <div class="location-card-body">
-            <!-- 주소 텍스트 및 주소 복사 버튼 -->
-            <div class="location-address-box">
-              <div class="address-text-group">
-                <span class="address-label">도로명</span>
-                <p class="address-main-text" id="locationAddressText">강원도 철원군 동송읍 양촌길 20-12 (온세미로)</p>
-                <p class="address-note-text">※ 내비게이션 검색 시 위 주소를 입력하시거나, 아래 네이버·카카오 지도를 클릭해 길찾기를 이용해 보세요.</p>
-              </div>
-              <button type="button" class="btn-copy-address" id="copyAddressBtn" title="주소 클립보드에 복사">
-                <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-                <span id="copyBtnText">주소 복사</span>
-              </button>
-            </div>
-
-            <!-- 감각적인 심플 맵 프리뷰 카드 -->
-            <div class="location-map-preview">
-              <div class="map-grid-bg"></div>
-              <div class="map-roads-graphic">
-                <div class="road-horizontal"></div>
-                <div class="road-vertical"></div>
-                <div class="road-diagonal"></div>
-              </div>
-              <div class="map-marker-anchor">
-                <div class="marker-pulse"></div>
-                <div class="marker-bubble">
-                  <span class="marker-emoji">🌱</span>
-                  <span class="marker-title">온세미로</span>
-                </div>
-                <div class="marker-pin-stem"></div>
-              </div>
-              <div class="map-watermark">
-                <span>ON-SEMIRO LOCATION</span>
-              </div>
-            </div>
-
-            <!-- 네이버 / 카카오 지도 바로가기 버튼 그룹 -->
-            <div class="location-actions-group">
-              <a href="https://map.naver.com/v5/search/%EA%B0%95%EC%9B%90%EB%8F%84%20%EC%B2%A0%EC%9B%90%EA%B5%B0%20%EB%8F%99%EC%86%A1%EC%9D%8D%20%EC%96%91%EC%B4%8C%EA%B8%B8%2020-12"
-                target="_blank" rel="noopener noreferrer" class="map-action-btn naver-btn" id="naverMapLink"
-                title="네이버 지도로 열기">
-                <span class="service-logo naver-logo">N</span>
-                <span class="btn-text"><strong>네이버 지도</strong>에서 길찾기</span>
-                <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </a>
-
-              <a href="https://map.kakao.com/link/search/%EA%B0%95%EC%9B%90%EB%8F%84%20%EC%B2%A0%EC%9B%90%EA%B5%B0%20%EB%8F%99%EC%86%A1%EC%9D%8D%20%EC%96%91%EC%B4%8C%EA%B8%B8%2020-12"
-                target="_blank" rel="noopener noreferrer" class="map-action-btn kakao-btn" id="kakaoMapLink"
-                title="카카오맵으로 열기">
-                <span class="service-logo kakao-logo">K</span>
-                <span class="btn-text"><strong>카카오맵</strong>에서 길찾기</span>
-                <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </a>
-            </div>
-
-            <!-- 방문 시 참고 알림 -->
-            <div class="location-notice-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="notice-svg">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-              </svg>
-              <div class="notice-content">
-                <strong>방문 안내:</strong> 출장 보일러 점검 및 농사 일정으로 외출 중일 수 있으니,
-                방문하시기 전 <a href="tel:010-5537-8278">010-5537-8278</a>로 미리 연락 주시면 감사하겠습니다.
-              </div>
-            </div>
-          </div>
+        <div class="detail-admin-actions hidden" id="detailAdminActions">
+          <button type="button" class="btn-action btn-edit" id="editRecordBtn">수정</button>
+          <button type="button" class="btn-action btn-delete" id="deleteRecordBtn">삭제</button>
         </div>
       </div>
+
+      <article class="record-detail-card" id="recordDetailCard">
+        <!-- 상세 본문이 동적으로 채워집니다 -->
+      </article>
     </section>
   </main>
 
-  <!-- 관리자 로그인 모달창 -->
-  <div class="modal-overlay hidden" id="loginModal">
-    <div class="modal-card modal-auth-card">
-      <div class="modal-header">
-        <h2 class="modal-title">관리자 인증</h2>
-        <button type="button" class="modal-close-btn" id="closeLoginModalBtn" aria-label="닫기">✕</button>
-      </div>
-      <form id="adminLoginForm" class="modal-form">
-        <div class="form-group">
-          <label for="adminPasswordInput">관리자 비밀번호</label>
-          <input type="password" id="adminPasswordInput" class="form-control" placeholder="비밀번호를 입력하세요" required
-            autocomplete="current-password" />
-        </div>
-        <div class="auth-error-msg hidden" id="loginErrorMsg">비밀번호가 올바르지 않습니다. 다시 확인해 주세요.</div>
-        <div class="modal-footer">
-          <button type="button" class="btn-cancel" id="cancelLoginBtn">취소</button>
-          <button type="submit" class="btn-submit">로그인</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- 관리자 태그 통합 관리(추가 및 삭제) 모달창 -->
-  <div class="modal-overlay hidden" id="manageTagsModal">
-    <div class="modal-card modal-tags-manage-card">
-      <div class="modal-header">
-        <h2 class="modal-title">태그 관리 (추가 &amp; 삭제)</h2>
-        <button type="button" class="modal-close-btn" id="closeManageTagsModalBtn" aria-label="닫기">✕</button>
-      </div>
-      <div class="modal-form">
-        <!-- 1. 새 태그 등록 폼 -->
-        <div class="form-group">
-          <label for="newTagNameInput">새 태그 추가</label>
-          <div class="inline-add-group">
-            <input type="text" id="newTagNameInput" class="form-control" placeholder="추가할 태그 이름 입력" />
-            <button type="button" class="btn-submit btn-inline" id="submitAddTagBtn">추가</button>
-          </div>
-        </div>
-
-        <hr class="modal-divider" />
-
-        <!-- 2. 등록된 태그 목록 및 삭제 섹션 -->
-        <div class="form-group">
-          <label>등록된 태그 목록 (클릭하여 삭제)</label>
-          <small class="form-hint">* 태그 옆의 <strong>✕</strong> 버튼을 누르면 태그가 삭제됩니다.</small>
-          <div class="manage-tag-list" id="manageTagList">
-            <!-- JS에서 렌더링 -->
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn-submit" id="doneManageTagsBtn">완료</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 관리자 글쓰기 / 사진 업로드 모달창 (일체형 실시간 미리보기) -->
+  <!-- 기록 작성 및 수정 모달 -->
   <div class="modal-overlay hidden" id="writeModal">
-    <div class="modal-card modal-write-card">
+    <div class="modal-dialog write-modal-dialog">
       <div class="modal-header">
-        <div class="modal-title-group">
-          <h2 class="modal-title" id="writeModalTitle">새 글 쓰기</h2>
-          <div class="live-preview-badge">
-            <span class="pulse-dot"></span>
-            <span>실시간 미리보기 연동 중</span>
+        <div class="modal-header-left">
+          <h3 class="modal-title" id="writeModalTitle">새 기록 작성</h3>
+          <div class="modal-view-mode-toggle" id="modalViewToggle">
+            <button type="button" class="btn-mode-toggle active" data-mode="split">📑 나란히 보기</button>
+            <button type="button" class="btn-mode-toggle" data-mode="editor">✏️ 작성</button>
+            <button type="button" class="btn-mode-toggle" data-mode="preview">👁️ 미리보기</button>
           </div>
         </div>
-
-        <button type="button" class="modal-close-btn" id="closeWriteModalBtn" aria-label="닫기">✕</button>
+        <button type="button" class="btn-modal-close" id="closeWriteModalBtn">✕</button>
       </div>
 
-      <!-- 일체형 작성 & 실시간 미리보기 폼 -->
-      <form id="writePostForm" class="modal-split-form">
-        <div class="modal-split-workspace">
-          <!-- 1. 좌측: 글 작성 에디터 패널 -->
-          <div class="split-pane editor-pane">
-            <!-- 카테고리 선택 -->
-            <div class="form-group">
-              <label for="postCategorySelect">카테고리</label>
-              <select id="postCategorySelect" class="form-control" required>
-                <option value="농사">농사</option>
-                <option value="일상">일상</option>
-                <option value="보일러">보일러</option>
-              </select>
-            </div>
-
-            <!-- 글 제목 -->
-            <div class="form-group">
-              <label for="postTitleInput">제목</label>
-              <input type="text" id="postTitleInput" class="form-control" placeholder="예: 봄 배추 수확과 밭 정리" required />
-            </div>
-
-            <!-- 사진 업로드 필드 (다중 등록 지원) -->
-            <div class="form-group">
-              <div class="form-label-row">
-                <label>사진 업로드</label>
-                <span class="form-sub-hint">첫 번째 사진이 목록 대표 사진으로 지정됩니다</span>
+      <div class="modal-body-split" id="modalBodySplit">
+        <!-- 좌측: 에디터 칼럼 -->
+        <div class="modal-col-editor" id="modalColEditor">
+          <form id="writeRecordForm" class="record-form" autocomplete="off">
+            <!-- 제목 및 카테고리 -->
+            <div class="form-row">
+              <div class="form-group flex-2">
+                <label class="form-label" for="recordTitleInput">기록 제목 *</label>
+                <input type="text" id="recordTitleInput" class="form-control" placeholder="기록 제목을 입력하세요" required />
               </div>
-
-              <div class="upload-dropzone" id="uploadDropzone">
-                <input type="file" id="postImageInput" accept="image/*" multiple class="file-input-hidden" />
-                <div class="upload-placeholder" id="uploadPlaceholder">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                    <polyline points="21 15 16 10 5 21"></polyline>
-                  </svg>
-                  <span>클릭하여 사진들을 선택하거나 드래그해 넣으세요</span>
-                  <small>(jpg, png, webp 등 지원 · 사진을 계속 추가할 수 있습니다)</small>
-                </div>
-              </div>
-
-              <!-- 업로드된 사진 목록 썸네일 그리드 -->
-              <div class="upload-gallery-container hidden" id="uploadGalleryContainer">
-                <div class="upload-gallery-header">
-                  <span class="upload-gallery-count">📷 등록된 사진 <strong id="uploadPhotoCount">0</strong>장</span>
-                  <button type="button" class="btn-clear-all-photos" id="clearAllPhotosBtn">전체 사진 비우기</button>
-                </div>
-                <div class="upload-thumb-grid" id="uploadThumbGrid">
-                  <!-- JS에서 썸네일 아이템 렌더링 -->
-                </div>
+              <div class="form-group flex-1">
+                <label class="form-label" for="recordCategorySelect">카테고리</label>
+                <select id="recordCategorySelect" class="form-control">
+                  <option value="일상">일상</option>
+                  <option value="아이디어">게임</option>
+                  <option value="연구/개발">공부</option>
+                  <option value="메모">메모</option>
+                  <option value="문서/자료">문서/자료</option>
+                  <option value="코드/기술">코드</option>
+                  <option value="비밀">비밀</option>
+                </select>
               </div>
             </div>
 
-            <!-- 태그 선택 및 직접 추가 섹션 -->
+            <!-- 🔒 핵심: 공개 / 비공개 설정 (Public vs Private) -->
             <div class="form-group">
-              <label>태그 지정 (직접 입력 및 선택)</label>
-
-              <div class="tag-input-box" id="tagInputBox">
-                <div class="selected-tags-container" id="selectedTagsContainer"></div>
-                <input type="text" id="modalTagInput" class="tag-inner-input" placeholder="태그 입력 후 Enter 또는 쉼표" />
-              </div>
-
-              <div class="available-tags-wrapper">
-                <span class="available-tags-label">추천 태그 클릭 추가:</span>
-                <div class="available-tags-list" id="availableTagsList"></div>
-              </div>
-            </div>
-
-            <!-- 본문 내용 및 서식 툴바 -->
-            <div class="form-group">
-              <div class="form-label-row">
-                <label for="postContentInput">본문 내용</label>
-                <span class="form-sub-hint">글자 크기 및 서식 단축키 지원</span>
-              </div>
-
-              <!-- 본문 서식 & 세부 글자 크기 툴바 -->
-              <div class="editor-toolbar">
-                <!-- 1) 1px 단위 글자 크기 세부 조정 (스텝퍼 + 직접입력) -->
-                <div class="editor-toolbar-group font-size-group">
-                  <span class="toolbar-label">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="4 7 4 4 20 4 20 7"></polyline>
-                      <line x1="9" y1="20" x2="15" y2="20"></line>
-                      <line x1="12" y1="4" x2="12" y2="20"></line>
-                    </svg>
-                    글자크기
-                  </span>
-                  <div class="stepper-box">
-                    <button type="button" class="stepper-btn" id="fontSizeDecBtn" title="1px 작게 (최소 12px)">−</button>
-                    <input type="number" id="postFontSizeInput" class="stepper-number-input" value="16" min="12" max="48" step="1" title="1px 단위 직접 입력 (12~48px)" />
-                    <span class="stepper-unit">px</span>
-                    <button type="button" class="stepper-btn" id="fontSizeIncBtn" title="1px 크게 (최대 48px)">+</button>
+              <label class="form-label">Visibility (공개 범위) *</label>
+              <div class="visibility-switch-box">
+                <label class="visibility-option active" id="labelPublic">
+                  <input type="radio" name="recordVisibility" value="public" checked />
+                  <span class="vis-icon">🌐</span>
+                  <div class="vis-text">
+                    <strong>Public</strong>
+                    <small>공개</small>
                   </div>
-                </div>
+                </label>
+                <label class="visibility-option" id="labelPrivate">
+                  <input type="radio" name="recordVisibility" value="private" />
+                  <span class="vis-icon">🔒</span>
+                  <div class="vis-text">
+                    <strong>Private</strong>
+                    <small>비공개</small>
+                  </div>
+                </label>
+              </div>
+            </div>
 
-                <!-- 2) 줄간격 세부 조정 -->
-                <div class="editor-toolbar-group line-height-group">
-                  <span class="toolbar-label">줄간격</span>
-                  <select id="postLineHeightSelect" class="toolbar-select" aria-label="줄간격">
-                    <option value="1.5">1.5배 (촘촘히)</option>
-                    <option value="1.65">1.65배 (알맞게)</option>
-                    <option value="1.8" selected>1.8배 (기본)</option>
-                    <option value="2.0">2.0배 (넓게)</option>
-                    <option value="2.2">2.2배 (아주 넓게)</option>
-                  </select>
-                </div>
+            <!-- 태그 입력 -->
+            <div class="form-group">
+              <label class="form-label" for="recordTagInput">태그 (쉼표 또는 엔터로 구분)</label>
+              <input type="text" id="recordTagInput" class="form-control" placeholder="예: 개발, 코드, 자바스크립트, 비밀" />
+              <div class="tags-badge-container" id="writeModalTagsContainer"></div>
+            </div>
 
-                <!-- 3) 빠른 서식 단축 버튼 -->
-                <div class="editor-toolbar-group quick-styles-group">
-                  <button type="button" class="toolbar-btn" id="formatH1Btn" title="큰 제목 (# )">
-                    H1
-                  </button>
-                  <button type="button" class="toolbar-btn" id="formatH2Btn" title="소제목 (## )">
-                    H2
-                  </button>
-                  <button type="button" class="toolbar-btn" id="formatBoldBtn" title="굵게 (**텍스트**)">
-                    <strong>B</strong>
-                  </button>
-                  <button type="button" class="toolbar-btn" id="formatHighlightBtn" title="형광펜 (==텍스트==)">
-                    <span class="highlight-icon">형광펜</span>
-                  </button>
-                  <button type="button" class="toolbar-btn text-size-btn" id="formatCustomSizeBtn" title="선택한 글자만 현재 크기(px)로 개별 지정">
-                    <span class="custom-size-badge">선택크기</span>
-                  </button>
+            <!-- 📷 사진(이미지) 업로드 섹션 -->
+            <div class="form-group">
+              <div class="upload-section-header">
+                <label class="form-label">📷 사진 첨부 (다중 선택 가능)</label>
+                <span class="upload-hint">JPG, PNG, GIF, WEBP 지원</span>
+              </div>
+              <div class="drop-zone" id="photoDropZone">
+                <input type="file" id="photoFileInput" multiple accept="image/*" class="file-hidden-input" />
+                <div class="drop-zone-content">
+                  <span class="drop-icon">🖼️</span>
+                  <p>사진을 이곳에 끌어다 놓거나 <strong>클릭하여 사진 선택</strong></p>
                 </div>
               </div>
+              <!-- 업로드된 사진 썸네일 미리보기 리스트 -->
+              <div class="preview-thumbnails-grid" id="photoPreviewList"></div>
+            </div>
 
-              <textarea id="postContentInput" class="form-control textarea textarea-with-toolbar fs-base" rows="9"
-                placeholder="사진에 담긴 이야기나 상세한 팁을 작성하세요." required></textarea>
+            <!-- 📁 일반 파일 첨부 섹션 (PDF, 문서, zip 등) -->
+            <div class="form-group">
+              <div class="upload-section-header">
+                <label class="form-label">📁 파일 첨부 (문서, PDF, ZIP 등)</label>
+                <span class="upload-hint">다운로드 가능한 파일 보관</span>
+              </div>
+              <div class="drop-zone" id="fileDropZone">
+                <input type="file" id="generalFileInput" multiple class="file-hidden-input" />
+                <div class="drop-zone-content">
+                  <span class="drop-icon">📎</span>
+                  <p>파일을 이곳에 끌어다 놓거나 <strong>클릭하여 파일 선택</strong></p>
+                </div>
+              </div>
+              <!-- 첨부된 파일 목록 카드 리스트 -->
+              <div class="attached-files-list" id="filePreviewList"></div>
+            </div>
+
+            <!-- 서식 도구 바 -->
+            <div class="editor-toolbar">
+              <button type="button" class="btn-tb" id="tbBold" title="굵게"><strong>B</strong></button>
+              <button type="button" class="btn-tb" id="tbHeading" title="큰 제목">H2</button>
+              <button type="button" class="btn-tb" id="tbSubHeading" title="중간 제목">H3</button>
+              <button type="button" class="btn-tb" id="tbHighlight" title="형광펜"><mark>Highlight</mark></button>
+              <div class="tb-divider"></div>
+              <!-- 💻 코드 기록 도구 -->
+              <button type="button" class="btn-tb btn-tb-code" id="tbCodeBlock"
+                title="코드 블록 삽입 (```language ... ```)"><strong>&lt;/&gt; 코드</strong></button>
+              <button type="button" class="btn-tb" id="tbInlineCode" title="인라인 코드 (`code`)">`코드`</button>
+              <div class="tb-divider"></div>
+              <!-- 폰트 크기 정밀 조절 스텝퍼 -->
+              <div class="font-stepper-box">
+                <button type="button" class="btn-step" id="fontDecBtn" title="글자 작게">-</button>
+                <input type="number" id="fontSizeInput" value="16" min="12" max="36" class="step-num-input" />
+                <span class="step-unit">px</span>
+                <button type="button" class="btn-step" id="fontIncBtn" title="글자 크게">+</button>
+              </div>
+            </div>
+
+            <!-- 본문 텍스트 -->
+            <div class="form-group">
+              <label class="form-label" for="recordContentInput">내용</label>
+              <textarea id="recordContentInput" class="form-control record-textarea" rows="8"
+                placeholder="개인 생각, 메모, 일기, 업무 내용 또는 코드(```js ... ```)를 자유롭게 기록하세요." required></textarea>
+            </div>
+
+            <div class="modal-actions">
+              <button type="button" class="btn-cancel" id="cancelWriteBtn">취소</button>
+              <button type="submit" class="btn-primary" id="saveRecordSubmitBtn">저장</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 우측: 실시간 일체형 미리보기 칼럼 -->
+        <div class="modal-col-preview" id="modalColPreview">
+          <div class="preview-header">
+            <div class="preview-header-title">
+              <span class="preview-badge">LIVE PREVIEW</span>
+              <span class="preview-title-sub">실시간 미리보기</span>
+            </div>
+            <div class="preview-sub-tabs" id="previewSubTabs">
+              <button type="button" class="preview-tab active" data-preview-type="detail">본문 상세</button>
+              <button type="button" class="preview-tab" data-preview-type="card">목록 카드</button>
             </div>
           </div>
 
-          <!-- 2. 우측: 실시간 미리보기 패널 -->
-          <div class="split-pane preview-pane" id="writePreviewSection">
-            <div class="preview-toolbar">
-              <div class="preview-guide-badge">
-                <span class="pulse-dot"></span>
-                <span>실시간 표시 모습</span>
-              </div>
-
-              <!-- 목록 카드 보기 vs 본문 상세 보기 서브 탭 -->
-              <div class="preview-sub-tabs">
-                <button type="button" class="sub-tab-btn active" id="previewSubTabCard">
-                  📑 목록 카드 모습
-                </button>
-                <button type="button" class="sub-tab-btn" id="previewSubTabDetail">
-                  📖 본문 상세 모습
-                </button>
-              </div>
+          <div class="preview-scroll-pane">
+            <!-- 1) 상세 뷰 실시간 미리보기 -->
+            <div class="live-preview-detail" id="livePreviewDetail">
+              <div class="preview-placeholder">내용을 입력하면 실제 화면에 표시될 모습이 실시간으로 나타납니다.</div>
             </div>
 
-            <!-- 미리보기 렌더링 스크롤 영역 -->
-            <div class="preview-scroll-area">
-              <!-- 1) 목록 카드 미리보기 -->
-              <div id="previewCardContainer" class="preview-render-box">
-                <!-- JS에서 렌더링 -->
-              </div>
-
-              <!-- 2) 본문 상세 미리보기 -->
-              <div id="previewDetailContainer" class="preview-render-box hidden">
-                <!-- JS에서 렌더링 -->
-              </div>
+            <!-- 2) 카드 뷰 실시간 미리보기 -->
+            <div class="live-preview-card hidden" id="livePreviewCard">
+              <!-- 실시간 카드 렌더링 -->
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- 하단 액션 버튼 바 -->
-        <div class="modal-footer split-footer">
-          <button type="button" class="btn-cancel" id="cancelWriteBtn">취소</button>
-          <button type="submit" class="btn-submit" id="submitWriteBtn">게시하기</button>
+  <!-- 관리자 로그인 모달 -->
+  <div class="modal-overlay hidden" id="authModal">
+    <div class="modal-dialog auth-modal-dialog">
+      <div class="modal-header">
+        <div class="auth-modal-title-wrap">
+          <span class="auth-icon">🔒</span>
+        </div>
+        <button type="button" class="btn-modal-close" id="closeAuthModalBtn">✕</button>
+      </div>
+
+      <form id="adminLoginForm" class="auth-form" autocomplete="off">
+        <div class="form-group">
+          <label for="adminPasswordInput" class="form-label">비밀번호</label>
+          <input type="password" id="adminPasswordInput" name="rec_owner_key" class="form-control"
+            placeholder="비밀번호를 입력하세요" autocomplete="new-password" data-lpignore="true" data-form-type="other"
+            required />
+        </div>
+
+        <div id="loginErrorMsg" class="form-error-msg hidden"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelAuthBtn">취소</button>
+          <button type="submit" class="btn-primary">로그인</button>
         </div>
       </form>
     </div>
   </div>
-    </div>
-  </div>
 
-
-
-
-  <!-- 사진 크게 보기 라이트박스 팝업 -->
-  <div class="image-lightbox-overlay hidden" id="imageLightboxModal">
+  <!-- 이미지 확대 보기 라이트박스 팝업 -->
+  <div class="lightbox-overlay hidden" id="lightboxModal">
     <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
     <div class="lightbox-dialog">
-      <button type="button" class="lightbox-close-btn" id="closeLightboxBtn" aria-label="닫기">✕</button>
-      <img id="lightboxImg" src="" alt="사진 원본 크게 보기" />
+      <button type="button" class="lightbox-close" id="closeLightboxBtn">✕</button>
+      <img id="lightboxImg" src="" alt="확대 보기" />
     </div>
   </div>
 
-  <script src="posts.js?v=13"></script>
-  <script src="app.js?v=28"></script>
+  <!-- 토스트 알림 컨테이너 -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- 코어 스크립트 로드 -->
+  <script src="app.js?v=7"></script>
 </body>
 
 </html>

@@ -10,6 +10,7 @@ desktop.ini
 *.log
 database_schema.sql
 *.sql
+backup_blog/
 
 # Source and build scripts (Local only - 원본 소스 및 빌더 파일 은닉)
 app.src.js
