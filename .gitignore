@@ -16,6 +16,8 @@ app.src.js
 *.src.js
 build.ps1
 .obf_runner.html
+.runner_*
+.test_out.txt
 
 # Editor and IDE files
 .vscode/
