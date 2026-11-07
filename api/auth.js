@@ -4,6 +4,34 @@ const crypto = require("crypto");
  * Vercel Serverless Function: Admin Authentication
  * Endpoint: /api/auth
  */
+
+async function parseBody(req) {
+  if (req.body) {
+    if (typeof req.body === "string") {
+      try {
+        return JSON.parse(req.body);
+      } catch (e) {
+        return {};
+      }
+    }
+    return req.body;
+  }
+  return new Promise((resolve) => {
+    let raw = "";
+    req.on("data", (chunk) => {
+      raw += chunk;
+    });
+    req.on("end", () => {
+      try {
+        resolve(JSON.parse(raw));
+      } catch (e) {
+        resolve({});
+      }
+    });
+    req.on("error", () => resolve({}));
+  });
+}
+
 module.exports = async function handler(req, res) {
   // CORS & Security headers
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -23,15 +51,7 @@ module.exports = async function handler(req, res) {
 
   if (req.method === "POST") {
     try {
-      let body = req.body;
-      if (typeof body === "string") {
-        try {
-          body = JSON.parse(body);
-        } catch (e) {
-          // ignore parse error
-        }
-      }
-      body = body || {};
+      const body = await parseBody(req);
       const password = (body.password || "").trim();
 
       if (!password) {
@@ -70,4 +90,3 @@ module.exports = async function handler(req, res) {
 
   return res.status(405).json({ error: "허용되지 않은 메서드입니다." });
 };
-
