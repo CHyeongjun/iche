@@ -17,7 +17,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
-  <link rel="stylesheet" href="styles.css?v=10" />
+  <link rel="stylesheet" href="styles.css?v=11" />
 </head>
 
 <body>
@@ -79,8 +79,7 @@
       <div class="visibility-tabs" id="visibilityTabs">
         <button type="button" class="tab-btn active" data-filter="all">All</button>
         <button type="button" class="tab-btn" data-filter="public">🌐 Public</button>
-        <button type="button" class="tab-btn tab-private hidden" id="privateFilterTab" data-filter="private">🔒
-          Private</button>
+        <button type="button" class="tab-btn tab-private" id="privateFilterTab" data-filter="private">🔒 Private</button>
       </div>
 
       <div class="category-pills" id="categoryPills">
@@ -94,9 +93,21 @@
         <div class="records-count-info">
           총 <strong id="recordsCountNumber">0</strong>개의 기록
         </div>
+
+        <!-- 🖼️ 액자형 vs 📑 리스트형 보기 모드 스위처 -->
+        <div class="view-mode-switcher" id="viewModeSwitcher">
+          <button type="button" class="btn-view-toggle active" data-view="frame" title="액자 형식 (갤러리 카드)">
+            <span class="view-icon">🖼️</span>
+            <span class="view-label">액자형</span>
+          </button>
+          <button type="button" class="btn-view-toggle" data-view="list" title="리스트 형식 (콤팩트 목록)">
+            <span class="view-icon">📑</span>
+            <span class="view-label">리스트형</span>
+          </button>
+        </div>
       </div>
 
-      <div class="records-grid" id="recordsGrid">
+      <div class="records-grid view-frame" id="recordsGrid">
         <!-- 기록 카드들이 동적으로 렌더링됩니다 -->
         <div class="loading-state">
           <div class="spinner"></div>
@@ -306,7 +317,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <!-- 코어 스크립트 로드 -->
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=10"></script>
 </body>
 
 </html>
