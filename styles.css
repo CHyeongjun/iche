@@ -149,7 +149,7 @@ body {
 }
 
 .admin-indicator-content {
-  max-width: 1240px;
+  max-width: 1320px;
   margin: 0 auto;
 }
 
@@ -167,7 +167,7 @@ body {
 }
 
 .header-container {
-  max-width: 1240px;
+  max-width: 1320px;
   margin: 0 auto;
   padding: 0.9rem 1.5rem;
   display: flex;
@@ -347,10 +347,10 @@ body {
    ========================================================================== */
 .app-main {
   flex: 1;
-  max-width: 960px;
+  max-width: 1320px;
   width: 100%;
   margin: 0 auto;
-  padding: 2rem 1.25rem 4rem;
+  padding: 2rem 1.5rem 4rem;
 }
 
 .control-bar {
@@ -358,7 +358,6 @@ body {
   flex-direction: column;
   gap: 1.25rem;
   margin-bottom: 2rem;
-  max-width: 960px;
   width: 100%;
 }
 
@@ -454,8 +453,7 @@ body {
    🖼️ 5. 보기 모드 스위처 (액자형 vs 리스트형)
    ========================================================================== */
 .records-section {
-  max-width: 960px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .records-header {
@@ -520,10 +518,9 @@ body {
    ========================================================================== */
 .records-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
   gap: 1.6rem;
-  max-width: 960px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 /* 🌐 1) PUBLIC 기록: 순백의 3D 몰딩 갤러리 액자 */
@@ -940,12 +937,12 @@ body {
 }
 
 .records-grid.view-list .card-excerpt {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 480px;
+  max-width: 680px;
 }
 
 .records-grid.view-list .list-right-col {
@@ -989,7 +986,7 @@ body {
    📖 8. 기록 상세 보기 뷰 (3D Floating Monolith Card)
    ========================================================================== */
 .record-detail-view {
-  max-width: 860px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
