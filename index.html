@@ -17,7 +17,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
-  <link rel="stylesheet" href="styles.css?v=17" />
+  <link rel="stylesheet" href="styles.css?v=18" />
 </head>
 
 <body>
@@ -33,6 +33,11 @@
   <div class="admin-indicator-bar hidden" id="adminIndicatorBar">
     <div class="admin-indicator-content">
       <span><strong>관리자 모드</strong>로 접속 중입니다.</span>
+      <div class="admin-data-actions">
+        <button type="button" class="btn-data-action" id="backupDataBtn" title="모든 기록을 JSON 파일로 내 컴퓨터에 백업 다운로드">기록 백업</button>
+        <button type="button" class="btn-data-action" id="restoreDataBtn" title="백업 파일로부터 기록 복원">기록 복원</button>
+        <input type="file" id="restoreFileInput" accept=".json" class="file-hidden-input" />
+      </div>
     </div>
   </div>
 
@@ -312,7 +317,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <!-- 코어 스크립트 로드 -->
-  <script src="app.js?v=12"></script>
+  <script src="app.js?v=13"></script>
 </body>
 
 </html>
