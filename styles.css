@@ -1,55 +1,56 @@
 /* ==========================================================================
    Personal Record Hub - Master Stylesheet
+   🖤 Monochrome Noir & Sculpted 3D Dimensional Depth
    ========================================================================== */
 
 :root {
-  /* 🖤 사이버네틱 & 흑백 HUD 핵심 팔레트 */
-  --bg-primary: #05070a;
-  --bg-surface: #0a0d14;
-  --bg-card: #0e121b;
-  --bg-card-hover: #141926;
-  --bg-modal: #080b11;
+  /* 🖤 모노크롬 흑백 & 메탈릭 3D 입체 팔레트 */
+  --bg-primary: #030304;
+  --bg-surface: #09090b;
+  --bg-card: #121216;
+  --bg-card-hover: #1a1a20;
+  --bg-modal: #08080a;
 
-  /* ⚡ 사이버 와이어프레임 & HUD 보더 */
-  --border-color: rgba(255, 255, 255, 0.09);
-  --border-hover: rgba(0, 240, 255, 0.45);
-  --border-focus: #00f0ff;
-  --border-cyber: rgba(0, 240, 255, 0.25);
+  /* ⚡ 3D 와이어프레임 & 크롬 메탈릭 보더 */
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-hover: rgba(255, 255, 255, 0.5);
+  --border-focus: #ffffff;
+  --border-cyber: rgba(255, 255, 255, 0.35);
 
-  /* 🔤 고대비 흑백 & 메탈릭 타이포그래피 */
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #526175;
+  /* 🔤 고대비 흑백 타이포그래피 */
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
 
-  /* 💎 사이버 네온 시안 & 플래티넘 액센트 */
-  --accent: #00f0ff;
-  --accent-hover: #00c8d7;
-  --accent-light: rgba(0, 240, 255, 0.1);
-  --accent-glow: 0 0 16px rgba(0, 240, 255, 0.35);
+  /* 💎 모노크롬 화이트 & 플래티넘 3D 액센트 */
+  --accent: #ffffff;
+  --accent-hover: #e4e4e7;
+  --accent-light: rgba(255, 255, 255, 0.1);
+  --accent-glow: 0 0 20px rgba(255, 255, 255, 0.4);
 
-  /* 🔒 Private 상태 (사이버 바이올렛 / 마젠타) */
-  --private-accent: #c084fc;
-  --private-light: rgba(192, 132, 252, 0.12);
-  --private-glow: 0 0 16px rgba(192, 132, 252, 0.35);
+  /* 🔒 Private 상태 (모노크롬 스모키 건메탈) */
+  --private-accent: #a1a1aa;
+  --private-light: rgba(255, 255, 255, 0.08);
+  --private-glow: 0 0 16px rgba(255, 255, 255, 0.2);
 
-  /* 🚨 상태 경고 / 위험 / 성공 */
-  --danger: #ff4d4d;
-  --danger-hover: #ef233c;
-  --danger-light: rgba(255, 77, 77, 0.14);
-  --success: #00ffaa;
+  /* 🚨 상태 경고 (고대비 모노크롬 / 은빛 하이라이트) */
+  --danger: #ffffff;
+  --danger-hover: #e4e4e7;
+  --danger-light: rgba(255, 255, 255, 0.15);
+  --success: #f4f4f5;
 
-  /* 📐 사이버네틱 각도 및 라디우스 */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  /* 📐 3D 입체 각도 및 라디우스 */
+  --radius-sm: 5px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
 
-  /* 🌌 섀도우 & 네온 발광 심도 */
-  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.6);
-  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.7);
-  --shadow-lg: 0 16px 42px rgba(0, 0, 0, 0.9);
-  --shadow-cyber: 0 0 24px rgba(0, 240, 255, 0.15);
+  /* 🌌 3D 조명 & 앰비언트 심도 섀도우 (상단 반사광 + 하단 묵직한 그림자) */
+  --shadow-sm: 0 3px 8px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  --shadow-lg: 0 24px 60px -10px rgba(0, 0, 0, 0.98), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  --shadow-cyber: 0 0 24px rgba(255, 255, 255, 0.2);
 
-  --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", Consolas, "Courier New", monospace;
 }
@@ -61,7 +62,7 @@
 }
 
 html {
-  background-color: #040609;
+  background-color: #030304;
   min-height: 100vh;
 }
 
@@ -77,7 +78,7 @@ body {
 }
 
 /* ==========================================================================
-   🌌 3D 사이버네틱 입체 공간 배경 시스템 (Spatial Depth Architecture)
+   🌌 3D 모노크롬 입체 공간 배경 시스템 (Monochrome Depth Architecture)
    ========================================================================== */
 .cyber-spatial-backdrop {
   position: fixed;
@@ -85,19 +86,19 @@ body {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  background-color: #040609;
+  background-color: #030304;
 }
 
-/* 1) 상단 & 측면 다중 네온 볼륨 광원 & 상단 사이버 스타 그리드 */
+/* 1) 상단 스튜디오 스포트라이트 & 미세 스타 필드 */
 .cyber-ambient-light {
   position: absolute;
   inset: 0;
   background-image: 
-    radial-gradient(ellipse 75% 45% at 50% -5%, rgba(0, 240, 255, 0.22) 0%, transparent 70%),
-    radial-gradient(ellipse 55% 45% at 85% 85%, rgba(192, 132, 252, 0.15) 0%, transparent 65%),
-    radial-gradient(ellipse 45% 40% at 15% 40%, rgba(0, 240, 255, 0.1) 0%, transparent 60%),
-    radial-gradient(rgba(0, 240, 255, 0.18) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px;
+    radial-gradient(ellipse 70% 45% at 50% -8%, rgba(255, 255, 255, 0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 45% at 85% 85%, rgba(255, 255, 255, 0.05) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 40% at 15% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
+    radial-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px;
   animation: cyberAmbientPulse 10s ease-in-out infinite alternate;
 }
 
@@ -108,7 +109,7 @@ body {
   }
   50% {
     opacity: 1;
-    transform: scale(1.03);
+    transform: scale(1.02);
   }
   100% {
     opacity: 0.9;
@@ -116,19 +117,19 @@ body {
   }
 }
 
-/* 2) 사이버 수평선 레이저 광채 라인 (Horizon Vanishing Line) */
+/* 2) 플래티넘 크롬 수평선 광채 라인 (Horizon Vanishing Line) */
 .cyber-horizon-glow {
   position: absolute;
   left: -20%;
   right: -20%;
   top: 38%;
   height: 2px;
-  background: linear-gradient(90deg, transparent 10%, rgba(0, 240, 255, 0.9) 50%, transparent 90%);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.95), 0 0 45px rgba(0, 240, 255, 0.6), 0 0 80px rgba(0, 240, 255, 0.3);
+  background: linear-gradient(90deg, transparent 10%, rgba(255, 255, 255, 0.95) 50%, transparent 90%);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.95), 0 0 50px rgba(255, 255, 255, 0.5), 0 0 90px rgba(255, 255, 255, 0.25);
   filter: blur(0.5px);
 }
 
-/* 3) 3D 투시 원근 바닥 그리드 (3D Perspective Horizon Plane) */
+/* 3) 3D 투시 원근 바닥 그리드 (Monochrome 3D Perspective Plane) */
 .cyber-grid-3d {
   position: absolute;
   width: 200%;
@@ -138,8 +139,8 @@ body {
   transform: perspective(320px) rotateX(62deg);
   transform-origin: 50% 100%;
   background-image: 
-    linear-gradient(rgba(0, 240, 255, 0.38) 1.5px, transparent 1.5px),
-    linear-gradient(90deg, rgba(0, 240, 255, 0.38) 1.5px, transparent 1.5px);
+    linear-gradient(rgba(255, 255, 255, 0.24) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.24) 1.5px, transparent 1.5px);
   background-size: 48px 48px;
   mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.3) 75%, transparent 100%);
   -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.3) 75%, transparent 100%);
@@ -159,7 +160,7 @@ body {
 .cyber-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 90% 75% at 50% 45%, transparent 30%, rgba(3, 5, 8, 0.75) 100%);
+  background: radial-gradient(ellipse 90% 75% at 50% 45%, transparent 25%, rgba(2, 2, 3, 0.82) 100%);
 }
 
 /* 상위 컨텐츠 요소들을 3D 배경 위로 배치 */
@@ -177,15 +178,15 @@ body {
 
 /* 1. 관리자 인디케이터 바 */
 .admin-indicator-bar {
-  background: linear-gradient(90deg, #070a12 0%, #0d1220 50%, #11172a 100%);
-  color: #00f0ff;
+  background: linear-gradient(90deg, #121215 0%, #1e1e24 50%, #121215 100%);
+  color: #ffffff;
   padding: 6px 16px;
   font-family: var(--font-mono);
   font-size: 0.8rem;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid rgba(0, 240, 255, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 4px 15px rgba(0, 0, 0, 0.8);
 }
 
 .admin-indicator-content {
@@ -193,12 +194,12 @@ body {
   margin: 0 auto;
 }
 
-/* 2. 상단 헤더 */
+/* 2. 상단 헤더 (입체적인 플로팅 HUD 바) */
 .app-header {
-  background-color: rgba(5, 7, 10, 0.88);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(0, 240, 255, 0.16);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  background: linear-gradient(180deg, rgba(16, 16, 20, 0.94) 0%, rgba(8, 8, 10, 0.96) 100%);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 8px 30px rgba(0, 0, 0, 0.9);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -223,15 +224,16 @@ body {
 }
 
 .brand-badge {
-  background: linear-gradient(135deg, #00f0ff 0%, #00b4d8 100%);
-  color: #040810;
+  background: linear-gradient(180deg, #ffffff 0%, #d4d4d8 100%);
+  color: #000000;
   font-family: var(--font-mono);
   font-size: 0.7rem;
-  font-weight: 800;
-  padding: 2px 7px;
+  font-weight: 900;
+  padding: 3px 8px;
   border-radius: var(--radius-sm);
-  letter-spacing: 1px;
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+  letter-spacing: 1.2px;
+  border: 1px solid #ffffff;
+  box-shadow: inset 0 1px 0 #ffffff, 0 3px 10px rgba(255, 255, 255, 0.35);
 }
 
 .brand-title {
@@ -241,7 +243,7 @@ body {
   letter-spacing: -0.4px;
   white-space: nowrap;
   color: #ffffff;
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
 }
 
 .header-center {
@@ -265,23 +267,25 @@ body {
   pointer-events: none;
 }
 
+/* 🔍 입체적으로 음각 파인 3D 검색 인풋 */
 .search-input {
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
+  background-color: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-sm);
   padding: 8px 34px 8px 36px;
   color: var(--text-primary);
   font-family: var(--font-mono);
   font-size: 0.85rem;
   outline: none;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.85), 0 1px 0 rgba(255, 255, 255, 0.08);
   transition: var(--transition);
 }
 
 .search-input:focus {
-  background-color: rgba(255, 255, 255, 0.06);
-  border-color: var(--border-focus);
-  box-shadow: 0 0 14px rgba(0, 240, 255, 0.25);
+  background-color: rgba(0, 0, 0, 0.85);
+  border-color: #ffffff;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.85), 0 0 0 1px #ffffff, 0 0 16px rgba(255, 255, 255, 0.35);
 }
 
 .search-clear-btn {
@@ -303,18 +307,19 @@ body {
   gap: 0.75rem;
 }
 
+/* 🔘 묵직한 3D 양각 모노크롬 주 버튼 */
 .btn-primary {
-  background: linear-gradient(135deg, #00f0ff 0%, #00b4d8 100%);
-  color: #040810;
-  border: 1px solid rgba(0, 240, 255, 0.6);
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  color: #09090b;
+  border: 1px solid #ffffff;
   padding: 8px 16px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.2px;
   cursor: pointer;
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.35);
+  box-shadow: inset 0 1px 0 #ffffff, 0 4px 14px rgba(0, 0, 0, 0.7), 0 0 16px rgba(255, 255, 255, 0.25);
   transition: var(--transition);
   display: inline-flex;
   align-items: center;
@@ -322,35 +327,44 @@ body {
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #33f3ff 0%, #00c4ea 100%);
-  box-shadow: 0 0 24px rgba(0, 240, 255, 0.6);
-  transform: translateY(-1px);
+  background: #ffffff;
+  box-shadow: inset 0 1px 0 #ffffff, 0 8px 22px rgba(0, 0, 0, 0.85), 0 0 24px rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
 }
 
+.btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* 🔘 3D 메탈릭 보조 버튼 */
 .btn-admin-auth {
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-color);
+  background: linear-gradient(180deg, #24242a 0%, #151518 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   color: var(--text-secondary);
   padding: 7px 14px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 3px 8px rgba(0, 0, 0, 0.6);
   transition: var(--transition);
 }
 
 .btn-admin-auth:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-  color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.22);
+  background: linear-gradient(180deg, #2f2f36 0%, #1c1c20 100%);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 12px rgba(0, 0, 0, 0.8);
+  transform: translateY(-1px);
 }
 
 .btn-admin-auth.is-admin {
-  background-color: rgba(255, 77, 77, 0.12);
-  border-color: rgba(255, 77, 77, 0.4);
-  color: #ff6b6b;
-  box-shadow: 0 0 12px rgba(255, 77, 77, 0.25);
+  background: linear-gradient(180deg, #3f3f46 0%, #27272a 100%);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 0 14px rgba(255, 255, 255, 0.2);
 }
 
 /* 3. 메인 레이아웃 & 컨트롤 바 (가운데 3D 입체 공간 영역 내 완벽 정렬) */
@@ -376,41 +390,47 @@ body {
 .visibility-tabs {
   display: flex;
   gap: 0.5rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   padding-bottom: 0.5rem;
 }
 
+/* 🔘 3D 탭 버튼 */
 .tab-btn {
-  background: transparent;
-  border: 1px solid transparent;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--text-secondary);
-  padding: 7px 14px;
+  padding: 7px 15px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.3px;
   cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 2px 6px rgba(0, 0, 0, 0.5);
   transition: var(--transition);
 }
 
 .tab-btn:hover {
-  color: var(--text-primary);
-  background-color: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
 }
 
 .tab-btn.active {
-  color: #00f0ff;
-  background-color: rgba(0, 240, 255, 0.1);
-  border-color: rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 14px rgba(0, 240, 255, 0.2);
+  color: #000000;
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  border-color: #ffffff;
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 #ffffff, 0 4px 14px rgba(255, 255, 255, 0.3);
 }
 
 .tab-btn.tab-private.active {
-  color: #c084fc;
-  background-color: rgba(192, 132, 252, 0.12);
-  border-color: rgba(192, 132, 252, 0.4);
-  box-shadow: 0 0 14px rgba(192, 132, 252, 0.22);
+  color: #ffffff;
+  background: linear-gradient(180deg, #3f3f46 0%, #27272a 100%);
+  border-color: rgba(255, 255, 255, 0.6);
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 4px 14px rgba(0, 0, 0, 0.85), 0 0 14px rgba(255, 255, 255, 0.18);
 }
 
 .category-pills {
@@ -419,31 +439,34 @@ body {
   gap: 0.4rem;
 }
 
+/* 🔘 3D 필 버튼 */
 .pill-btn {
-  background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--text-secondary);
   padding: 5px 12px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 2px 5px rgba(0, 0, 0, 0.5);
   transition: var(--transition);
 }
 
 .pill-btn:hover {
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
 .pill-btn.active {
-  background-color: #f8fafc;
-  border-color: #f8fafc;
-  color: #06080c;
-  font-weight: 700;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  border-color: #ffffff;
+  color: #000000;
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 #ffffff, 0 4px 14px rgba(255, 255, 255, 0.35);
 }
 
 /* 4. 기록 그리드 및 카드 (중앙 3D 투시 공간 영역 내 제한) */
@@ -464,14 +487,15 @@ body {
   margin-right: auto;
 }
 
-/* 🖼️ 액자형 vs 📑 리스트형 스위처 */
+/* 🖼️ 액자형 vs 📑 리스트형 스위처 (음각 3D 트랙 & 양각 3D 토글) */
 .view-mode-switcher {
   display: inline-flex;
-  background-color: rgba(0, 0, 0, 0.45);
-  border: 1px solid var(--border-color);
+  background-color: #09090c;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-sm);
   padding: 2px;
   gap: 2px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .btn-view-toggle {
@@ -492,14 +516,15 @@ body {
 
 .btn-view-toggle:hover {
   color: var(--text-primary);
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.06);
 }
 
 .btn-view-toggle.active {
-  background-color: rgba(0, 240, 255, 0.12);
-  border-color: rgba(0, 240, 255, 0.45);
-  color: #00f0ff;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+  background: linear-gradient(180deg, #ffffff 0%, #d4d4d8 100%);
+  border-color: #ffffff;
+  color: #000000;
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 #ffffff, 0 3px 8px rgba(255, 255, 255, 0.35);
 }
 
 /* 🖼️ 1. 액자형 (Frame / Grid View) 모드 */
@@ -511,7 +536,7 @@ body {
   margin: 0 auto;
 }
 
-/* 📑 2. 리스트형 (List View) 모드 */
+/* 📑 2. 리스트형 (List View) 모드 - 입체적인 가로형 3D 타일 */
 .records-grid.view-list {
   display: flex;
   flex-direction: column;
@@ -524,8 +549,18 @@ body {
   padding: 0.85rem 1.2rem;
   min-height: 64px;
   border-radius: var(--radius-sm);
-  border-top-width: 1px;
+  border-top: 1px solid rgba(255, 255, 255, 0.32);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 2px solid #000000;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 8px 24px -4px rgba(0, 0, 0, 0.85);
   gap: 1rem;
+}
+
+.records-grid.view-list .record-card:hover {
+  transform: translateY(-4px) scale(1.008);
+  border-top-color: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 16px 36px -6px rgba(0, 0, 0, 0.95), 0 0 20px rgba(255, 255, 255, 0.18);
 }
 
 .records-grid.view-list .card-thumb-wrap {
@@ -536,7 +571,8 @@ body {
   overflow: hidden;
   margin-bottom: 0;
   border-bottom: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .records-grid.view-list .card-thumb-wrap img {
@@ -550,7 +586,7 @@ body {
   height: 50px;
   padding: 0;
   border-bottom: none;
-  border: 1px solid rgba(192, 132, 252, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 .records-grid.view-list .locked-thumb-backdrop {
@@ -644,13 +680,14 @@ body {
   white-space: nowrap;
 }
 
+/* 🧱 3D 양각 모노크롬 카드 (Sculpted 3D Monolith) */
 .record-card {
-  background: linear-gradient(180deg, rgba(16, 21, 32, 0.88) 0%, rgba(9, 12, 19, 0.94) 100%);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+  background: linear-gradient(180deg, rgba(28, 28, 34, 0.94) 0%, rgba(12, 12, 16, 0.98) 100%);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.38);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 2px solid #000000;
   border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
@@ -658,75 +695,76 @@ body {
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   position: relative;
-  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 16px 36px -8px rgba(0, 0, 0, 0.95), 0 0 1px 1px rgba(255, 255, 255, 0.05);
 }
 
 .record-card:hover {
-  background: linear-gradient(180deg, rgba(22, 28, 42, 0.92) 0%, rgba(12, 16, 26, 0.96) 100%);
-  border-top-color: rgba(0, 240, 255, 0.6);
-  border-left-color: rgba(0, 240, 255, 0.3);
-  border-right-color: rgba(0, 240, 255, 0.3);
-  transform: translateY(-5px) scale(1.01);
-  box-shadow: 0 22px 45px -10px rgba(0, 0, 0, 0.95), 0 0 22px rgba(0, 240, 255, 0.22);
+  background: linear-gradient(180deg, rgba(38, 38, 46, 0.96) 0%, rgba(18, 18, 22, 0.98) 100%);
+  border-top-color: #ffffff;
+  border-left-color: rgba(255, 255, 255, 0.35);
+  border-right-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-7px) scale(1.015);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 28px 55px -10px rgba(0, 0, 0, 1), 0 0 24px rgba(255, 255, 255, 0.22);
 }
 
 .record-card.is-private-card {
-  border-left: 3px solid var(--private-accent);
+  border-left: 3px solid #71717a;
 }
 
 .record-card.is-private-card:hover {
-  border-top-color: rgba(192, 132, 252, 0.6);
-  border-left-color: var(--private-accent);
-  border-right-color: rgba(192, 132, 252, 0.3);
-  box-shadow: 0 22px 45px -10px rgba(0, 0, 0, 0.95), 0 0 22px rgba(192, 132, 252, 0.22);
+  border-top-color: #ffffff;
+  border-left-color: #a1a1aa;
+  border-right-color: rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 28px 55px -10px rgba(0, 0, 0, 1), 0 0 22px rgba(255, 255, 255, 0.18);
 }
 
-/* 🔒 방문객에게 보이는 Private 기록 흐림(Blur) 및 구분 스타일 */
+/* 🔒 방문객에게 보이는 Private 기록 흐림(Blur) 및 모노크롬 매트 구분 스타일 */
 .record-card.is-guest-private {
-  opacity: 0.62;
-  filter: contrast(88%) brightness(85%);
-  border: 1px dashed rgba(192, 132, 252, 0.38);
-  border-left: 3px solid rgba(192, 132, 252, 0.7);
-  background: linear-gradient(180deg, rgba(16, 12, 26, 0.7) 0%, rgba(8, 6, 15, 0.85) 100%);
-  box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.85);
+  opacity: 0.6;
+  filter: contrast(90%) brightness(82%);
+  border: 1px dashed rgba(255, 255, 255, 0.26);
+  border-left: 3px solid #52525b;
+  background: linear-gradient(180deg, rgba(18, 18, 22, 0.75) 0%, rgba(9, 9, 12, 0.9) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 10px 24px -6px rgba(0, 0, 0, 0.85);
 }
 
 .record-card.is-guest-private:hover {
   opacity: 0.88;
   filter: none;
-  transform: translateY(-3px) scale(1.008);
-  border-top-color: rgba(192, 132, 252, 0.65);
-  border-left-color: #c084fc;
-  border-right-color: rgba(192, 132, 252, 0.35);
-  box-shadow: 0 18px 38px -8px rgba(0, 0, 0, 0.95), 0 0 22px rgba(192, 132, 252, 0.28);
+  transform: translateY(-4px) scale(1.01);
+  border-top-color: rgba(255, 255, 255, 0.5);
+  border-left-color: #a1a1aa;
+  border-right-color: rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 20px 42px -8px rgba(0, 0, 0, 0.95), 0 0 20px rgba(255, 255, 255, 0.15);
 }
 
 .record-card.is-guest-private .card-title {
-  color: #dfcefa;
+  color: #e4e4e7;
 }
 
 .record-card.is-guest-private .card-excerpt {
   filter: blur(2.5px);
   user-select: none;
-  color: #c084fc;
+  color: #a1a1aa;
   opacity: 0.65;
   letter-spacing: 0.5px;
 }
 
 .badge-private-locked {
-  background: rgba(192, 132, 252, 0.12) !important;
-  border-color: rgba(192, 132, 252, 0.45) !important;
-  color: #c084fc !important;
-  box-shadow: 0 0 8px rgba(192, 132, 252, 0.2) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  color: #d4d4d8 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 8px rgba(255, 255, 255, 0.1) !important;
 }
 
 .card-thumb-locked {
   height: 110px;
-  background: linear-gradient(135deg, rgba(192, 132, 252, 0.08) 0%, rgba(4, 5, 8, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.88) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid rgba(192, 132, 252, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .locked-thumb-backdrop {
@@ -734,12 +772,12 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
-  color: rgba(192, 132, 252, 0.75);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .locked-thumb-icon {
   font-size: 1.6rem;
-  filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.4));
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
 }
 
 .locked-thumb-text {
@@ -747,16 +785,16 @@ body {
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #c084fc;
+  color: #e4e4e7;
 }
 
 .card-thumb-wrap {
   position: relative;
   width: 100%;
   height: 180px;
-  background-color: #04060a;
+  background-color: #050507;
   overflow: hidden;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card-thumb-img {
@@ -774,15 +812,16 @@ body {
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background-color: rgba(4, 6, 10, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(6px);
   color: #fff;
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   padding: 2px 7px;
   border-radius: var(--radius-sm);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 .card-body {
@@ -807,40 +846,41 @@ body {
 }
 
 .badge-category {
-  background-color: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   color: var(--text-secondary);
   font-family: var(--font-mono);
   padding: 2px 7px;
   border-radius: var(--radius-sm);
   font-size: 0.75rem;
   font-weight: 600;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .badge-private {
-  background-color: rgba(192, 132, 252, 0.1);
-  color: var(--private-accent);
-  border: 1px solid rgba(192, 132, 252, 0.35);
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #a1a1aa;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   padding: 2px 7px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 0.72rem;
   letter-spacing: 0.3px;
-  box-shadow: 0 0 8px rgba(192, 132, 252, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .badge-public {
-  background-color: rgba(0, 240, 255, 0.08);
-  color: #00f0ff;
-  border: 1px solid rgba(0, 240, 255, 0.35);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   padding: 2px 7px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.72rem;
   letter-spacing: 0.3px;
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 0 8px rgba(255, 255, 255, 0.15);
 }
 
 .card-date {
@@ -877,7 +917,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding-top: 0.75rem;
   font-size: 0.8rem;
 }
@@ -899,16 +939,17 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  background-color: rgba(0, 240, 255, 0.06);
-  border: 1px solid rgba(0, 240, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   padding: 2px 7px;
   border-radius: var(--radius-sm);
-  color: #00f0ff;
+  color: #ffffff;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 600;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
-/* 5. 기록 상세 보기 뷰 */
+/* 5. 기록 상세 보기 뷰 (3D 모놀리스 디테일 카드) */
 .record-detail-view {
   max-width: 860px;
   margin: 0 auto;
@@ -922,21 +963,24 @@ body {
 }
 
 .btn-back {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
+  background: linear-gradient(180deg, #24242a 0%, #151518 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   color: var(--text-secondary);
-  padding: 8px 14px;
+  padding: 8px 15px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 3px 8px rgba(0, 0, 0, 0.6);
   transition: var(--transition);
 }
 
 .btn-back:hover {
-  color: #00f0ff;
-  border-color: rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 0 14px rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
 }
 
 .detail-admin-actions {
@@ -949,48 +993,53 @@ body {
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   border: 1px solid transparent;
   transition: var(--transition);
 }
 
 .btn-edit {
-  background-color: rgba(0, 240, 255, 0.1);
-  border-color: rgba(0, 240, 255, 0.35);
-  color: #00f0ff;
+  background: linear-gradient(180deg, #ffffff 0%, #d4d4d8 100%);
+  border-color: #ffffff;
+  color: #000000;
+  box-shadow: inset 0 1px 0 #ffffff, 0 3px 10px rgba(255, 255, 255, 0.3);
 }
 
 .btn-edit:hover {
-  background-color: rgba(0, 240, 255, 0.2);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
+  background: #ffffff;
+  box-shadow: inset 0 1px 0 #ffffff, 0 5px 16px rgba(255, 255, 255, 0.45);
+  transform: translateY(-1px);
 }
 
 .btn-delete {
-  background-color: rgba(255, 77, 77, 0.1);
-  border-color: rgba(255, 77, 77, 0.35);
-  color: #ff6b6b;
+  background: linear-gradient(180deg, #3f3f46 0%, #27272a 100%);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 3px 8px rgba(0, 0, 0, 0.6);
 }
 
 .btn-delete:hover {
-  background-color: rgba(255, 77, 77, 0.2);
-  box-shadow: 0 0 12px rgba(255, 77, 77, 0.35);
+  background: linear-gradient(180deg, #52525b 0%, #3f3f46 100%);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 5px 12px rgba(0, 0, 0, 0.8);
+  transform: translateY(-1px);
 }
 
 .record-detail-card {
-  background: linear-gradient(180deg, rgba(16, 21, 32, 0.94) 0%, rgba(9, 12, 19, 0.98) 100%);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.22);
-  border-left: 1px solid rgba(255, 255, 255, 0.09);
-  border-right: 1px solid rgba(255, 255, 255, 0.09);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.85);
+  background: linear-gradient(180deg, rgba(24, 24, 28, 0.96) 0%, rgba(10, 10, 12, 0.98) 100%);
+  backdrop-filter: blur(24px);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 2px solid #000000;
   border-radius: var(--radius-lg);
   padding: 2.25rem;
-  box-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 240, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 32px 75px -12px rgba(0, 0, 0, 1), 0 0 35px rgba(255, 255, 255, 0.08);
 }
 
 .detail-header {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   padding-bottom: 1.5rem;
   margin-bottom: 1.75rem;
 }
@@ -1007,7 +1056,8 @@ body {
   font-weight: 800;
   line-height: 1.3;
   margin-bottom: 0.75rem;
-  color: #f8fafc;
+  color: #ffffff;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
 }
 
 .detail-tags-row {
@@ -1017,13 +1067,15 @@ body {
 }
 
 .tag-pill {
-  background-color: rgba(0, 240, 255, 0.08);
-  border: 1px solid rgba(0, 240, 255, 0.25);
-  color: #00f0ff;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
   font-family: var(--font-mono);
   padding: 3px 9px;
   border-radius: var(--radius-sm);
   font-size: 0.78rem;
+  font-weight: 600;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 /* 📷 갤러리 섹션 */
@@ -1040,7 +1092,8 @@ body {
   border-radius: var(--radius-md);
   overflow: hidden;
   cursor: pointer;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 8px 20px rgba(0, 0, 0, 0.7);
 }
 
 .gallery-photo-img {
@@ -1056,11 +1109,12 @@ body {
 
 /* 📁 첨부 파일 섹션 */
 .detail-files-section {
-  background-color: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--border-color);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-md);
   padding: 1.25rem;
   margin-bottom: 2rem;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .files-section-title {
@@ -1084,19 +1138,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
+  background: linear-gradient(180deg, #1e1e24 0%, #121215 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--radius-sm);
   padding: 10px 14px;
   text-decoration: none;
   color: inherit;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 4px 10px rgba(0, 0, 0, 0.6);
   transition: var(--transition);
 }
 
 .attached-file-download-card:hover {
-  background-color: var(--bg-card-hover);
-  border-color: #00f0ff;
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+  background: linear-gradient(180deg, #2a2a32 0%, #1a1a1f 100%);
+  border-color: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 8px 22px rgba(0, 0, 0, 0.85), 0 0 15px rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
 
@@ -1133,7 +1188,7 @@ body {
 }
 
 .file-card-dl-icon {
-  color: var(--accent);
+  color: #ffffff;
   font-size: 1rem;
   margin-left: 0.5rem;
 }
@@ -1142,7 +1197,7 @@ body {
 .detail-body {
   font-size: 1.05rem;
   line-height: 1.85;
-  color: #e5e7eb;
+  color: #e4e4e7;
 }
 
 .detail-body p {
@@ -1164,28 +1219,29 @@ body {
 }
 
 .detail-body mark {
-  background-color: rgba(234, 179, 8, 0.25);
-  color: #fef08a;
-  padding: 2px 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 2px 6px;
   border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* 💻 코드 블록 및 인라인 코드 스타일 */
+/* 💻 3D 음각 코드 블록 및 인라인 코드 스타일 */
 .code-block-container {
-  background-color: #05070a;
-  border: 1px solid rgba(0, 240, 255, 0.22);
+  background-color: #050508;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius-sm);
   margin: 1.25rem 0;
   overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 240, 255, 0.08);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9), 0 8px 24px rgba(0, 0, 0, 0.8);
 }
 
 .code-block-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #080b11;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #0b0b0e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 6px 14px;
 }
 
@@ -1193,18 +1249,18 @@ body {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
-  color: #00f0ff;
+  color: #ffffff;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  background-color: rgba(0, 240, 255, 0.08);
-  border: 1px solid rgba(0, 240, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   padding: 1px 6px;
   border-radius: var(--radius-sm);
 }
 
 .btn-copy-code {
-  background-color: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, #24242a 0%, #151518 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   color: var(--text-secondary);
   padding: 3px 9px;
   border-radius: var(--radius-sm);
@@ -1212,21 +1268,23 @@ body {
   font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
   transition: all 0.15s ease;
 }
 
 .btn-copy-code:hover {
-  background-color: rgba(0, 240, 255, 0.1);
-  color: #00f0ff;
-  border-color: rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+  background: linear-gradient(180deg, #303038 0%, #1e1e24 100%);
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .btn-copy-code.copied {
-  background-color: rgba(0, 255, 170, 0.15);
-  border-color: #00ffaa;
-  color: #00ffaa;
-  box-shadow: 0 0 10px rgba(0, 255, 170, 0.3);
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+  font-weight: 800;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
 }
 
 .code-pre {
@@ -1241,14 +1299,14 @@ body {
 
 .code-content {
   font-family: inherit;
-  color: #f1f5f9;
+  color: #f4f4f5;
   white-space: pre;
 }
 
 .inline-code {
-  background-color: rgba(0, 240, 255, 0.08);
-  color: #00f0ff;
-  border: 1px solid rgba(0, 240, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   padding: 2px 6px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
@@ -1256,17 +1314,17 @@ body {
 }
 
 .btn-tb-code {
-  color: #00f0ff !important;
+  color: #ffffff !important;
   font-family: var(--font-mono);
   font-weight: 700;
 }
 
-/* 6. 모달 다이얼로그 (작성 & 인증) */
+/* 6. 모달 다이얼로그 (3D 모놀리스 작성 & 인증 모달) */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(4, 5, 8, 0.85);
-  backdrop-filter: blur(12px);
+  background-color: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(14px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1275,14 +1333,14 @@ body {
 }
 
 .modal-dialog {
-  background: linear-gradient(180deg, rgba(14, 18, 28, 0.96) 0%, rgba(8, 11, 18, 0.98) 100%);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(0, 240, 255, 0.45);
-  border-left: 1px solid rgba(0, 240, 255, 0.2);
-  border-right: 1px solid rgba(0, 240, 255, 0.2);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.9);
+  background: linear-gradient(180deg, rgba(22, 22, 26, 0.97) 0%, rgba(10, 10, 12, 0.99) 100%);
+  backdrop-filter: blur(24px);
+  border-top: 1px solid rgba(255, 255, 255, 0.45);
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 2px solid #000000;
   border-radius: var(--radius-lg);
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.98), 0 0 40px rgba(0, 240, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 35px 85px rgba(0, 0, 0, 0.98), 0 0 40px rgba(255, 255, 255, 0.1);
   width: 100%;
 }
 
@@ -1310,10 +1368,10 @@ body {
 }
 
 .write-modal-dialog {
-  max-width: 1360px;
-  width: 95vw;
-  height: 92vh;
-  max-height: 92vh;
+  max-width: 1560px;
+  width: 96vw;
+  height: 94vh;
+  max-height: 94vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -1321,8 +1379,8 @@ body {
 
 .modal-header {
   padding: 0.9rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-  background: rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1339,7 +1397,7 @@ body {
   font-family: var(--font-mono);
   font-size: 1.15rem;
   font-weight: 700;
-  color: #f8fafc;
+  color: #ffffff;
   letter-spacing: -0.3px;
 }
 
@@ -1350,8 +1408,8 @@ body {
   justify-content: center;
   width: 34px;
   height: 34px;
-  background-color: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   font-size: 1.1rem;
@@ -1363,10 +1421,10 @@ body {
 }
 
 .btn-modal-close:hover {
-  background-color: var(--danger-light);
-  border-color: rgba(255, 77, 77, 0.55);
-  color: #ff6b6b;
-  box-shadow: 0 0 12px rgba(255, 77, 77, 0.35);
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.4);
   transform: rotate(90deg) scale(1.05);
 }
 
@@ -1376,25 +1434,26 @@ body {
 
 /* ⚡ 실시간 분할 뷰 안내 배지 */
 .modal-split-pill {
-  background-color: rgba(0, 240, 255, 0.08);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  color: #00f0ff;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   padding: 3px 8px;
   border-radius: var(--radius-sm);
   letter-spacing: 0.3px;
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
 }
 
 /* 작성 모드 토글 (호환성 유지) */
 .modal-view-mode-toggle {
   display: inline-flex;
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--border-color);
+  background-color: #09090c;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-sm);
   padding: 2px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .btn-mode-toggle {
@@ -1415,10 +1474,10 @@ body {
 }
 
 .btn-mode-toggle.active {
-  background-color: #00f0ff;
-  color: #05070a;
-  font-weight: 700;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 800;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
 }
 
 /* 🚀 일체형 2열 동시 분할 바디 (한 화면에 에디터 & 미리보기 동시 표시) */
@@ -1430,24 +1489,14 @@ body {
   overflow: hidden;
 }
 
-.write-modal-dialog {
-  max-width: 1560px;
-  width: 96vw;
-  height: 94vh;
-  max-height: 94vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
 /* 좌측: 에디터 칼럼 */
 .modal-col-editor {
   overflow-y: auto;
-  border-right: 1px solid var(--border-color);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   flex-direction: column;
   min-height: 0;
-  background-color: rgba(5, 7, 11, 0.5);
+  background-color: rgba(5, 5, 8, 0.6);
 }
 
 .record-form {
@@ -1463,15 +1512,15 @@ body {
 .modal-col-preview {
   display: flex;
   flex-direction: column;
-  background-color: rgba(2, 4, 7, 0.65);
+  background-color: rgba(2, 2, 4, 0.75);
   min-height: 0;
   overflow: hidden;
 }
 
 .preview-header {
   padding: 0.75rem 1.25rem;
-  border-bottom: 1px solid var(--border-color);
-  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background-color: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1485,15 +1534,16 @@ body {
 }
 
 .preview-badge {
-  background: linear-gradient(135deg, #00f0ff 0%, #00ffaa 100%);
-  color: #05070a;
+  background: linear-gradient(180deg, #ffffff 0%, #d4d4d8 100%);
+  color: #000000;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   font-weight: 800;
-  padding: 2px 6px;
+  padding: 2px 7px;
   border-radius: var(--radius-sm);
   letter-spacing: 0.5px;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.35);
+  border: 1px solid #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
 }
 
 .preview-title-sub {
@@ -1509,7 +1559,7 @@ body {
 
 .preview-tab {
   background: transparent;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   color: var(--text-muted);
   padding: 4px 10px;
   border-radius: var(--radius-sm);
@@ -1522,14 +1572,14 @@ body {
 
 .preview-tab:hover {
   color: var(--text-primary);
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .preview-tab.active {
-  background-color: rgba(0, 240, 255, 0.12);
-  border-color: #00f0ff;
-  color: #00f0ff;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
 }
 
 .preview-scroll-pane {
@@ -1548,11 +1598,11 @@ body {
 }
 
 .live-preview-detail {
-  background: linear-gradient(180deg, #0d1017 0%, #080a10 100%);
-  border: 1px solid var(--border-color);
+  background: linear-gradient(180deg, #121216 0%, #08080a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-md);
   padding: 1.75rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), var(--shadow-sm);
 }
 
 .live-preview-card {
@@ -1595,14 +1645,15 @@ body {
   flex-direction: column;
 }
 
-/* 🔒 컴팩트형 공개 / 비공개 세그먼트 스위치 */
+/* 🔒 컴팩트형 공개 / 비공개 세그먼트 스위치 (3D 트랙 & 3D 토글) */
 .visibility-switch-box-compact {
   display: inline-flex;
-  background-color: rgba(0, 0, 0, 0.45);
-  border: 1px solid var(--border-color);
+  background-color: #09090c;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-sm);
   padding: 2px;
   gap: 2px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .visibility-option-compact {
@@ -1626,21 +1677,22 @@ body {
 
 .visibility-option-compact:hover {
   color: var(--text-primary);
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: rgba(255, 255, 255, 0.06);
 }
 
 .visibility-option-compact.active {
-  background-color: rgba(0, 240, 255, 0.12);
-  color: #00f0ff;
-  border-color: rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+  background: linear-gradient(180deg, #ffffff 0%, #d4d4d8 100%);
+  color: #000000;
+  border-color: #ffffff;
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 #ffffff, 0 2px 8px rgba(255, 255, 255, 0.3);
 }
 
 .visibility-option-compact#labelPrivate.active {
-  background-color: rgba(192, 132, 252, 0.14);
-  color: #c084fc;
-  border-color: rgba(192, 132, 252, 0.45);
-  box-shadow: 0 0 10px rgba(192, 132, 252, 0.22);
+  background: linear-gradient(180deg, #3f3f46 0%, #27272a 100%);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 /* 컴팩트 첨부 버튼 그리드 */
@@ -1656,23 +1708,24 @@ body {
   justify-content: center;
   gap: 0.4rem;
   padding: 6px 10px;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border: 1px dashed rgba(255, 255, 255, 0.25);
   border-radius: var(--radius-sm);
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.4);
   cursor: pointer;
   transition: var(--transition);
   position: relative;
   font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--text-secondary);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .drop-zone-compact:hover,
 .drop-zone-compact.dragover {
-  border-color: #00f0ff;
-  background-color: rgba(0, 240, 255, 0.08);
-  color: #00f0ff;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+  border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
 }
 
 .drop-zone-compact .drop-icon {
@@ -1692,6 +1745,7 @@ body {
   min-height: 280px;
 }
 
+/* 📝 3D 음각 텍스트에어리어 */
 .record-textarea {
   flex: 1;
   min-height: 240px;
@@ -1701,36 +1755,50 @@ body {
   font-size: 0.92rem;
   line-height: 1.6;
   padding: 12px 14px;
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.85), 0 1px 0 rgba(255, 255, 255, 0.08);
+  outline: none;
+  transition: var(--transition);
+}
+
+.record-textarea:focus {
+  border-color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.75);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.85), 0 0 0 1px #ffffff, 0 0 16px rgba(255, 255, 255, 0.35);
 }
 
 .form-label {
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 0.4rem;
   color: var(--text-secondary);
   letter-spacing: 0.3px;
 }
 
+/* 📝 3D 음각 폼 컨트롤 */
 .form-control {
-  background-color: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--border-color);
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-sm);
   padding: 9px 12px;
   color: var(--text-primary);
   font-size: 0.92rem;
   outline: none;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.85), 0 1px 0 rgba(255, 255, 255, 0.08);
   transition: var(--transition);
 }
 
 .form-control:focus {
-  border-color: #00f0ff;
-  background-color: rgba(0, 0, 0, 0.55);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
+  border-color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.75);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.85), 0 0 0 1px #ffffff, 0 0 16px rgba(255, 255, 255, 0.35);
 }
 
-/* 🔒 공개 / 비공개 세그먼트 스위치 */
+/* 🔒 공개 / 비공개 세그먼트 스위치 (3D 입체) */
 .visibility-switch-box {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1741,11 +1809,12 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  background-color: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--border-color);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-sm);
   padding: 12px 14px;
   cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 6px rgba(0, 0, 0, 0.5);
   transition: var(--transition);
 }
 
@@ -1776,23 +1845,33 @@ body {
 }
 
 .visibility-option.active {
-  background-color: rgba(0, 240, 255, 0.08);
-  border-color: #00f0ff;
-  box-shadow: 0 0 14px rgba(0, 240, 255, 0.2);
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  border-color: #ffffff;
+  box-shadow: inset 0 1px 0 #ffffff, 0 4px 16px rgba(255, 255, 255, 0.3);
 }
 
 .visibility-option.active strong {
-  color: #00f0ff;
+  color: #000000;
+  font-weight: 800;
+}
+
+.visibility-option.active small {
+  color: #3f3f46;
 }
 
 .visibility-option#labelPrivate.active {
-  background-color: rgba(192, 132, 252, 0.1);
-  border-color: var(--private-accent);
-  box-shadow: 0 0 14px rgba(192, 132, 252, 0.22);
+  background: linear-gradient(180deg, #3f3f46 0%, #27272a 100%);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 4px 16px rgba(0, 0, 0, 0.85);
 }
 
 .visibility-option#labelPrivate.active strong {
-  color: #c084fc;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.visibility-option#labelPrivate.active small {
+  color: #d4d4d8;
 }
 
 /* 태그 뱃지 */
@@ -1804,22 +1883,24 @@ body {
 }
 
 .modal-tag-chip {
-  background-color: rgba(0, 240, 255, 0.08);
-  border: 1px solid rgba(0, 240, 255, 0.25);
-  color: #00f0ff;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
   font-family: var(--font-mono);
   border-radius: var(--radius-sm);
   padding: 3px 8px;
   font-size: 0.78rem;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .modal-tag-chip button {
   background: transparent;
   border: none;
-  color: rgba(0, 240, 255, 0.7);
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   font-size: 0.85rem;
   line-height: 1;
@@ -1827,7 +1908,7 @@ body {
 }
 
 .modal-tag-chip button:hover {
-  color: #ff4d4d;
+  color: #ffffff;
 }
 
 /* 업로드 드롭존 */
@@ -1845,20 +1926,21 @@ body {
 }
 
 .drop-zone {
-  border: 1px dashed rgba(255, 255, 255, 0.16);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-sm);
   padding: 1.25rem;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.4);
   cursor: pointer;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
   transition: var(--transition);
   position: relative;
 }
 
 .drop-zone:hover, .drop-zone.dragover {
-  border-color: #00f0ff;
-  background-color: rgba(0, 240, 255, 0.05);
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.15);
+  border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
 }
 
 .file-hidden-input {
@@ -1896,7 +1978,8 @@ body {
   height: 80px;
   border-radius: var(--radius-sm);
   overflow: hidden;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .thumb-preview-item img {
@@ -1909,8 +1992,8 @@ body {
   position: absolute;
   top: 4px;
   right: 4px;
-  background-color: rgba(4, 6, 10, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: var(--text-secondary);
   width: 22px;
   height: 22px;
@@ -1925,9 +2008,9 @@ body {
 }
 
 .btn-remove-thumb:hover {
-  background-color: var(--danger-light);
-  border-color: rgba(255, 77, 77, 0.6);
-  color: #ff6b6b;
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
   transform: rotate(90deg);
 }
 
@@ -1942,17 +2025,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.35);
-  border: 1px solid var(--border-color);
+  background: linear-gradient(180deg, #18181c 0%, #0e0e12 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-sm);
   padding: 6px 12px;
   font-size: 0.85rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .btn-remove-file {
   background: transparent;
   border: 1px solid transparent;
-  color: #ff6b6b;
+  color: #a1a1aa;
   border-radius: var(--radius-sm);
   cursor: pointer;
   font-weight: 700;
@@ -1961,8 +2045,9 @@ body {
 }
 
 .btn-remove-file:hover {
-  background-color: var(--danger-light);
-  border-color: rgba(255, 77, 77, 0.4);
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
 }
 
 /* 에디터 툴바 */
@@ -1970,10 +2055,11 @@ body {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  background-color: rgba(0, 0, 0, 0.35);
-  border: 1px solid var(--border-color);
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-sm);
   padding: 6px 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .btn-tb {
@@ -1991,22 +2077,23 @@ body {
 .btn-tb:hover {
   background-color: rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .tb-divider {
   width: 1px;
   height: 16px;
-  background-color: var(--border-color);
+  background-color: rgba(255, 255, 255, 0.12);
   margin: 0 4px;
 }
 
 .font-stepper-box {
   display: inline-flex;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--border-color);
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-sm);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 .btn-step {
@@ -2021,14 +2108,14 @@ body {
 }
 
 .btn-step:hover {
-  color: #00f0ff;
+  color: #ffffff;
 }
 
 .step-num-input {
   width: 32px;
   background: transparent;
   border: none;
-  color: #00f0ff;
+  color: #ffffff;
   font-family: var(--font-mono);
   text-align: center;
   font-size: 0.82rem;
@@ -2043,11 +2130,6 @@ body {
   padding-right: 4px;
 }
 
-.record-textarea {
-  font-family: inherit;
-  resize: vertical;
-}
-
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -2056,22 +2138,24 @@ body {
 }
 
 .btn-cancel {
-  background: transparent;
-  border: 1px solid var(--border-color);
+  background: linear-gradient(180deg, #24242a 0%, #151518 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   color: var(--text-secondary);
   padding: 8px 16px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 3px 8px rgba(0, 0, 0, 0.6);
   transition: var(--transition);
 }
 
 .btn-cancel:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-  color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(180deg, #303038 0%, #1e1e24 100%);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 12px rgba(0, 0, 0, 0.75);
 }
 
 /* 7. 라이트박스 */
@@ -2087,8 +2171,8 @@ body {
 .lightbox-backdrop {
   position: absolute;
   inset: 0;
-  background-color: rgba(4, 5, 8, 0.92);
-  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.94);
+  backdrop-filter: blur(14px);
 }
 
 .lightbox-dialog {
@@ -2102,8 +2186,8 @@ body {
   max-width: 100%;
   max-height: 90vh;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.95), 0 0 30px rgba(0, 240, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.98), 0 0 35px rgba(255, 255, 255, 0.25);
 }
 
 /* ❌ 라이트박스 사이버네틱 닫기 버튼 */
@@ -2116,8 +2200,8 @@ body {
   justify-content: center;
   width: 38px;
   height: 38px;
-  background-color: rgba(6, 8, 12, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background-color: rgba(12, 12, 16, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   font-size: 1.15rem;
@@ -2125,14 +2209,15 @@ body {
   cursor: pointer;
   transition: var(--transition);
   backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 15px rgba(0, 0, 0, 0.8);
   outline: none;
 }
 
 .lightbox-close:hover {
-  background-color: var(--danger-light);
-  border-color: rgba(255, 77, 77, 0.6);
-  color: #ff6b6b;
-  box-shadow: 0 0 14px rgba(255, 77, 77, 0.45);
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.5);
   transform: rotate(90deg) scale(1.08);
 }
 
@@ -2149,16 +2234,16 @@ body {
 }
 
 .toast-msg {
-  background-color: rgba(8, 11, 17, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 240, 255, 0.25);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 240, 255, 0.15);
-  color: #f8fafc;
+  background: linear-gradient(180deg, #202026 0%, #101014 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 12px 36px rgba(0, 0, 0, 0.9), 0 0 18px rgba(255, 255, 255, 0.18);
+  color: #ffffff;
   font-family: var(--font-mono);
   padding: 10px 18px;
   border-radius: var(--radius-sm);
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -2177,8 +2262,8 @@ body {
 .spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid rgba(255, 255, 255, 0.1);
-  border-top-color: var(--accent);
+  border: 3px solid rgba(255, 255, 255, 0.12);
+  border-top-color: #ffffff;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 0 auto 1rem;
