@@ -1,39 +1,45 @@
 /* ==========================================================================
    Personal Record Hub - Master Stylesheet
-   🏛️ ARCHITECTURAL 3D MONOLITH (Pure Monochrome & Sculpted Tactile Depth)
+   🏛️ OFF-WHITE ARCHITECTURAL 3D & ULTRA-CONTRAST PUBLIC/PRIVATE SYSTEM
    ========================================================================== */
 
 :root {
-  /* 🖤 흑백 모놀리스 팔레트 */
-  --bg-void: #050507;
-  --bg-primary: #0a0b0e;
-  --bg-surface: #101216;
-  --bg-card: #15171d;
-  --bg-card-hover: #1c1e26;
-  --bg-modal: #0d0e12;
-  --bg-recessed: #060709;
+  /* 🏛️ 너무 밝지 않은 은은한 오프화이트 배경 팔레트 */
+  --bg-void: #ebeef2;           /* 눈이 편안한 소프트 티타늄 오프화이트 베이스 */
+  --bg-primary: #f0f2f6;        /* 보조 오프화이트 배경 */
+  --bg-surface: #f8fafc;        /* 상단 헤더 및 서피스 */
+  --bg-recessed: #e2e6eb;       /* 음각 파인 3D 트랙 */
+  
+  /* 🌐 PUBLIC 기록: 순백의 입체 3D 갤러리 액자 */
+  --bg-card-public: #ffffff;
+  --border-card-public: #ffffff;
+  --outline-card-public: rgba(0, 0, 0, 0.1);
+  --shadow-card-public: 0 4px 0 #cbd5e1, 0 14px 30px -4px rgba(15, 23, 42, 0.1);
+  
+  /* 🔒 PRIVATE 기록: 묵직한 딥 옵시디언 볼트(금고) 3D 액자 */
+  --bg-card-private: #14161c;
+  --border-card-private: #22252e;
+  --outline-card-private: rgba(255, 255, 255, 0.15);
+  --shadow-card-private: 0 4px 0 #090a0d, 0 16px 36px -4px rgba(0, 0, 0, 0.45);
 
-  /* ⚡ 3D 마퀴 & 메탈릭 에지 보더 */
-  --border-subtle: rgba(255, 255, 255, 0.1);
-  --border-medium: rgba(255, 255, 255, 0.2);
-  --border-strong: rgba(255, 255, 255, 0.4);
-  --border-solid: #ffffff;
-  --border-dark: #000000;
+  --bg-modal: #ffffff;
 
   /* 🔤 흑백 하이 콘트라스트 타이포그래피 */
-  --text-primary: #ffffff;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
-  --text-dark: #000000;
+  --text-primary: #0f172a;      /* 진한 차콜 블랙 */
+  --text-secondary: #475569;    /* 슬레이트 그레이 */
+  --text-muted: #94a3b8;        /* 뮤트 그레이 */
+  --text-white: #ffffff;
 
-  /* 💎 3D 압출(Extrusion) & 림 섀도우 시스템 */
-  --bevel-light: inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  --bevel-recessed: inset 0 2px 6px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.08);
-  --depth-card: 0 4px 0 #000000, 0 14px 30px -4px rgba(0, 0, 0, 0.95);
-  --depth-card-hover: 0 8px 0 #000000, 0 26px 55px -6px rgba(0, 0, 0, 0.98), 0 0 22px rgba(255, 255, 255, 0.15);
-  --depth-btn: 0 3px 0 #000000, 0 6px 14px rgba(0, 0, 0, 0.6);
-  --depth-btn-hover: 0 5px 0 #000000, 0 10px 20px rgba(0, 0, 0, 0.8);
-  --depth-btn-active: 0 1px 0 #000000, 0 2px 4px rgba(0, 0, 0, 0.9);
+  /* ⚡ 3D 보더 & 베벨 */
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-medium: #cbd5e1;
+  --border-strong: #94a3b8;
+  --border-solid: #0f172a;
+
+  /* 💎 3D 물리적 압출 버튼 섀도우 */
+  --depth-btn: 0 3px 0 #cbd5e1, 0 6px 14px rgba(15, 23, 42, 0.08);
+  --depth-btn-hover: 0 5px 0 #94a3b8, 0 10px 20px rgba(15, 23, 42, 0.14);
+  --depth-btn-active: 0 1px 0 #cbd5e1, 0 2px 4px rgba(15, 23, 42, 0.1);
 
   /* 📐 3D 라디우스 */
   --radius-xs: 4px;
@@ -71,7 +77,7 @@ body {
 }
 
 /* ==========================================================================
-   🏛️ 1. 아키텍처 스튜디오 입체 배경 (Architectural Gallery Studio)
+   🏛️ 1. 너무 밝지 않은 오프화이트 아키텍처 스튜디오 배경
    ========================================================================== */
 .cyber-spatial-backdrop {
   position: fixed;
@@ -82,40 +88,37 @@ body {
   background-color: var(--bg-void);
 }
 
-/* 상단 메인 스포트라이트 (전시관 조명 느낌) */
+/* 상단 은은한 화이트 앰비언트 광원 */
 .cyber-ambient-light {
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(ellipse 75% 45% at 50% -8%, rgba(255, 255, 255, 0.14) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+    radial-gradient(ellipse 80% 50% at 50% -5%, #ffffff 0%, rgba(255, 255, 255, 0.5) 45%, transparent 80%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(220, 226, 234, 0.7) 0%, transparent 65%);
 }
 
-/* 수평선 대신 은은한 중앙 입체 포커스 라인 */
 .cyber-horizon-glow {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent 5%, rgba(255, 255, 255, 0.3) 50%, transparent 95%);
+  background: linear-gradient(90deg, transparent 5%, rgba(0, 0, 0, 0.08) 50%, transparent 95%);
 }
 
 /* 정밀 아키텍처 도트 매트릭스 그리드 */
 .cyber-grid-3d {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
-  background-size: 26px 26px;
-  mask-image: radial-gradient(ellipse 90% 85% at 50% 30%, rgba(0,0,0,1) 0%, transparent 95%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 30%, rgba(0,0,0,1) 0%, transparent 95%);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.09) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
 }
 
-/* 심도 비네팅 */
+/* 자연스러운 외곽 소프트 비네팅 */
 .cyber-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 40%, transparent 40%, rgba(0, 0, 0, 0.88) 100%);
+  background: radial-gradient(circle at 50% 40%, transparent 45%, rgba(195, 203, 214, 0.35) 100%);
 }
 
 .app-header,
@@ -134,14 +137,14 @@ body {
    👑 2. 관리자 인디케이터 바
    ========================================================================== */
 .admin-indicator-bar {
-  background: #14151a;
+  background: #0f172a;
   color: #ffffff;
-  padding: 7px 16px;
+  padding: 8px 16px;
   font-family: var(--font-mono);
   font-size: 0.8rem;
   letter-spacing: 0.6px;
   border-bottom: 2px solid #000000;
-  box-shadow: var(--bevel-light), 0 4px 12px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
   text-align: center;
 }
 
@@ -154,10 +157,10 @@ body {
    🏛️ 3. 상단 헤더 HUD (3D Floating Monolith Bar)
    ========================================================================== */
 .app-header {
-  background: rgba(14, 15, 19, 0.94);
-  backdrop-filter: blur(20px);
-  border-bottom: 2px solid #000000;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 8px 24px rgba(0, 0, 0, 0.85);
+  background: rgba(248, 250, 252, 0.94);
+  backdrop-filter: blur(18px);
+  border-bottom: 2px solid #cbd5e1;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -183,22 +186,22 @@ body {
 
 /* 🏷️ 3D 양각 블록 브랜드 뱃지 */
 .brand-badge {
-  background: #ffffff;
-  color: #000000;
+  background: #0f172a;
+  color: #ffffff;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 900;
   padding: 4px 9px;
   border-radius: var(--radius-xs);
   letter-spacing: 1.2px;
-  border: 1px solid #ffffff;
-  box-shadow: 0 3px 0 #999999, 0 6px 12px rgba(0, 0, 0, 0.7);
+  border: 1px solid #0f172a;
+  box-shadow: 0 3px 0 #334155, 0 6px 12px rgba(15, 23, 42, 0.18);
   transition: var(--transition);
 }
 
 .brand-link:hover .brand-badge {
   transform: translateY(-1px);
-  box-shadow: 0 4px 0 #999999, 0 8px 16px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 0 #334155, 0 8px 16px rgba(15, 23, 42, 0.25);
 }
 
 .brand-title {
@@ -207,7 +210,7 @@ body {
   font-weight: 800;
   letter-spacing: -0.5px;
   white-space: nowrap;
-  color: #ffffff;
+  color: #0f172a;
 }
 
 .header-center {
@@ -234,7 +237,7 @@ body {
 /* 🔍 음각 3D 캐비티 검색창 */
 .search-input {
   width: 100%;
-  background-color: var(--bg-recessed);
+  background-color: #e2e6eb;
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-sm);
   padding: 9px 34px 9px 38px;
@@ -242,14 +245,14 @@ body {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   outline: none;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08), 0 1px 0 rgba(255, 255, 255, 0.8);
   transition: var(--transition);
 }
 
 .search-input:focus {
-  background-color: #000000;
-  border-color: #ffffff;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.9), 0 0 0 1px #ffffff, 0 0 18px rgba(255, 255, 255, 0.25);
+  background-color: #ffffff;
+  border-color: #0f172a;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px #0f172a, 0 0 14px rgba(15, 23, 42, 0.12);
 }
 
 .search-clear-btn {
@@ -266,7 +269,7 @@ body {
 }
 
 .search-clear-btn:hover {
-  color: #ffffff;
+  color: #0f172a;
 }
 
 .header-right {
@@ -277,9 +280,9 @@ body {
 
 /* 🔘 3D 양각 키캡 주 버튼 (글쓰기 등) */
 .btn-primary {
-  background: #ffffff;
-  color: #000000;
-  border: 1px solid #ffffff;
+  background: #0f172a;
+  color: #ffffff;
+  border: 1px solid #0f172a;
   padding: 8px 18px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
@@ -287,7 +290,7 @@ body {
   font-weight: 800;
   letter-spacing: 0.2px;
   cursor: pointer;
-  box-shadow: 0 4px 0 #999999, 0 8px 18px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 0 #334155, 0 8px 18px rgba(15, 23, 42, 0.2);
   transition: var(--transition);
   display: inline-flex;
   align-items: center;
@@ -295,37 +298,36 @@ body {
 }
 
 .btn-primary:hover {
-  background: #f4f4f5;
+  background: #1e293b;
   transform: translateY(-2px);
-  box-shadow: 0 6px 0 #999999, 0 12px 24px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 0 #334155, 0 12px 24px rgba(15, 23, 42, 0.25);
 }
 
 .btn-primary:active {
   transform: translateY(3px);
-  box-shadow: 0 1px 0 #999999, 0 3px 6px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 1px 0 #334155, 0 2px 4px rgba(15, 23, 42, 0.3);
 }
 
-/* 🔘 3D 메탈릭 보조 버튼 (로그인/로그아웃) */
+/* 🔘 3D 화이트 보조 버튼 (로그인/로그아웃) */
 .btn-admin-auth {
-  background: #18191f;
+  background: #ffffff;
   border: 1px solid var(--border-medium);
-  color: var(--text-secondary);
+  color: var(--text-primary);
   padding: 8px 16px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: var(--depth-btn), var(--bevel-light);
+  box-shadow: var(--depth-btn);
   transition: var(--transition);
 }
 
 .btn-admin-auth:hover {
-  background: #24252e;
-  color: #ffffff;
-  border-color: var(--border-solid);
+  background: #f8fafc;
+  border-color: #0f172a;
   transform: translateY(-2px);
-  box-shadow: var(--depth-btn-hover), var(--bevel-light);
+  box-shadow: var(--depth-btn-hover);
 }
 
 .btn-admin-auth:active {
@@ -334,10 +336,10 @@ body {
 }
 
 .btn-admin-auth.is-admin {
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
-  box-shadow: 0 3px 0 #999999, 0 6px 14px rgba(0, 0, 0, 0.8);
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+  box-shadow: 0 3px 0 #334155, 0 6px 14px rgba(15, 23, 42, 0.25);
 }
 
 /* ==========================================================================
@@ -363,14 +365,14 @@ body {
 .visibility-tabs {
   display: flex;
   gap: 0.65rem;
-  border-bottom: 2px solid #000000;
+  border-bottom: 2px solid var(--border-medium);
   padding-bottom: 0.75rem;
 }
 
-/* 🔘 3D 물리적 탭 스위치 */
+/* 🔘 3D 탭 스위치 */
 .tab-btn {
-  background: #131418;
-  border: 1px solid var(--border-subtle);
+  background: #ffffff;
+  border: 1px solid var(--border-medium);
   color: var(--text-secondary);
   padding: 8px 16px;
   border-radius: var(--radius-sm);
@@ -379,13 +381,13 @@ body {
   font-weight: 700;
   letter-spacing: 0.3px;
   cursor: pointer;
-  box-shadow: var(--depth-btn), var(--bevel-light);
+  box-shadow: var(--depth-btn);
   transition: var(--transition);
 }
 
 .tab-btn:hover {
-  color: #ffffff;
-  border-color: var(--border-medium);
+  color: var(--text-primary);
+  border-color: #0f172a;
   transform: translateY(-2px);
   box-shadow: var(--depth-btn-hover);
 }
@@ -396,18 +398,19 @@ body {
 }
 
 .tab-btn.active {
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
   font-weight: 900;
-  box-shadow: 0 3px 0 #888888, 0 6px 16px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 3px 0 #334155, 0 6px 16px rgba(15, 23, 42, 0.25);
 }
 
+/* 🔒 비공개 탭 활성화 시 볼트 다크 테마 */
 .tab-btn.tab-private.active {
-  background: #27272a;
+  background: #14161c;
   color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0 3px 0 #000000, 0 6px 16px rgba(0, 0, 0, 0.9);
+  border-color: #000000;
+  box-shadow: 0 3px 0 #000000, 0 8px 18px rgba(0, 0, 0, 0.4);
 }
 
 .category-pills {
@@ -418,33 +421,33 @@ body {
 
 /* 🔘 3D 필 버튼 */
 .pill-btn {
-  background: #111216;
-  border: 1px solid var(--border-subtle);
+  background: #ffffff;
+  border: 1px solid var(--border-medium);
   color: var(--text-secondary);
   padding: 6px 14px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 2px 0 #000000, inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 0 #cbd5e1, 0 2px 5px rgba(0, 0, 0, 0.04);
   transition: var(--transition);
 }
 
 .pill-btn:hover {
-  background: #1a1b22;
-  color: #ffffff;
-  border-color: var(--border-medium);
+  background: #f8fafc;
+  color: var(--text-primary);
+  border-color: #0f172a;
   transform: translateY(-1px);
-  box-shadow: 0 3px 0 #000000;
+  box-shadow: 0 3px 0 #94a3b8;
 }
 
 .pill-btn.active {
-  background: #ffffff;
-  border-color: #ffffff;
-  color: #000000;
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
   font-weight: 800;
-  box-shadow: 0 3px 0 #888888, 0 6px 14px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 3px 0 #334155, 0 6px 14px rgba(15, 23, 42, 0.2);
 }
 
 /* ==========================================================================
@@ -461,16 +464,17 @@ body {
   justify-content: space-between;
   margin-bottom: 1.5rem;
   font-size: 0.88rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .records-count-info strong {
-  color: #ffffff;
+  color: #0f172a;
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: 1.05rem;
+  font-weight: 800;
 }
 
-/* 🎚️ 3D 트랙 안의 물리적 슬라이더 스위처 */
+/* 🎚️ 3D 음각 트랙 안의 물리적 슬라이더 스위처 */
 .view-mode-switcher {
   display: inline-flex;
   background-color: var(--bg-recessed);
@@ -478,7 +482,7 @@ body {
   border-radius: var(--radius-sm);
   padding: 3px;
   gap: 3px;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.95), 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .btn-view-toggle {
@@ -499,19 +503,20 @@ body {
 
 .btn-view-toggle:hover {
   color: var(--text-primary);
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 .btn-view-toggle.active {
   background: #ffffff;
-  border-color: #ffffff;
-  color: #000000;
+  border-color: #cbd5e1;
+  color: #0f172a;
   font-weight: 900;
-  box-shadow: 0 2px 0 #888888, 0 4px 10px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 2px 0 #cbd5e1, 0 4px 10px rgba(15, 23, 42, 0.08);
 }
 
 /* ==========================================================================
    🖼️ 6-A. [액자형] 3D 갤러리 액자 모드 (Gallery Frame Mode)
+   PUBLIC(화이트 갤러리 액자) vs PRIVATE(딥 옵시디언 볼트 금고 액자)
    ========================================================================== */
 .records-grid {
   display: grid;
@@ -521,11 +526,11 @@ body {
   margin: 0 auto;
 }
 
-/* 🖼️ 리얼 3D 액자 (Molded Picture Frame) */
+/* 🌐 1) PUBLIC 기록: 순백의 3D 몰딩 갤러리 액자 */
 .record-card {
-  background: #111217;
-  border: 8px solid #1c1d24;
-  outline: 1px solid rgba(255, 255, 255, 0.16);
+  background: var(--bg-card-public);
+  border: 8px solid var(--border-card-public);
+  outline: 1px solid var(--outline-card-public);
   border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
@@ -533,27 +538,25 @@ body {
   transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   position: relative;
-  box-shadow: 0 4px 0 #070709, 0 16px 36px -4px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: var(--shadow-card-public);
+  color: var(--text-primary);
 }
 
-/* 마우스 호버 시 벽에서 떠오르는 3D 갤러리 액자 리프트 */
 .record-card:hover {
-  background: #15171e;
-  border-color: #262832;
-  outline-color: #ffffff;
+  background: #ffffff;
+  outline-color: #0f172a;
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 8px 0 #070709, 0 28px 60px -8px rgba(0, 0, 0, 0.98), 0 0 25px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 0 #94a3b8, 0 28px 60px -8px rgba(15, 23, 42, 0.16);
 }
 
-/* 액자 내부 썸네일 (음각 매트보드에 담긴 그림) */
+/* 액자 내부 썸네일 */
 .card-thumb-wrap {
   position: relative;
   width: 100%;
   height: 180px;
-  background-color: #050608;
+  background-color: #0f172a;
   overflow: hidden;
-  border-bottom: 2px solid #000000;
-  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.85);
+  border-bottom: 2px solid #e2e8f0;
 }
 
 .card-thumb-img {
@@ -571,7 +574,7 @@ body {
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background-color: #000000;
+  background-color: #0f172a;
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: #fff;
   font-family: var(--font-mono);
@@ -579,7 +582,7 @@ body {
   font-weight: 700;
   padding: 3px 8px;
   border-radius: var(--radius-xs);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .card-body {
@@ -604,38 +607,38 @@ body {
 }
 
 .badge-category {
-  background-color: #0b0c0f;
+  background-color: #f1f5f9;
   border: 1px solid var(--border-medium);
-  color: var(--text-secondary);
+  color: #334155;
   font-family: var(--font-mono);
   padding: 3px 8px;
   border-radius: var(--radius-xs);
   font-size: 0.75rem;
   font-weight: 700;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .badge-public {
+  background-color: #0f172a;
+  color: #ffffff;
+  border: 1px solid #0f172a;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.72rem;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.15);
+}
+
+.badge-private {
   background-color: #ffffff;
   color: #000000;
   border: 1px solid #ffffff;
   padding: 3px 8px;
   border-radius: var(--radius-xs);
   font-family: var(--font-mono);
-  font-weight: 800;
+  font-weight: 900;
   font-size: 0.72rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-
-.badge-private {
-  background-color: #1f2026;
-  color: #d4d4d8;
-  border: 1px solid var(--border-medium);
-  padding: 3px 8px;
-  border-radius: var(--radius-xs);
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.72rem;
 }
 
 .card-date {
@@ -672,7 +675,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border-subtle);
   padding-top: 0.8rem;
   font-size: 0.8rem;
 }
@@ -694,45 +697,184 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  background-color: #0c0d11;
+  background-color: #f1f5f9;
   border: 1px solid var(--border-medium);
   padding: 3px 8px;
   border-radius: var(--radius-xs);
-  color: #ffffff;
+  color: #0f172a;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 /* ==========================================================================
-   📑 6-B. [리스트형] 3D 머신드 플레이트 모드 (Machined Slabs Mode)
+   🔒 6-B. PRIVATE(비공개) 기록: 묵직한 딥 옵시디언 볼트(금고) 3D 액자
+   백그라운드와 완전 대비되는 다크 볼트 카드!
+   ========================================================================== */
+.record-card.is-private-card {
+  background: var(--bg-card-private);
+  border: 8px solid var(--border-card-private);
+  outline: 1px solid var(--outline-card-private);
+  border-left: 10px solid #000000;
+  box-shadow: var(--shadow-card-private);
+  color: var(--text-white);
+}
+
+.record-card.is-private-card:hover {
+  background: #1a1c24;
+  border-color: #2b2e3a;
+  border-left-color: #ffffff;
+  outline-color: #ffffff;
+  box-shadow: 0 8px 0 #090a0d, 0 28px 60px -8px rgba(0, 0, 0, 0.65), 0 0 22px rgba(0, 0, 0, 0.4);
+}
+
+.record-card.is-private-card .card-thumb-wrap {
+  background-color: #08090c;
+  border-bottom: 2px solid #000000;
+}
+
+.record-card.is-private-card .card-title {
+  color: #ffffff;
+}
+
+.record-card.is-private-card .card-excerpt {
+  color: #94a3b8;
+}
+
+.record-card.is-private-card .card-date {
+  color: #64748b;
+}
+
+.record-card.is-private-card .badge-category {
+  background-color: #222530;
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #e2e8f0;
+}
+
+.record-card.is-private-card .card-footer {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.record-card.is-private-card .card-tag {
+  color: #71717a;
+}
+
+.record-card.is-private-card .card-file-badge {
+  background-color: #222530;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* 🔒 방문객에게 보이는 Private 기록 - 보안 대시 보더 & 텍스처 블러 */
+.record-card.is-guest-private {
+  background: #111318;
+  border: 6px dashed #3f4452;
+  border-left: 10px solid #525866;
+  opacity: 0.85;
+  box-shadow: 0 4px 0 #090a0d, 0 14px 30px rgba(0, 0, 0, 0.4);
+}
+
+.record-card.is-guest-private:hover {
+  opacity: 1;
+  border-color: #ffffff;
+  border-left-color: #ffffff;
+  box-shadow: 0 8px 0 #090a0d, 0 24px 50px rgba(0, 0, 0, 0.55);
+}
+
+.record-card.is-guest-private .card-title {
+  color: #e2e8f0;
+}
+
+.record-card.is-guest-private .card-excerpt {
+  filter: blur(3px);
+  user-select: none;
+  color: #64748b;
+}
+
+.badge-private-locked {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+}
+
+.card-thumb-locked {
+  height: 110px;
+  background: #090a0d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid #000000;
+}
+
+.locked-thumb-backdrop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.locked-thumb-icon {
+  font-size: 1.8rem;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
+}
+
+.locked-thumb-text {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   📑 6-C. [리스트형] 3D 머신드 플레이트 모드 (List View)
    ========================================================================== */
 .records-grid.view-list {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.85rem;
 }
 
+/* 🌐 PUBLIC 리스트 아이템: 화이트 플레이트 */
 .records-grid.view-list .record-card {
   flex-direction: row;
   align-items: center;
   padding: 0.9rem 1.4rem;
   min-height: 70px;
   border: 1px solid var(--border-medium);
-  border-top: 2px solid rgba(255, 255, 255, 0.4);
-  border-bottom: 3px solid #000000;
+  border-top: 2px solid #ffffff;
+  border-bottom: 3px solid #cbd5e1;
   border-radius: var(--radius-sm);
-  background: linear-gradient(180deg, #181920 0%, #0f1014 100%);
-  box-shadow: 0 4px 0 #000000, 0 8px 20px rgba(0, 0, 0, 0.85), var(--bevel-light);
+  background: #ffffff;
+  box-shadow: 0 4px 0 #cbd5e1, 0 8px 18px rgba(15, 23, 42, 0.08);
   gap: 1.2rem;
 }
 
 .records-grid.view-list .record-card:hover {
   transform: translateY(-4px) translateX(4px);
+  border-top-color: #0f172a;
+  border-left: 4px solid #0f172a;
+  box-shadow: 0 6px 0 #94a3b8, 0 16px 32px rgba(15, 23, 42, 0.14);
+}
+
+/* 🔒 PRIVATE 리스트 아이템: 딥 옵시디언 볼트 플레이트 */
+.records-grid.view-list .record-card.is-private-card {
+  background: #14161c;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 2px solid rgba(255, 255, 255, 0.35);
+  border-left: 6px solid #000000;
+  border-bottom: 3px solid #000000;
+  box-shadow: 0 4px 0 #090a0d, 0 10px 24px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+}
+
+.records-grid.view-list .record-card.is-private-card:hover {
+  border-left-color: #ffffff;
   border-top-color: #ffffff;
-  border-left: 4px solid #ffffff;
-  box-shadow: 0 6px 0 #000000, 0 16px 32px rgba(0, 0, 0, 0.95), 0 0 18px rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 0 #090a0d, 0 18px 36px rgba(0, 0, 0, 0.55);
 }
 
 .records-grid.view-list .card-thumb-wrap {
@@ -743,7 +885,6 @@ body {
   overflow: hidden;
   margin-bottom: 0;
   border: 1px solid var(--border-medium);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .records-grid.view-list .card-thumb-wrap img {
@@ -851,80 +992,6 @@ body {
 }
 
 /* ==========================================================================
-   🔒 7. 비공개(Private) 기록 - 흑백 매트 블러 처리
-   ========================================================================== */
-.record-card.is-private-card {
-  border-left: 6px solid #52525b;
-}
-
-.record-card.is-private-card:hover {
-  border-left-color: #ffffff;
-}
-
-.record-card.is-guest-private {
-  opacity: 0.65;
-  filter: contrast(92%) brightness(85%);
-  border: 4px dashed #3f3f46;
-  background: #0d0e12;
-  box-shadow: 0 4px 0 #000000, 0 10px 24px rgba(0, 0, 0, 0.9);
-}
-
-.record-card.is-guest-private:hover {
-  opacity: 0.92;
-  filter: none;
-  transform: translateY(-4px) scale(1.01);
-  border-color: #ffffff;
-  box-shadow: 0 6px 0 #000000, 0 18px 40px rgba(0, 0, 0, 0.95), 0 0 18px rgba(255, 255, 255, 0.15);
-}
-
-.record-card.is-guest-private .card-title {
-  color: #d4d4d8;
-}
-
-.record-card.is-guest-private .card-excerpt {
-  filter: blur(2.5px);
-  user-select: none;
-  color: #71717a;
-}
-
-.badge-private-locked {
-  background: #18181b !important;
-  border-color: #52525b !important;
-  color: #ffffff !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-}
-
-.card-thumb-locked {
-  height: 110px;
-  background: #090a0d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 2px solid #000000;
-}
-
-.locked-thumb-backdrop {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.locked-thumb-icon {
-  font-size: 1.7rem;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
-}
-
-.locked-thumb-text {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.6px;
-  color: #d4d4d8;
-}
-
-/* ==========================================================================
    📖 8. 기록 상세 보기 뷰 (3D Floating Monolith Card)
    ========================================================================== */
 .record-detail-view {
@@ -940,22 +1007,21 @@ body {
 }
 
 .btn-back {
-  background: #18191f;
+  background: #ffffff;
   border: 1px solid var(--border-medium);
-  color: var(--text-secondary);
+  color: var(--text-primary);
   padding: 9px 18px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.88rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: var(--depth-btn), var(--bevel-light);
+  box-shadow: var(--depth-btn);
   transition: var(--transition);
 }
 
 .btn-back:hover {
-  color: #ffffff;
-  border-color: #ffffff;
+  border-color: #0f172a;
   transform: translateY(-2px);
   box-shadow: var(--depth-btn-hover);
 }
@@ -982,33 +1048,32 @@ body {
 }
 
 .btn-edit {
-  background: #ffffff;
-  border-color: #ffffff;
-  color: #000000;
-  box-shadow: 0 3px 0 #999999, 0 6px 14px rgba(0, 0, 0, 0.7);
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 3px 0 #334155, 0 6px 14px rgba(15, 23, 42, 0.2);
 }
 
 .btn-edit:hover {
-  background: #f4f4f5;
+  background: #1e293b;
   transform: translateY(-2px);
-  box-shadow: 0 5px 0 #999999, 0 10px 20px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 5px 0 #334155, 0 10px 20px rgba(15, 23, 42, 0.25);
 }
 
 .btn-edit:active {
   transform: translateY(2px);
-  box-shadow: 0 1px 0 #999999;
+  box-shadow: 0 1px 0 #334155;
 }
 
 .btn-delete {
-  background: #27272a;
-  border: 1px solid #3f3f46;
-  color: #ffffff;
+  background: #ffffff;
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary);
   box-shadow: var(--depth-btn);
 }
 
 .btn-delete:hover {
-  background: #3f3f46;
-  border-color: #ffffff;
+  border-color: #0f172a;
   transform: translateY(-2px);
   box-shadow: var(--depth-btn-hover);
 }
@@ -1020,17 +1085,18 @@ body {
 
 /* 🏛️ 3D 디테일 모놀리스 카드 */
 .record-detail-card {
-  background: #111218;
+  background: #ffffff;
   border: 2px solid var(--border-medium);
-  border-top: 3px solid #ffffff;
-  border-bottom: 4px solid #000000;
+  border-top: 4px solid #0f172a;
+  border-bottom: 4px solid #cbd5e1;
   border-radius: var(--radius-lg);
   padding: 2.5rem;
-  box-shadow: 0 8px 0 #000000, 0 35px 80px rgba(0, 0, 0, 0.98), var(--bevel-light);
+  box-shadow: 0 8px 0 #cbd5e1, 0 35px 70px rgba(15, 23, 42, 0.12);
+  color: #0f172a;
 }
 
 .detail-header {
-  border-bottom: 2px solid #000000;
+  border-bottom: 2px solid var(--border-medium);
   padding-bottom: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -1047,7 +1113,7 @@ body {
   font-weight: 900;
   line-height: 1.3;
   margin-bottom: 0.85rem;
-  color: #ffffff;
+  color: #0f172a;
   letter-spacing: -0.5px;
 }
 
@@ -1058,15 +1124,14 @@ body {
 }
 
 .tag-pill {
-  background-color: #0b0c10;
+  background-color: #f1f5f9;
   border: 1px solid var(--border-medium);
-  color: #ffffff;
+  color: #0f172a;
   font-family: var(--font-mono);
   padding: 4px 10px;
   border-radius: var(--radius-xs);
   font-size: 0.8rem;
   font-weight: 700;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 /* 📷 갤러리 섹션 */
@@ -1083,16 +1148,16 @@ body {
   border-radius: var(--radius-sm);
   overflow: hidden;
   cursor: pointer;
-  border: 4px solid #1c1d24;
-  outline: 1px solid var(--border-subtle);
-  box-shadow: 0 4px 0 #000000, 0 10px 24px rgba(0, 0, 0, 0.9);
+  border: 4px solid #ffffff;
+  outline: 1px solid var(--border-medium);
+  box-shadow: 0 4px 0 #cbd5e1, 0 10px 24px rgba(15, 23, 42, 0.1);
   transition: var(--transition);
 }
 
 .gallery-photo-card:hover {
-  outline-color: #ffffff;
+  outline-color: #0f172a;
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 0 #000000, 0 20px 40px rgba(0, 0, 0, 0.98), 0 0 20px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 0 #94a3b8, 0 20px 40px rgba(15, 23, 42, 0.16);
 }
 
 .gallery-photo-img {
@@ -1103,12 +1168,12 @@ body {
 
 /* 📁 첨부 파일 섹션 */
 .detail-files-section {
-  background-color: var(--bg-recessed);
+  background-color: #f8fafc;
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-md);
   padding: 1.4rem;
   margin-bottom: 2rem;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .files-section-title {
@@ -1132,24 +1197,24 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #15161c;
+  background: #ffffff;
   border: 1px solid var(--border-medium);
-  border-top: 1px solid rgba(255, 255, 255, 0.35);
-  border-bottom: 3px solid #000000;
+  border-top: 2px solid #ffffff;
+  border-bottom: 3px solid #cbd5e1;
   border-radius: var(--radius-xs);
   padding: 12px 16px;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 3px 0 #000000, 0 6px 14px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 3px 0 #cbd5e1, 0 6px 14px rgba(15, 23, 42, 0.06);
   transition: var(--transition);
 }
 
 .attached-file-download-card:hover {
-  background: #1e1f28;
-  border-top-color: #ffffff;
-  border-left: 3px solid #ffffff;
+  background: #f8fafc;
+  border-top-color: #0f172a;
+  border-left: 3px solid #0f172a;
   transform: translateY(-2px);
-  box-shadow: 0 5px 0 #000000, 0 12px 24px rgba(0, 0, 0, 0.9), 0 0 14px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 5px 0 #94a3b8, 0 12px 24px rgba(15, 23, 42, 0.12);
 }
 
 .file-card-info {
@@ -1185,7 +1250,7 @@ body {
 }
 
 .file-card-dl-icon {
-  color: #ffffff;
+  color: #0f172a;
   font-size: 1.1rem;
   margin-left: 0.5rem;
 }
@@ -1194,7 +1259,7 @@ body {
 .detail-body {
   font-size: 1.08rem;
   line-height: 1.85;
-  color: #e4e4e7;
+  color: #334155;
 }
 
 .detail-body p {
@@ -1205,19 +1270,19 @@ body {
   font-size: 1.6rem;
   margin-top: 2rem;
   margin-bottom: 0.85rem;
-  color: #ffffff;
+  color: #0f172a;
 }
 
 .detail-body h3 {
   font-size: 1.3rem;
   margin-top: 1.6rem;
   margin-bottom: 0.7rem;
-  color: #ffffff;
+  color: #0f172a;
 }
 
 .detail-body mark {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #0f172a;
+  color: #ffffff;
   font-weight: 700;
   padding: 2px 6px;
   border-radius: 2px;
@@ -1225,20 +1290,20 @@ body {
 
 /* 💻 3D 음각 코드 터미널 */
 .code-block-container {
-  background-color: var(--bg-recessed);
-  border: 1px solid var(--border-medium);
+  background-color: #0f172a;
+  border: 1px solid #1e293b;
   border-radius: var(--radius-sm);
   margin: 1.5rem 0;
   overflow: hidden;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.95), 0 8px 24px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(15, 23, 42, 0.15);
 }
 
 .code-block-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #0c0d11;
-  border-bottom: 1px solid var(--border-subtle);
+  background-color: #020617;
+  border-bottom: 1px solid #1e293b;
   padding: 7px 16px;
 }
 
@@ -1255,9 +1320,9 @@ body {
 }
 
 .btn-copy-code {
-  background: #18191f;
-  border: 1px solid var(--border-medium);
-  color: var(--text-secondary);
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #cbd5e1;
   padding: 4px 10px;
   border-radius: var(--radius-xs);
   font-family: var(--font-mono);
@@ -1272,7 +1337,6 @@ body {
   background: #ffffff;
   color: #000000;
   border-color: #ffffff;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
 }
 
 .btn-copy-code.copied {
@@ -1293,14 +1357,14 @@ body {
 
 .code-content {
   font-family: inherit;
-  color: #f4f4f5;
+  color: #f8fafc;
   white-space: pre;
 }
 
 .inline-code {
-  background-color: #1a1b22;
-  color: #ffffff;
-  border: 1px solid var(--border-medium);
+  background-color: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
   padding: 2px 7px;
   border-radius: 3px;
   font-family: var(--font-mono);
@@ -1309,7 +1373,7 @@ body {
 }
 
 .btn-tb-code {
-  color: #ffffff !important;
+  color: #0f172a !important;
   font-family: var(--font-mono);
   font-weight: 700;
 }
@@ -1320,8 +1384,8 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(16px);
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(14px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1331,13 +1395,14 @@ body {
 
 /* 🏛️ 3D 모놀리스 모달 창 */
 .modal-dialog {
-  background: #111218;
+  background: #ffffff;
   border: 2px solid var(--border-medium);
-  border-top: 3px solid #ffffff;
-  border-bottom: 6px solid #000000;
+  border-top: 4px solid #0f172a;
+  border-bottom: 6px solid #cbd5e1;
   border-radius: var(--radius-lg);
-  box-shadow: 0 10px 0 #000000, 0 40px 90px rgba(0, 0, 0, 0.98), var(--bevel-light);
+  box-shadow: 0 10px 0 #94a3b8, 0 40px 90px rgba(15, 23, 42, 0.25);
   width: 100%;
+  color: #0f172a;
 }
 
 .auth-modal-dialog {
@@ -1364,14 +1429,13 @@ body {
 }
 
 .auth-error-msg {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #0f172a;
+  color: #ffffff;
   font-weight: 800;
   padding: 8px 12px;
   border-radius: var(--radius-xs);
   font-size: 0.82rem;
-  border: 1px solid #ffffff;
-  box-shadow: 0 3px 0 #888888;
+  border: 1px solid #0f172a;
 }
 
 .write-modal-dialog {
@@ -1386,13 +1450,12 @@ body {
 
 .modal-header {
   padding: 1rem 1.6rem;
-  border-bottom: 2px solid #000000;
-  background: #0d0e12;
+  border-bottom: 2px solid #cbd5e1;
+  background: #f8fafc;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .modal-header-left {
@@ -1405,7 +1468,7 @@ body {
   font-family: var(--font-mono);
   font-size: 1.2rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
 }
 
 /* ❌ 3D 양각 모달 닫기 버튼 */
@@ -1415,7 +1478,7 @@ body {
   justify-content: center;
   width: 36px;
   height: 36px;
-  background-color: #1a1b22;
+  background-color: #ffffff;
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-xs);
   color: var(--text-secondary);
@@ -1426,9 +1489,9 @@ body {
 }
 
 .btn-modal-close:hover {
-  background-color: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
+  background-color: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
   transform: translateY(-2px);
   box-shadow: var(--depth-btn-hover);
 }
@@ -1439,14 +1502,13 @@ body {
 }
 
 .modal-split-pill {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #0f172a;
+  color: #ffffff;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 800;
   padding: 3px 8px;
   border-radius: 2px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .modal-view-mode-toggle {
@@ -1455,7 +1517,7 @@ body {
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-xs);
   padding: 2px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.9);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .btn-mode-toggle {
@@ -1472,8 +1534,8 @@ body {
 }
 
 .btn-mode-toggle.active {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #0f172a;
+  color: #ffffff;
   font-weight: 900;
 }
 
@@ -1488,11 +1550,11 @@ body {
 
 .modal-col-editor {
   overflow-y: auto;
-  border-right: 2px solid #000000;
+  border-right: 2px solid var(--border-medium);
   display: flex;
   flex-direction: column;
   min-height: 0;
-  background-color: #0e0f14;
+  background-color: #ffffff;
 }
 
 .record-form {
@@ -1507,15 +1569,15 @@ body {
 .modal-col-preview {
   display: flex;
   flex-direction: column;
-  background-color: #07080b;
+  background-color: #f1f5f9;
   min-height: 0;
   overflow: hidden;
 }
 
 .preview-header {
   padding: 0.85rem 1.4rem;
-  border-bottom: 2px solid #000000;
-  background-color: #0d0e12;
+  border-bottom: 2px solid var(--border-medium);
+  background-color: #e2e8f0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1529,8 +1591,8 @@ body {
 }
 
 .preview-badge {
-  background: #ffffff;
-  color: #000000;
+  background: #0f172a;
+  color: #ffffff;
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 900;
@@ -1550,7 +1612,7 @@ body {
 }
 
 .preview-tab {
-  background: #14151a;
+  background: #ffffff;
   border: 1px solid var(--border-medium);
   color: var(--text-muted);
   padding: 5px 12px;
@@ -1564,14 +1626,14 @@ body {
 }
 
 .preview-tab:hover {
-  color: #ffffff;
-  border-color: #ffffff;
+  color: #0f172a;
+  border-color: #0f172a;
 }
 
 .preview-tab.active {
-  background-color: #ffffff;
-  border-color: #ffffff;
-  color: #000000;
+  background-color: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
   font-weight: 900;
 }
 
@@ -1590,12 +1652,12 @@ body {
 }
 
 .live-preview-detail {
-  background: #111218;
+  background: #ffffff;
   border: 2px solid var(--border-medium);
-  border-top: 3px solid #ffffff;
+  border-top: 3px solid #0f172a;
   border-radius: var(--radius-md);
   padding: 1.8rem;
-  box-shadow: var(--depth-card);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 
 .live-preview-card {
@@ -1646,7 +1708,7 @@ body {
   border-radius: var(--radius-xs);
   padding: 2px;
   gap: 2px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.95);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .visibility-option-compact {
@@ -1673,17 +1735,17 @@ body {
 }
 
 .visibility-option-compact.active {
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
   font-weight: 900;
-  box-shadow: 0 2px 0 #888888;
+  box-shadow: 0 2px 0 #334155;
 }
 
 .visibility-option-compact#labelPrivate.active {
-  background: #27272a;
+  background: #14161c;
   color: #ffffff;
-  border-color: #ffffff;
+  border-color: #000000;
   box-shadow: 0 2px 0 #000000;
 }
 
@@ -1702,22 +1764,22 @@ body {
   padding: 8px 12px;
   border: 2px dashed var(--border-medium);
   border-radius: var(--radius-xs);
-  background-color: var(--bg-recessed);
+  background-color: #f8fafc;
   cursor: pointer;
   transition: var(--transition);
   position: relative;
   font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--text-secondary);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .drop-zone-compact:hover,
 .drop-zone-compact.dragover {
-  border-color: #ffffff;
-  background-color: #161720;
-  color: #ffffff;
-  box-shadow: 0 0 14px rgba(255, 255, 255, 0.2);
+  border-color: #0f172a;
+  background-color: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 0 14px rgba(15, 23, 42, 0.12);
 }
 
 .drop-zone-compact .drop-icon {
@@ -1747,19 +1809,18 @@ body {
   font-size: 0.92rem;
   line-height: 1.6;
   padding: 14px 16px;
-  background-color: var(--bg-recessed);
+  background-color: #ffffff;
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-sm);
   color: var(--text-primary);
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.95), 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
   outline: none;
   transition: var(--transition);
 }
 
 .record-textarea:focus {
-  border-color: #ffffff;
-  background-color: #000000;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 0 1px #ffffff, 0 0 18px rgba(255, 255, 255, 0.25);
+  border-color: #0f172a;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06), 0 0 0 1px #0f172a;
 }
 
 .form-label {
@@ -1767,27 +1828,26 @@ body {
   font-size: 0.82rem;
   font-weight: 800;
   margin-bottom: 0.45rem;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   letter-spacing: 0.3px;
 }
 
 /* 📝 3D 음각 폼 컨트롤 */
 .form-control {
-  background-color: var(--bg-recessed);
+  background-color: #ffffff;
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-sm);
   padding: 10px 14px;
   color: var(--text-primary);
   font-size: 0.92rem;
   outline: none;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.95), 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: var(--transition);
 }
 
 .form-control:focus {
-  border-color: #ffffff;
-  background-color: #000000;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.95), 0 0 0 1px #ffffff, 0 0 18px rgba(255, 255, 255, 0.25);
+  border-color: #0f172a;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05), 0 0 0 1px #0f172a;
 }
 
 /* 🔒 공개 / 비공개 세그먼트 스위치 */
@@ -1801,12 +1861,12 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  background: #14151a;
+  background: #ffffff;
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-sm);
   padding: 14px 16px;
   cursor: pointer;
-  box-shadow: var(--depth-btn), var(--bevel-light);
+  box-shadow: var(--depth-btn);
   transition: var(--transition);
 }
 
@@ -1826,35 +1886,35 @@ body {
 .visibility-option strong {
   font-family: var(--font-mono);
   font-size: 0.95rem;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   margin-bottom: 2px;
 }
 
 .visibility-option small {
   font-size: 0.78rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   line-height: 1.4;
 }
 
 .visibility-option.active {
-  background: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0 4px 0 #888888, 0 8px 20px rgba(255, 255, 255, 0.3);
+  background: #0f172a;
+  border-color: #0f172a;
+  box-shadow: 0 4px 0 #334155, 0 8px 20px rgba(15, 23, 42, 0.2);
 }
 
 .visibility-option.active strong {
-  color: #000000;
+  color: #ffffff;
   font-weight: 900;
 }
 
 .visibility-option.active small {
-  color: #3f3f46;
+  color: #94a3b8;
 }
 
 .visibility-option#labelPrivate.active {
-  background: #27272a;
-  border-color: #ffffff;
-  box-shadow: 0 4px 0 #000000, 0 8px 20px rgba(0, 0, 0, 0.9);
+  background: #14161c;
+  border-color: #000000;
+  box-shadow: 0 4px 0 #000000, 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .visibility-option#labelPrivate.active strong {
@@ -1863,7 +1923,7 @@ body {
 }
 
 .visibility-option#labelPrivate.active small {
-  color: #d4d4d8;
+  color: #cbd5e1;
 }
 
 /* 태그 뱃지 */
@@ -1875,9 +1935,9 @@ body {
 }
 
 .modal-tag-chip {
-  background-color: #0e0f14;
+  background-color: #f1f5f9;
   border: 1px solid var(--border-medium);
-  color: #ffffff;
+  color: #0f172a;
   font-family: var(--font-mono);
   border-radius: var(--radius-xs);
   padding: 4px 10px;
@@ -1886,20 +1946,19 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .modal-tag-chip button {
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.7);
+  color: #64748b;
   cursor: pointer;
   font-size: 0.9rem;
   line-height: 1;
 }
 
 .modal-tag-chip button:hover {
-  color: #ffffff;
+  color: #0f172a;
 }
 
 /* 업로드 드롭존 */
@@ -1921,17 +1980,17 @@ body {
   border-radius: var(--radius-sm);
   padding: 1.4rem;
   text-align: center;
-  background-color: var(--bg-recessed);
+  background-color: #f8fafc;
   cursor: pointer;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
   transition: var(--transition);
   position: relative;
 }
 
 .drop-zone:hover, .drop-zone.dragover {
-  border-color: #ffffff;
-  background-color: #15161f;
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
+  border-color: #0f172a;
+  background-color: #ffffff;
+  box-shadow: 0 0 18px rgba(15, 23, 42, 0.12);
 }
 
 .file-hidden-input {
@@ -1983,7 +2042,7 @@ body {
   position: absolute;
   top: 4px;
   right: 4px;
-  background-color: #000000;
+  background-color: #0f172a;
   border: 1px solid #ffffff;
   color: #ffffff;
   width: 22px;
@@ -1997,8 +2056,7 @@ body {
 }
 
 .btn-remove-thumb:hover {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #000000;
 }
 
 .attached-files-list {
@@ -2012,12 +2070,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #15161c;
+  background: #ffffff;
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-xs);
   padding: 8px 14px;
   font-size: 0.85rem;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .btn-remove-file {
@@ -2031,8 +2089,8 @@ body {
 }
 
 .btn-remove-file:hover {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #0f172a;
+  color: #ffffff;
 }
 
 /* 에디터 툴바 */
@@ -2040,11 +2098,10 @@ body {
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  background-color: #0e0f14;
+  background-color: #f1f5f9;
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-xs);
   padding: 7px 12px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .btn-tb {
@@ -2061,8 +2118,8 @@ body {
 }
 
 .btn-tb:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #0f172a;
   border-color: var(--border-medium);
 }
 
@@ -2076,10 +2133,10 @@ body {
 .font-stepper-box {
   display: inline-flex;
   align-items: center;
-  background-color: var(--bg-recessed);
+  background-color: #ffffff;
   border: 1px solid var(--border-medium);
   border-radius: 3px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .btn-step {
@@ -2093,14 +2150,14 @@ body {
 }
 
 .btn-step:hover {
-  color: #ffffff;
+  color: #0f172a;
 }
 
 .step-num-input {
   width: 32px;
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: #0f172a;
   font-family: var(--font-mono);
   text-align: center;
   font-size: 0.82rem;
@@ -2123,7 +2180,7 @@ body {
 }
 
 .btn-cancel {
-  background: #18191f;
+  background: #ffffff;
   border: 1px solid var(--border-medium);
   color: var(--text-secondary);
   padding: 9px 18px;
@@ -2137,9 +2194,9 @@ body {
 }
 
 .btn-cancel:hover {
-  background: #252630;
-  color: #ffffff;
-  border-color: #ffffff;
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #0f172a;
   transform: translateY(-2px);
   box-shadow: var(--depth-btn-hover);
 }
@@ -2164,7 +2221,7 @@ body {
 .lightbox-backdrop {
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.96);
+  background-color: rgba(15, 23, 42, 0.88);
   backdrop-filter: blur(16px);
 }
 
@@ -2180,7 +2237,7 @@ body {
   max-height: 90vh;
   border-radius: var(--radius-xs);
   border: 4px solid #ffffff;
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.98), 0 0 35px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 255, 255, 0.2);
 }
 
 .lightbox-close {
@@ -2192,13 +2249,13 @@ body {
   justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: #000000;
+  background-color: #0f172a;
   border: 2px solid #ffffff;
   border-radius: var(--radius-xs);
   color: #ffffff;
   font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   transition: var(--transition);
   outline: none;
 }
@@ -2221,10 +2278,10 @@ body {
 }
 
 .toast-msg {
-  background: #181920;
+  background: #0f172a;
   backdrop-filter: blur(14px);
-  border: 2px solid #ffffff;
-  box-shadow: 0 4px 0 #000000, 0 16px 36px rgba(0, 0, 0, 0.95);
+  border: 2px solid #334155;
+  box-shadow: 0 4px 0 #000000, 0 16px 36px rgba(15, 23, 42, 0.25);
   color: #ffffff;
   font-family: var(--font-mono);
   padding: 12px 20px;
@@ -2249,8 +2306,8 @@ body {
 .spinner {
   width: 34px;
   height: 34px;
-  border: 3px solid rgba(255, 255, 255, 0.15);
-  border-top-color: #ffffff;
+  border: 3px solid rgba(15, 23, 42, 0.15);
+  border-top-color: #0f172a;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 0 auto 1.25rem;
