@@ -20,6 +20,18 @@ const INITIAL_RECORDS = [
     files: [],
     is_private: false,
     created_at: new Date().toISOString()
+  },
+  {
+    id: 1730000000002,
+    title: "비공개 보안 프로젝트 및 개인 아키텍처 노트",
+    category: "비밀",
+    date: "2026.11.08",
+    content: "이 글은 비공개(Private)로 등록된 기록입니다.\n\n관리자(소유자)로 로그인했을 때만 선명하게 전체 내용이 표시되며, 일반 방문객에게는 목록에서 흐릿하게 표시되어 비공개 상태임을 알립니다.",
+    tags: ["비밀", "보안", "Private"],
+    images: [],
+    files: [],
+    is_private: true,
+    created_at: new Date().toISOString()
   }
 ];
 
@@ -84,17 +96,37 @@ module.exports = async function handler(req, res) {
   const isAdmin = verifyAdmin(req);
   let records = getStorage();
 
-  // 1. GET: 목록 조회 (Admin은 전체, Guest는 Public만)
+  // 1. GET: 목록 조회 (Admin은 원본 전체, Guest는 Public + 마스킹된 Private)
   if (req.method === "GET") {
     const filter = req.query ? req.query.filter : "all";
     let filtered = records;
 
-    if (!isAdmin) {
-      filtered = filtered.filter(r => !r.is_private);
-    } else if (filter === "private") {
-      filtered = filtered.filter(r => r.is_private);
+    if (filter === "private") {
+      filtered = filtered.filter((r) => r.is_private);
     } else if (filter === "public") {
-      filtered = filtered.filter(r => !r.is_private);
+      filtered = filtered.filter((r) => !r.is_private);
+    }
+
+    if (!isAdmin) {
+      // 일반 방문자에게는 Private 기록의 민감 본문 및 첨부파일을 서버단에서 마스킹/보호
+      filtered = filtered.map((r) => {
+        if (r.is_private) {
+          return {
+            id: r.id,
+            title: r.title,
+            category: r.category,
+            date: r.date,
+            content: "🔒 이 기록은 비공개(Private) 상태입니다. 관리자 로그인 후 열람할 수 있습니다.",
+            tags: Array.isArray(r.tags) ? r.tags : [],
+            images: [],
+            files: [],
+            is_private: true,
+            is_guest_private: true,
+            created_at: r.created_at
+          };
+        }
+        return r;
+      });
     }
 
     filtered.sort((a, b) => Number(b.id) - Number(a.id));

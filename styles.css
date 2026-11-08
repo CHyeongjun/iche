@@ -353,13 +353,13 @@ body {
   box-shadow: 0 0 12px rgba(255, 77, 77, 0.25);
 }
 
-/* 3. 메인 레이아웃 & 컨트롤 바 */
+/* 3. 메인 레이아웃 & 컨트롤 바 (가운데 3D 입체 공간 영역 내 완벽 정렬) */
 .app-main {
   flex: 1;
-  max-width: 1240px;
+  max-width: 960px;
   width: 100%;
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: 1.5rem 1.25rem 3.5rem;
 }
 
 .control-bar {
@@ -367,6 +367,10 @@ body {
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1.75rem;
+  max-width: 960px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .visibility-tabs {
@@ -442,7 +446,12 @@ body {
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
 }
 
-/* 4. 기록 그리드 및 카드 */
+/* 4. 기록 그리드 및 카드 (중앙 3D 투시 공간 영역 내 제한) */
+.records-section {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
 .records-header {
   margin-bottom: 1.25rem;
   font-size: 0.88rem;
@@ -451,8 +460,10 @@ body {
 
 .records-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: 1.25rem;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 .record-card {
@@ -490,6 +501,75 @@ body {
   border-left-color: var(--private-accent);
   border-right-color: rgba(192, 132, 252, 0.3);
   box-shadow: 0 22px 45px -10px rgba(0, 0, 0, 0.95), 0 0 22px rgba(192, 132, 252, 0.22);
+}
+
+/* 🔒 방문객에게 보이는 Private 기록 흐림(Blur) 및 구분 스타일 */
+.record-card.is-guest-private {
+  opacity: 0.62;
+  filter: contrast(88%) brightness(85%);
+  border: 1px dashed rgba(192, 132, 252, 0.38);
+  border-left: 3px solid rgba(192, 132, 252, 0.7);
+  background: linear-gradient(180deg, rgba(16, 12, 26, 0.7) 0%, rgba(8, 6, 15, 0.85) 100%);
+  box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.85);
+}
+
+.record-card.is-guest-private:hover {
+  opacity: 0.88;
+  filter: none;
+  transform: translateY(-3px) scale(1.008);
+  border-top-color: rgba(192, 132, 252, 0.65);
+  border-left-color: #c084fc;
+  border-right-color: rgba(192, 132, 252, 0.35);
+  box-shadow: 0 18px 38px -8px rgba(0, 0, 0, 0.95), 0 0 22px rgba(192, 132, 252, 0.28);
+}
+
+.record-card.is-guest-private .card-title {
+  color: #dfcefa;
+}
+
+.record-card.is-guest-private .card-excerpt {
+  filter: blur(2.5px);
+  user-select: none;
+  color: #c084fc;
+  opacity: 0.65;
+  letter-spacing: 0.5px;
+}
+
+.badge-private-locked {
+  background: rgba(192, 132, 252, 0.12) !important;
+  border-color: rgba(192, 132, 252, 0.45) !important;
+  color: #c084fc !important;
+  box-shadow: 0 0 8px rgba(192, 132, 252, 0.2) !important;
+}
+
+.card-thumb-locked {
+  height: 110px;
+  background: linear-gradient(135deg, rgba(192, 132, 252, 0.08) 0%, rgba(4, 5, 8, 0.8) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(192, 132, 252, 0.15);
+}
+
+.locked-thumb-backdrop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  color: rgba(192, 132, 252, 0.75);
+}
+
+.locked-thumb-icon {
+  font-size: 1.6rem;
+  filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.4));
+}
+
+.locked-thumb-text {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #c084fc;
 }
 
 .card-thumb-wrap {
@@ -1116,7 +1196,21 @@ body {
   transform: rotate(90deg) scale(0.92);
 }
 
-/* 작성 모드 토글 (나란히 보기 / 작성만 / 미리보기만) */
+/* ⚡ 실시간 분할 뷰 안내 배지 */
+.modal-split-pill {
+  background-color: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: #00f0ff;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.3px;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
+}
+
+/* 작성 모드 토글 (호환성 유지) */
 .modal-view-mode-toggle {
   display: inline-flex;
   background-color: rgba(0, 0, 0, 0.5);
@@ -1149,7 +1243,7 @@ body {
   box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
 }
 
-/* 일체형 2열 분할 바디 */
+/* 🚀 일체형 2열 동시 분할 바디 (한 화면에 에디터 & 미리보기 동시 표시) */
 .modal-body-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1158,18 +1252,14 @@ body {
   overflow: hidden;
 }
 
-.modal-body-split.mode-editor {
-  grid-template-columns: 1fr;
-}
-.modal-body-split.mode-editor .modal-col-preview {
-  display: none;
-}
-
-.modal-body-split.mode-preview {
-  grid-template-columns: 1fr;
-}
-.modal-body-split.mode-preview .modal-col-editor {
-  display: none;
+.write-modal-dialog {
+  max-width: 1560px;
+  width: 96vw;
+  height: 94vh;
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 /* 좌측: 에디터 칼럼 */
@@ -1178,20 +1268,24 @@ body {
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  background-color: rgba(5, 7, 11, 0.5);
 }
 
 .record-form {
-  padding: 1.5rem;
+  padding: 1.1rem 1.4rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.75rem;
+  height: 100%;
+  min-height: 0;
 }
 
 /* 우측: 실시간 미리보기 칼럼 */
 .modal-col-preview {
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: rgba(2, 4, 7, 0.65);
   min-height: 0;
   overflow: hidden;
 }
@@ -1199,7 +1293,7 @@ body {
 .preview-header {
   padding: 0.75rem 1.25rem;
   border-bottom: 1px solid var(--border-color);
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1263,7 +1357,7 @@ body {
 .preview-scroll-pane {
   flex: 1;
   overflow-y: auto;
-  padding: 1.5rem;
+  padding: 1.25rem 1.4rem;
 }
 
 .preview-placeholder {
@@ -1290,15 +1384,146 @@ body {
 
 .form-row {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
+}
+
+.form-meta-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.form-sub-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.form-vis-group {
+  flex-shrink: 0;
+}
+
+.form-control-sm {
+  padding: 6px 10px;
+  font-size: 0.85rem;
 }
 
 .flex-1 { flex: 1; }
 .flex-2 { flex: 2; }
+.flex-grow { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 
 .form-group {
   display: flex;
   flex-direction: column;
+}
+
+/* 🔒 컴팩트형 공개 / 비공개 세그먼트 스위치 */
+.visibility-switch-box-compact {
+  display: inline-flex;
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  gap: 2px;
+}
+
+.visibility-option-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 9px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: var(--transition);
+  border: 1px solid transparent;
+}
+
+.visibility-option-compact input[type="radio"] {
+  display: none;
+}
+
+.visibility-option-compact:hover {
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.visibility-option-compact.active {
+  background-color: rgba(0, 240, 255, 0.12);
+  color: #00f0ff;
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+.visibility-option-compact#labelPrivate.active {
+  background-color: rgba(192, 132, 252, 0.14);
+  color: #c084fc;
+  border-color: rgba(192, 132, 252, 0.45);
+  box-shadow: 0 0 10px rgba(192, 132, 252, 0.22);
+}
+
+/* 컴팩트 첨부 버튼 그리드 */
+.attachment-zones-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.drop-zone-compact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 6px 10px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  background-color: rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.drop-zone-compact:hover,
+.drop-zone-compact.dragover {
+  border-color: #00f0ff;
+  background-color: rgba(0, 240, 255, 0.08);
+  color: #00f0ff;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+.drop-zone-compact .drop-icon {
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.drop-zone-compact .drop-text {
+  pointer-events: none;
+  font-weight: 500;
+}
+
+.form-group-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 280px;
+}
+
+.record-textarea {
+  flex: 1;
+  min-height: 240px;
+  height: 100%;
+  resize: none;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  padding: 12px 14px;
+  background-color: rgba(0, 0, 0, 0.45);
 }
 
 .form-label {

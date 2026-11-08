@@ -17,7 +17,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
-  <link rel="stylesheet" href="styles.css?v=8" />
+  <link rel="stylesheet" href="styles.css?v=10" />
 </head>
 
 <body>
@@ -123,17 +123,13 @@
     </section>
   </main>
 
-  <!-- 기록 작성 및 수정 모달 -->
+  <!-- 기록 작성 및 수정 모달 (한 화면 에디터 & 실시간 미리보기 동시 배치) -->
   <div class="modal-overlay hidden" id="writeModal">
     <div class="modal-dialog write-modal-dialog">
       <div class="modal-header">
         <div class="modal-header-left">
           <h3 class="modal-title" id="writeModalTitle">새 기록 작성</h3>
-          <div class="modal-view-mode-toggle" id="modalViewToggle">
-            <button type="button" class="btn-mode-toggle active" data-mode="split">📑 나란히 보기</button>
-            <button type="button" class="btn-mode-toggle" data-mode="editor">✏️ 작성</button>
-            <button type="button" class="btn-mode-toggle" data-mode="preview">👁️ 미리보기</button>
-          </div>
+          <span class="modal-split-pill">⚡ 실시간 분할 뷰 (Editor + Live Preview)</span>
         </div>
         <button type="button" class="btn-modal-close" id="closeWriteModalBtn">✕</button>
       </div>
@@ -142,8 +138,8 @@
         <!-- 좌측: 에디터 칼럼 -->
         <div class="modal-col-editor" id="modalColEditor">
           <form id="writeRecordForm" class="record-form" autocomplete="off">
-            <!-- 제목 및 카테고리 -->
-            <div class="form-row">
+            <!-- 1행: 제목 + 카테고리 + 공개/비공개 설정 (한 줄 배치) -->
+            <div class="form-row form-meta-row">
               <div class="form-group flex-2">
                 <label class="form-label" for="recordTitleInput">기록 제목 *</label>
                 <input type="text" id="recordTitleInput" class="form-control" placeholder="기록 제목을 입력하세요" required />
@@ -152,121 +148,100 @@
                 <label class="form-label" for="recordCategorySelect">카테고리</label>
                 <select id="recordCategorySelect" class="form-control">
                   <option value="일상">일상</option>
-                  <option value="아이디어">게임</option>
-                  <option value="연구/개발">공부</option>
+                  <option value="게임">게임</option>
+                  <option value="공부">공부</option>
                   <option value="메모">메모</option>
                   <option value="문서/자료">문서/자료</option>
-                  <option value="코드/기술">코드</option>
+                  <option value="코드">코드</option>
                   <option value="비밀">비밀</option>
                 </select>
               </div>
-            </div>
-
-            <!-- 🔒 핵심: 공개 / 비공개 설정 (Public vs Private) -->
-            <div class="form-group">
-              <label class="form-label">Visibility (공개 범위) *</label>
-              <div class="visibility-switch-box">
-                <label class="visibility-option active" id="labelPublic">
-                  <input type="radio" name="recordVisibility" value="public" checked />
-                  <span class="vis-icon">🌐</span>
-                  <div class="vis-text">
-                    <strong>Public</strong>
-                    <small>공개</small>
-                  </div>
-                </label>
-                <label class="visibility-option" id="labelPrivate">
-                  <input type="radio" name="recordVisibility" value="private" />
-                  <span class="vis-icon">🔒</span>
-                  <div class="vis-text">
-                    <strong>Private</strong>
-                    <small>비공개</small>
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <!-- 태그 입력 -->
-            <div class="form-group">
-              <label class="form-label" for="recordTagInput">태그 (쉼표 또는 엔터로 구분)</label>
-              <input type="text" id="recordTagInput" class="form-control" placeholder="예: 개발, 코드, 자바스크립트, 비밀" />
-              <div class="tags-badge-container" id="writeModalTagsContainer"></div>
-            </div>
-
-            <!-- 📷 사진(이미지) 업로드 섹션 -->
-            <div class="form-group">
-              <div class="upload-section-header">
-                <label class="form-label">📷 사진 첨부 (다중 선택 가능)</label>
-                <span class="upload-hint">JPG, PNG, GIF, WEBP 지원</span>
-              </div>
-              <div class="drop-zone" id="photoDropZone">
-                <input type="file" id="photoFileInput" multiple accept="image/*" class="file-hidden-input" />
-                <div class="drop-zone-content">
-                  <span class="drop-icon">🖼️</span>
-                  <p>사진을 이곳에 끌어다 놓거나 <strong>클릭하여 사진 선택</strong></p>
+              <div class="form-group form-vis-group">
+                <label class="form-label">공개 범위 *</label>
+                <div class="visibility-switch-box-compact">
+                  <label class="visibility-option-compact active" id="labelPublic" title="Public (공개)">
+                    <input type="radio" name="recordVisibility" value="public" checked />
+                    <span class="vis-icon">🌐</span>
+                    <span class="vis-txt">Public</span>
+                  </label>
+                  <label class="visibility-option-compact" id="labelPrivate" title="Private (비공개)">
+                    <input type="radio" name="recordVisibility" value="private" />
+                    <span class="vis-icon">🔒</span>
+                    <span class="vis-txt">Private</span>
+                  </label>
                 </div>
               </div>
-              <!-- 업로드된 사진 썸네일 미리보기 리스트 -->
-              <div class="preview-thumbnails-grid" id="photoPreviewList"></div>
             </div>
 
-            <!-- 📁 일반 파일 첨부 섹션 (PDF, 문서, zip 등) -->
-            <div class="form-group">
-              <div class="upload-section-header">
-                <label class="form-label">📁 파일 첨부 (문서, PDF, ZIP 등)</label>
-                <span class="upload-hint">다운로드 가능한 파일 보관</span>
+            <!-- 2행: 태그 및 미디어 첨부 (컴팩트 가로 배치) -->
+            <div class="form-row form-sub-row">
+              <!-- 태그 입력 -->
+              <div class="form-group flex-1">
+                <label class="form-label" for="recordTagInput">태그 (쉼표/엔터 구분)</label>
+                <input type="text" id="recordTagInput" class="form-control form-control-sm" placeholder="예: 개발, 자바스크립트, 일기" />
+                <div class="tags-badge-container" id="writeModalTagsContainer"></div>
               </div>
-              <div class="drop-zone" id="fileDropZone">
-                <input type="file" id="generalFileInput" multiple class="file-hidden-input" />
-                <div class="drop-zone-content">
-                  <span class="drop-icon">📎</span>
-                  <p>파일을 이곳에 끌어다 놓거나 <strong>클릭하여 파일 선택</strong></p>
+
+              <!-- 첨부 파일 컴팩트 버튼 영역 -->
+              <div class="form-group flex-1">
+                <label class="form-label">사진 및 파일 첨부</label>
+                <div class="attachment-zones-grid">
+                  <div class="drop-zone drop-zone-compact" id="photoDropZone" title="사진 끌어다 놓기 또는 클릭">
+                    <input type="file" id="photoFileInput" multiple accept="image/*" class="file-hidden-input" />
+                    <span class="drop-icon">🖼️</span>
+                    <span class="drop-text">사진 첨부</span>
+                  </div>
+                  <div class="drop-zone drop-zone-compact" id="fileDropZone" title="일반 파일 끌어다 놓기 또는 클릭">
+                    <input type="file" id="generalFileInput" multiple class="file-hidden-input" />
+                    <span class="drop-icon">📎</span>
+                    <span class="drop-text">파일 첨부</span>
+                  </div>
                 </div>
               </div>
-              <!-- 첨부된 파일 목록 카드 리스트 -->
-              <div class="attached-files-list" id="filePreviewList"></div>
             </div>
 
-            <!-- 서식 도구 바 -->
-            <div class="editor-toolbar">
-              <button type="button" class="btn-tb" id="tbBold" title="굵게"><strong>B</strong></button>
-              <button type="button" class="btn-tb" id="tbHeading" title="큰 제목">H2</button>
-              <button type="button" class="btn-tb" id="tbSubHeading" title="중간 제목">H3</button>
-              <button type="button" class="btn-tb" id="tbHighlight" title="형광펜"><mark>Highlight</mark></button>
-              <div class="tb-divider"></div>
-              <!-- 💻 코드 기록 도구 -->
-              <button type="button" class="btn-tb btn-tb-code" id="tbCodeBlock"
-                title="코드 블록 삽입 (```language ... ```)"><strong>&lt;/&gt; 코드</strong></button>
-              <button type="button" class="btn-tb" id="tbInlineCode" title="인라인 코드 (`code`)">`코드`</button>
-              <div class="tb-divider"></div>
-              <!-- 폰트 크기 정밀 조절 스텝퍼 -->
-              <div class="font-stepper-box">
-                <button type="button" class="btn-step" id="fontDecBtn" title="글자 작게">-</button>
-                <input type="number" id="fontSizeInput" value="16" min="12" max="36" class="step-num-input" />
-                <span class="step-unit">px</span>
-                <button type="button" class="btn-step" id="fontIncBtn" title="글자 크게">+</button>
+            <!-- 첨부된 썸네일 & 파일 스트립 -->
+            <div class="preview-thumbnails-grid" id="photoPreviewList"></div>
+            <div class="attached-files-list" id="filePreviewList"></div>
+
+            <!-- 3행: 서식 도구 바 + 본문 에디터 (남은 공간 전폭 확장) -->
+            <div class="form-group form-group-content flex-grow">
+              <div class="editor-toolbar">
+                <button type="button" class="btn-tb" id="tbBold" title="굵게"><strong>B</strong></button>
+                <button type="button" class="btn-tb" id="tbHeading" title="큰 제목">H2</button>
+                <button type="button" class="btn-tb" id="tbSubHeading" title="중간 제목">H3</button>
+                <button type="button" class="btn-tb" id="tbHighlight" title="형광펜"><mark>Highlight</mark></button>
+                <div class="tb-divider"></div>
+                <button type="button" class="btn-tb btn-tb-code" id="tbCodeBlock"
+                  title="코드 블록 삽입 (```language ... ```)"><strong>&lt;/&gt; 코드</strong></button>
+                <button type="button" class="btn-tb" id="tbInlineCode" title="인라인 코드 (`code`)">`코드`</button>
+                <div class="tb-divider"></div>
+                <div class="font-stepper-box">
+                  <button type="button" class="btn-step" id="fontDecBtn" title="글자 작게">-</button>
+                  <input type="number" id="fontSizeInput" value="16" min="12" max="36" class="step-num-input" />
+                  <span class="step-unit">px</span>
+                  <button type="button" class="btn-step" id="fontIncBtn" title="글자 크게">+</button>
+                </div>
               </div>
-            </div>
 
-            <!-- 본문 텍스트 -->
-            <div class="form-group">
-              <label class="form-label" for="recordContentInput">내용</label>
-              <textarea id="recordContentInput" class="form-control record-textarea" rows="8"
+              <textarea id="recordContentInput" class="form-control record-textarea"
                 placeholder="개인 생각, 메모, 일기, 업무 내용 또는 코드(```js ... ```)를 자유롭게 기록하세요." required></textarea>
             </div>
 
+            <!-- 4행: 하단 모달 액션 버튼 -->
             <div class="modal-actions">
               <button type="button" class="btn-cancel" id="cancelWriteBtn">취소</button>
-              <button type="submit" class="btn-primary" id="saveRecordSubmitBtn">저장</button>
+              <button type="submit" class="btn-primary" id="saveRecordSubmitBtn">기록 저장</button>
             </div>
           </form>
         </div>
 
-        <!-- 우측: 실시간 일체형 미리보기 칼럼 -->
+        <!-- 우측: 실시간 일체형 미리보기 칼럼 (실시간 동시 화면) -->
         <div class="modal-col-preview" id="modalColPreview">
           <div class="preview-header">
             <div class="preview-header-title">
               <span class="preview-badge">LIVE PREVIEW</span>
-              <span class="preview-title-sub">실시간 미리보기</span>
+              <span class="preview-title-sub">실시간 동시 미리보기</span>
             </div>
             <div class="preview-sub-tabs" id="previewSubTabs">
               <button type="button" class="preview-tab active" data-preview-type="detail">본문 상세</button>
@@ -274,10 +249,10 @@
             </div>
           </div>
 
-          <div class="preview-scroll-pane">
+          <div class="preview-scroll-pane" id="previewScrollPane">
             <!-- 1) 상세 뷰 실시간 미리보기 -->
             <div class="live-preview-detail" id="livePreviewDetail">
-              <div class="preview-placeholder">내용을 입력하면 실제 화면에 표시될 모습이 실시간으로 나타납니다.</div>
+              <div class="preview-placeholder">좌측 에디터에 내용을 입력하면 실제 화면에 표시될 모습이 이곳에 실시간으로 나타납니다.</div>
             </div>
 
             <!-- 2) 카드 뷰 실시간 미리보기 -->
@@ -331,7 +306,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <!-- 코어 스크립트 로드 -->
-  <script src="app.js?v=7"></script>
+  <script src="app.js?v=9"></script>
 </body>
 
 </html>
