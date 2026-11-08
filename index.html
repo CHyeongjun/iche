@@ -17,7 +17,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
-  <link rel="stylesheet" href="styles.css?v=14" />
+  <link rel="stylesheet" href="styles.css?v=15" />
 </head>
 
 <body>
@@ -32,7 +32,7 @@
   <!-- 관리자 모드 활성화 알림 바 -->
   <div class="admin-indicator-bar hidden" id="adminIndicatorBar">
     <div class="admin-indicator-content">
-      <span>👑 <strong>관리자 모드</strong>로 접속 중입니다.</span>
+      <span><strong>관리자 모드</strong>로 접속 중입니다.</span>
     </div>
   </div>
 
@@ -78,8 +78,8 @@
     <div class="control-bar" id="controlBar">
       <div class="visibility-tabs" id="visibilityTabs">
         <button type="button" class="tab-btn active" data-filter="all">All</button>
-        <button type="button" class="tab-btn" data-filter="public">🌐 Public</button>
-        <button type="button" class="tab-btn tab-private" id="privateFilterTab" data-filter="private">🔒 Private</button>
+        <button type="button" class="tab-btn" data-filter="public">Public</button>
+        <button type="button" class="tab-btn tab-private" id="privateFilterTab" data-filter="private">Private</button>
       </div>
 
       <div class="category-pills" id="categoryPills">
@@ -94,14 +94,12 @@
           총 <strong id="recordsCountNumber">0</strong>개의 기록
         </div>
 
-        <!-- 🖼️ 액자형 vs 📑 리스트형 보기 모드 스위처 -->
+        <!-- 액자형 vs 리스트형 보기 모드 스위처 -->
         <div class="view-mode-switcher" id="viewModeSwitcher">
           <button type="button" class="btn-view-toggle active" data-view="frame" title="액자 형식 (갤러리 카드)">
-            <span class="view-icon">🖼️</span>
             <span class="view-label">액자형</span>
           </button>
           <button type="button" class="btn-view-toggle" data-view="list" title="리스트 형식 (콤팩트 목록)">
-            <span class="view-icon">📑</span>
             <span class="view-label">리스트형</span>
           </button>
         </div>
@@ -140,7 +138,7 @@
       <div class="modal-header">
         <div class="modal-header-left">
           <h3 class="modal-title" id="writeModalTitle">새 기록 작성</h3>
-          <span class="modal-split-pill">⚡ 실시간 분할 뷰 (Editor + Live Preview)</span>
+          <span class="modal-split-pill">미리보기</span>
         </div>
         <button type="button" class="btn-modal-close" id="closeWriteModalBtn">✕</button>
       </div>
@@ -170,14 +168,12 @@
               <div class="form-group form-vis-group">
                 <label class="form-label">공개 범위 *</label>
                 <div class="visibility-switch-box-compact">
-                  <label class="visibility-option-compact active" id="labelPublic" title="Public (공개)">
+                  <label class="visibility-option-compact active" id="labelPublic" title="Public">
                     <input type="radio" name="recordVisibility" value="public" checked />
-                    <span class="vis-icon">🌐</span>
                     <span class="vis-txt">Public</span>
                   </label>
-                  <label class="visibility-option-compact" id="labelPrivate" title="Private (비공개)">
+                  <label class="visibility-option-compact" id="labelPrivate" title="Private">
                     <input type="radio" name="recordVisibility" value="private" />
-                    <span class="vis-icon">🔒</span>
                     <span class="vis-txt">Private</span>
                   </label>
                 </div>
@@ -189,7 +185,8 @@
               <!-- 태그 입력 -->
               <div class="form-group flex-1">
                 <label class="form-label" for="recordTagInput">태그 (쉼표/엔터 구분)</label>
-                <input type="text" id="recordTagInput" class="form-control form-control-sm" placeholder="예: 개발, 자바스크립트, 일기" />
+                <input type="text" id="recordTagInput" class="form-control form-control-sm"
+                  placeholder="예: 개발, 자바스크립트, 일기" />
                 <div class="tags-badge-container" id="writeModalTagsContainer"></div>
               </div>
 
@@ -199,12 +196,10 @@
                 <div class="attachment-zones-grid">
                   <div class="drop-zone drop-zone-compact" id="photoDropZone" title="사진 끌어다 놓기 또는 클릭">
                     <input type="file" id="photoFileInput" multiple accept="image/*" class="file-hidden-input" />
-                    <span class="drop-icon">🖼️</span>
                     <span class="drop-text">사진 첨부</span>
                   </div>
                   <div class="drop-zone drop-zone-compact" id="fileDropZone" title="일반 파일 끌어다 놓기 또는 클릭">
                     <input type="file" id="generalFileInput" multiple class="file-hidden-input" />
-                    <span class="drop-icon">📎</span>
                     <span class="drop-text">파일 첨부</span>
                   </div>
                 </div>
@@ -281,7 +276,7 @@
     <div class="modal-dialog auth-modal-dialog">
       <div class="modal-header">
         <div class="auth-modal-title-wrap">
-          <span class="auth-icon">🔒</span>
+          <h3 class="auth-modal-title">Admin Login</h3>
         </div>
         <button type="button" class="btn-modal-close" id="closeAuthModalBtn">✕</button>
       </div>
@@ -317,7 +312,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <!-- 코어 스크립트 로드 -->
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=11"></script>
 </body>
 
 </html>

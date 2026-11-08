@@ -810,22 +810,19 @@ body {
 
 .locked-thumb-backdrop {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.locked-thumb-icon {
-  font-size: 1.8rem;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
+  justify-content: center;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid #334155;
+  border-radius: var(--radius-xs);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .locked-thumb-text {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.6px;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 2px;
   color: #ffffff;
 }
 
@@ -1225,8 +1222,16 @@ body {
 }
 
 .file-card-icon {
-  font-size: 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 7px;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: var(--radius-xs);
+  letter-spacing: 0.5px;
   flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .file-card-texts {
@@ -1250,9 +1255,14 @@ body {
 }
 
 .file-card-dl-icon {
+  font-family: var(--font-mono);
+  font-weight: 800;
   color: #0f172a;
-  font-size: 1.1rem;
+  font-size: 0.75rem;
   margin-left: 0.5rem;
+  background: #e2e8f0;
+  padding: 3px 6px;
+  border-radius: var(--radius-xs);
 }
 
 /* 본문 스타일 */
@@ -1417,8 +1427,13 @@ body {
   gap: 0.6rem;
 }
 
-.auth-icon {
-  font-size: 1.2rem;
+.auth-modal-title {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+  margin: 0;
 }
 
 .auth-form {
