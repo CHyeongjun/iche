@@ -14,11 +14,26 @@ const KV_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST
 const TMP_FILE = path.join("/tmp", "vibe_records.json");
 const COMMITTED_FILE = path.join(process.cwd(), "data", "records.json");
 
+function getQuery(req) {
+  if (req.query && Object.keys(req.query).length > 0) return req.query;
+  try {
+    const url = new URL(req.url, "http://localhost");
+    const q = {};
+    for (const [k, v] of url.searchParams.entries()) {
+      q[k] = v;
+    }
+    return q;
+  } catch (e) {
+    return req.query || {};
+  }
+}
+
 async function getStorage() {
   // 1. Vercel KV / Upstash Redis 영구 클라우드 저장소 우선 조회
   if (KV_URL && KV_TOKEN) {
     try {
-      const res = await fetch(KV_URL, {
+      const cleanUrl = KV_URL.replace(/\/+$/, "");
+      const res = await fetch(cleanUrl, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${KV_TOKEN}`,
@@ -28,7 +43,7 @@ async function getStorage() {
       });
       if (res.ok) {
         const data = await res.json();
-        if (data && data.result) {
+        if (data && data.result !== undefined && data.result !== null) {
           const parsed = typeof data.result === "string" ? JSON.parse(data.result) : data.result;
           if (Array.isArray(parsed)) return parsed;
         }
@@ -58,7 +73,8 @@ async function saveStorage(records) {
   // 1. Vercel KV / Upstash Redis 영구 클라우드 저장소에 저장
   if (KV_URL && KV_TOKEN) {
     try {
-      await fetch(KV_URL, {
+      const cleanUrl = KV_URL.replace(/\/+$/, "");
+      await fetch(cleanUrl, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${KV_TOKEN}`,
@@ -130,6 +146,9 @@ module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
@@ -256,15 +275,18 @@ module.exports = async function handler(req, res) {
   // 5. DELETE: 기록 삭제
   if (req.method === "DELETE") {
     try {
-      const id = Number((req.query && req.query.id) || (req.body && req.body.id));
-      const index = records.findIndex(r => Number(r.id) === id);
-      if (index === -1) {
-        return res.status(404).json({ error: "삭제할 기록을 찾을 수 없습니다." });
+      const q = getQuery(req);
+      const body = await parseBody(req);
+      const rawId = q.id || (body && body.id);
+      const id = Number(rawId);
+
+      if (!id || isNaN(id)) {
+        return res.status(400).json({ error: "삭제할 기록의 ID가 올바르지 않습니다." });
       }
 
-      records.splice(index, 1);
+      records = records.filter(r => Number(r.id) !== id);
       await saveStorage(records);
-      return res.status(200).json({ success: true, message: "기록이 삭제되었습니다." });
+      return res.status(200).json({ success: true, message: "기록이 삭제되었습니다.", id: id });
     } catch (err) {
       return res.status(500).json({ error: "기록 삭제 중 오류가 발생했습니다." });
     }
