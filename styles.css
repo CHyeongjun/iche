@@ -1557,6 +1557,40 @@ body {
   overflow: hidden;
 }
 
+.modal-body-split.mode-split {
+  grid-template-columns: 1fr 1fr;
+}
+.modal-body-split.mode-split .modal-col-editor {
+  display: flex;
+  border-right: 2px solid var(--border-medium);
+}
+.modal-body-split.mode-split .modal-col-preview {
+  display: flex;
+}
+
+.modal-body-split.mode-editor {
+  grid-template-columns: 1fr;
+}
+.modal-body-split.mode-editor .modal-col-preview {
+  display: none !important;
+}
+.modal-body-split.mode-editor .modal-col-editor {
+  display: flex !important;
+  width: 100% !important;
+  border-right: none !important;
+}
+
+.modal-body-split.mode-preview {
+  grid-template-columns: 1fr;
+}
+.modal-body-split.mode-preview .modal-col-editor {
+  display: none !important;
+}
+.modal-body-split.mode-preview .modal-col-preview {
+  display: flex !important;
+  width: 100% !important;
+}
+
 .modal-col-editor {
   overflow-y: auto;
   border-right: 2px solid var(--border-medium);
@@ -1683,6 +1717,13 @@ body {
   display: flex;
   gap: 0.85rem;
   align-items: flex-start;
+}
+
+.form-meta-subrow {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  flex: 1.5;
 }
 
 .form-sub-row {
@@ -2327,8 +2368,189 @@ body {
 }
 
 /* ==========================================================================
-   📱 11. 반응형 스타일 (모바일 최적화)
+   📱 11. 반응형 스타일 (모바일 및 태블릿 최적화)
    ========================================================================== */
+@media (max-width: 900px) {
+  /* 모달 분할 탭: 모바일은 '분할' 버튼 숨김 */
+  .modal-view-mode-toggle .btn-mode-toggle[data-mode="split"] {
+    display: none !important;
+  }
+
+  /* 📱 작성 모달 다이얼로그 모바일 전체화면 최적화 */
+  .write-modal-dialog {
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .modal-overlay {
+    padding: 0 !important;
+  }
+
+  .modal-header {
+    padding: 0.75rem 1rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .modal-header-left {
+    gap: 0.6rem !important;
+  }
+
+  .modal-title {
+    font-size: 1.05rem !important;
+  }
+
+  /* 모바일 분할 바디 -> 단일 컬럼 flex 레이아웃 */
+  .modal-body-split,
+  .modal-body-split.mode-split {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .modal-col-editor {
+    display: flex !important;
+    flex: 1 !important;
+    width: 100% !important;
+    border-right: none !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-col-preview {
+    display: none !important;
+    flex: 1 !important;
+    width: 100% !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 모바일에서 미리보기 탭 선택 시 */
+  .modal-body-split.mode-preview .modal-col-editor {
+    display: none !important;
+  }
+
+  .modal-body-split.mode-preview .modal-col-preview {
+    display: flex !important;
+  }
+
+  /* 모바일 폼 패딩 및 간격 정돈 */
+  .record-form {
+    padding: 1rem !important;
+    gap: 0.9rem !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+
+  /* 1행: 제목 + 카테고리/공개범위 모바일 정렬 */
+  .form-meta-row {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    align-items: stretch !important;
+  }
+
+  .form-meta-row .form-group.flex-2 {
+    width: 100% !important;
+    flex: none !important;
+  }
+
+  .form-meta-subrow {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.65rem !important;
+    width: 100% !important;
+    align-items: flex-start !important;
+  }
+
+  .form-meta-subrow .form-group {
+    width: 100% !important;
+    flex: none !important;
+  }
+
+  /* 2행: 태그 및 첨부파일 세로 배치 */
+  .form-sub-row {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    align-items: stretch !important;
+  }
+
+  .form-sub-row .form-group {
+    width: 100% !important;
+    flex: none !important;
+  }
+
+  .attachment-zones-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+  }
+
+  .drop-zone-compact {
+    padding: 10px 8px !important;
+    font-size: 0.8rem !important;
+    justify-content: center !important;
+  }
+
+  /* 에디터 툴바 모바일 가로 스크롤 지원 (아이콘 줄바꿈 방지) */
+  .editor-toolbar {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding: 6px 8px !important;
+    gap: 0.3rem !important;
+  }
+
+  .editor-toolbar::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* 본문 입력창 */
+  .form-group-content {
+    min-height: 220px !important;
+    flex: 1 !important;
+  }
+
+  .record-textarea {
+    min-height: 220px !important;
+    font-size: 16px !important; /* iOS 자동 확대 줌인 방지 */
+    line-height: 1.5 !important;
+    padding: 12px !important;
+  }
+
+  .form-control {
+    font-size: 16px !important; /* 모바일 입력창 줌인 방지 */
+  }
+
+  /* 하단 액션 버튼 (취소 / 기록 저장) */
+  .modal-actions {
+    display: flex !important;
+    gap: 0.6rem !important;
+    padding: 0.75rem 0 0.5rem !important;
+    margin-top: auto !important;
+  }
+
+  .modal-actions .btn-cancel,
+  .modal-actions .btn-primary {
+    flex: 1 !important;
+    padding: 12px !important;
+    font-size: 0.95rem !important;
+    justify-content: center !important;
+  }
+}
+
 @media (max-width: 768px) {
   .header-container {
     flex-wrap: wrap;

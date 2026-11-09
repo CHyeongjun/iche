@@ -17,7 +17,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
-  <link rel="stylesheet" href="styles.css?v=19" />
+  <link rel="stylesheet" href="styles.css?v=20" />
 </head>
 
 <body>
@@ -132,7 +132,11 @@
       <div class="modal-header">
         <div class="modal-header-left">
           <h3 class="modal-title" id="writeModalTitle">새 기록 작성</h3>
-          <span class="modal-split-pill">미리보기</span>
+          <div class="modal-view-mode-toggle" id="modalViewToggle">
+            <button type="button" class="btn-mode-toggle active" data-mode="split">분할</button>
+            <button type="button" class="btn-mode-toggle" data-mode="editor">작성</button>
+            <button type="button" class="btn-mode-toggle" data-mode="preview">미리보기</button>
+          </div>
         </div>
         <button type="button" class="btn-modal-close" id="closeWriteModalBtn">✕</button>
       </div>
@@ -141,35 +145,37 @@
         <!-- 좌측: 에디터 칼럼 -->
         <div class="modal-col-editor" id="modalColEditor">
           <form id="writeRecordForm" class="record-form" autocomplete="off">
-            <!-- 1행: 제목 + 카테고리 + 공개/비공개 설정 (한 줄 배치) -->
+            <!-- 1행: 제목 + 카테고리 + 공개/비공개 설정 (반응형 2행/3열 배치) -->
             <div class="form-row form-meta-row">
               <div class="form-group flex-2">
                 <label class="form-label" for="recordTitleInput">기록 제목 *</label>
                 <input type="text" id="recordTitleInput" class="form-control" placeholder="기록 제목을 입력하세요" required />
               </div>
-              <div class="form-group flex-1">
-                <label class="form-label" for="recordCategorySelect">카테고리</label>
-                <select id="recordCategorySelect" class="form-control">
-                  <option value="일상">일상</option>
-                  <option value="게임">게임</option>
-                  <option value="공부">공부</option>
-                  <option value="메모">메모</option>
-                  <option value="문서/자료">문서/자료</option>
-                  <option value="코드">코드</option>
-                  <option value="비밀">비밀</option>
-                </select>
-              </div>
-              <div class="form-group form-vis-group">
-                <label class="form-label">공개 범위 *</label>
-                <div class="visibility-switch-box-compact">
-                  <label class="visibility-option-compact active" id="labelPublic" title="Public">
-                    <input type="radio" name="recordVisibility" value="public" checked />
-                    <span class="vis-txt">Public</span>
-                  </label>
-                  <label class="visibility-option-compact" id="labelPrivate" title="Private">
-                    <input type="radio" name="recordVisibility" value="private" />
-                    <span class="vis-txt">Private</span>
-                  </label>
+              <div class="form-meta-subrow">
+                <div class="form-group flex-1">
+                  <label class="form-label" for="recordCategorySelect">카테고리</label>
+                  <select id="recordCategorySelect" class="form-control">
+                    <option value="일상">일상</option>
+                    <option value="게임">게임</option>
+                    <option value="공부">공부</option>
+                    <option value="메모">메모</option>
+                    <option value="문서/자료">문서/자료</option>
+                    <option value="코드">코드</option>
+                    <option value="비밀">비밀</option>
+                  </select>
+                </div>
+                <div class="form-group form-vis-group">
+                  <label class="form-label">공개 범위 *</label>
+                  <div class="visibility-switch-box-compact">
+                    <label class="visibility-option-compact active" id="labelPublic" title="Public">
+                      <input type="radio" name="recordVisibility" value="public" checked />
+                      <span class="vis-txt">Public</span>
+                    </label>
+                    <label class="visibility-option-compact" id="labelPrivate" title="Private">
+                      <input type="radio" name="recordVisibility" value="private" />
+                      <span class="vis-txt">Private</span>
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -306,7 +312,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <!-- 코어 스크립트 로드 -->
-  <script src="app.js?v=18"></script>
+  <script src="app.js?v=19"></script>
 </body>
 
 </html>
