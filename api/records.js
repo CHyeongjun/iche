@@ -9,10 +9,36 @@ const path = require("path");
 
 const INITIAL_RECORDS = [];
 
+const KV_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+const KV_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 const TMP_FILE = path.join("/tmp", "vibe_records.json");
 const COMMITTED_FILE = path.join(process.cwd(), "data", "records.json");
 
-function getStorage() {
+async function getStorage() {
+  // 1. Vercel KV / Upstash Redis 영구 클라우드 저장소 우선 조회
+  if (KV_URL && KV_TOKEN) {
+    try {
+      const res = await fetch(KV_URL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${KV_TOKEN}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(["GET", "vibe_records"])
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.result) {
+          const parsed = typeof data.result === "string" ? JSON.parse(data.result) : data.result;
+          if (Array.isArray(parsed)) return parsed;
+        }
+      }
+    } catch (e) {
+      // KV 조회 실패 시 로컬 파일 fallback
+    }
+  }
+
+  // 2. 로컬 /tmp 캐시 fallback
   try {
     if (fs.existsSync(TMP_FILE)) {
       const data = fs.readFileSync(TMP_FILE, "utf-8");
@@ -28,7 +54,24 @@ function getStorage() {
   return [];
 }
 
-function saveStorage(records) {
+async function saveStorage(records) {
+  // 1. Vercel KV / Upstash Redis 영구 클라우드 저장소에 저장
+  if (KV_URL && KV_TOKEN) {
+    try {
+      await fetch(KV_URL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${KV_TOKEN}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(["SET", "vibe_records", JSON.stringify(records)])
+      });
+    } catch (e) {
+      // KV 저장 실패 시 fallback 계속 진행
+    }
+  }
+
+  // 2. 로컬 /tmp 캐시 동시 저장
   try {
     const dir = path.dirname(TMP_FILE);
     if (!fs.existsSync(dir)) {
@@ -93,10 +136,18 @@ module.exports = async function handler(req, res) {
   }
 
   const isAdmin = verifyAdmin(req);
-  let records = getStorage();
+  let records = await getStorage();
 
   // 1. GET: 목록 조회 (Admin은 원본 전체, Guest는 Public + 마스킹된 Private)
   if (req.method === "GET") {
+    // 스토리지 연결 상태 확인 헬스체크
+    if (req.query && req.query.status === "storage") {
+      return res.status(200).json({
+        storage: (KV_URL && KV_TOKEN) ? "vercel_kv" : "ephemeral_tmp",
+        count: records.length
+      });
+    }
+
     const filter = req.query ? req.query.filter : "all";
     let filtered = records;
 
@@ -144,7 +195,7 @@ module.exports = async function handler(req, res) {
 
       if (body.bulk_sync && Array.isArray(body.records)) {
         records = body.records;
-        saveStorage(records);
+        await saveStorage(records);
         return res.status(200).json({ success: true, count: records.length });
       }
 
@@ -166,7 +217,7 @@ module.exports = async function handler(req, res) {
       }
 
       records.unshift(newRecord);
-      saveStorage(records);
+      await saveStorage(records);
       return res.status(201).json(newRecord);
     } catch (err) {
       return res.status(500).json({ error: "기록 등록 중 오류가 발생했습니다." });
@@ -195,7 +246,7 @@ module.exports = async function handler(req, res) {
         is_private: body.is_private !== undefined ? Boolean(body.is_private) : records[index].is_private
       };
 
-      saveStorage(records);
+      await saveStorage(records);
       return res.status(200).json(records[index]);
     } catch (err) {
       return res.status(500).json({ error: "기록 수정 중 오류가 발생했습니다." });
@@ -212,7 +263,7 @@ module.exports = async function handler(req, res) {
       }
 
       records.splice(index, 1);
-      saveStorage(records);
+      await saveStorage(records);
       return res.status(200).json({ success: true, message: "기록이 삭제되었습니다." });
     } catch (err) {
       return res.status(500).json({ error: "기록 삭제 중 오류가 발생했습니다." });
