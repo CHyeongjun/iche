@@ -1432,7 +1432,6 @@ body {
 
 .btn-tb-code {
   color: var(--text-primary);
-  font-family: var(--font-mono);
   font-weight: 700;
 }
 
@@ -2311,16 +2310,25 @@ body {
 }
 
 .btn-tb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 9px;
+  line-height: 1;
   background: transparent;
   border: 1px solid transparent;
   color: var(--text-secondary);
-  padding: 5px 9px;
-  border-radius: 3px;
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: 0.83rem;
   font-weight: 700;
   cursor: pointer;
   transition: var(--transition);
+  white-space: nowrap;
+  vertical-align: middle;
+  box-sizing: border-box;
 }
 
 .btn-tb:hover {
@@ -2329,15 +2337,42 @@ body {
   border-color: var(--border-medium);
 }
 
+.btn-tb .tb-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  transform: translateY(-0.5px);
+}
+
+.btn-tb .tb-sym {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.86rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.btn-tb .tb-txt {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
 .btn-tb-attach {
   background-color: #ffffff;
   border: 1px solid var(--border-medium);
   color: #0f172a;
   font-weight: 800;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
@@ -2346,6 +2381,9 @@ body {
   font-size: 1.05rem;
   line-height: 1;
   font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  transform: translateY(-0.5px);
 }
 
 .btn-tb-attach:hover {
@@ -2359,7 +2397,8 @@ body {
   width: 1px;
   height: 18px;
   background-color: var(--border-medium);
-  margin: 0 4px;
+  margin: 0 3px;
+  flex-shrink: 0;
 }
 
 .font-stepper-box {
@@ -3482,6 +3521,18 @@ body {
   border-color: #38bdf8 !important;
   color: #38bdf8 !important;
   box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
+}
+
+[data-theme="dark"] #tbInsertPhoto {
+  background: #181d2a !important;
+  border: 1px solid #283347 !important;
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] #tbInsertPhoto:hover {
+  background: #232b3d !important;
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
 }
 
 [data-theme="dark"] .gallery-photo-card {

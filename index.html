@@ -17,7 +17,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
-  <link rel="stylesheet" href="styles.css?v=29" />
+  <link rel="stylesheet" href="styles.css?v=30" />
 </head>
 
 <body>
@@ -204,7 +204,8 @@
             <div class="form-group form-group-content flex-grow">
               <div class="editor-toolbar">
                 <button type="button" class="btn-tb btn-tb-attach" id="tbAttachFile" title="사진 및 파일 첨부 (+)">
-                  <strong class="tb-plus-symbol">＋</strong> 파일 첨부
+                  <span class="tb-plus-symbol">＋</span>
+                  <span class="tb-txt">파일 첨부</span>
                 </button>
                 <input type="file" id="unifiedFileInput" multiple class="file-hidden-input" style="display:none;" />
                 <input type="file" id="photoFileInput" multiple accept="image/*" class="file-hidden-input" style="display:none;" />
@@ -216,10 +217,10 @@
                 <button type="button" class="btn-tb" id="tbHighlight" title="형광펜"><mark>Highlight</mark></button>
                 <div class="tb-divider"></div>
                 <button type="button" class="btn-tb btn-tb-code" id="tbCodeBlock"
-                  title="코드 블록 삽입 (```language ... ```)"><strong>&lt;/&gt; 코드</strong></button>
-                <button type="button" class="btn-tb" id="tbInlineCode" title="인라인 코드 (`code`)">`코드`</button>
+                  title="코드 블록 삽입 (```language ... ```)"><span class="tb-sym">&lt;/&gt;</span> <span class="tb-txt">코드</span></button>
+                <button type="button" class="btn-tb btn-tb-code" id="tbInlineCode" title="인라인 코드 (`code`)"><span class="tb-sym">`</span><span class="tb-txt">코드</span><span class="tb-sym">`</span></button>
                 <div class="tb-divider"></div>
-                <button type="button" class="btn-tb" id="tbInsertPhoto" title="본문 원하는 위치에 사진 배치 (예: ![사진1])">📷 사진 배치</button>
+                <button type="button" class="btn-tb" id="tbInsertPhoto" title="본문 원하는 위치에 사진 배치 (예: ![사진1])"><span class="tb-icon">📷</span> <span class="tb-txt">사진 배치</span></button>
                 <div class="tb-divider"></div>
                 <div class="font-stepper-box">
                   <button type="button" class="btn-step" id="fontDecBtn" title="글자 작게">-</button>
@@ -311,7 +312,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <!-- 코어 스크립트 로드 -->
-  <script src="app.js?v=26"></script>
+  <script src="app.js?v=27"></script>
 </body>
 
 </html>
