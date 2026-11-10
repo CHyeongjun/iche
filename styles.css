@@ -1417,7 +1417,7 @@ body {
 }
 
 .btn-tb-code {
-  color: #0f172a !important;
+  color: var(--text-primary);
   font-family: var(--font-mono);
   font-weight: 700;
 }
@@ -3169,12 +3169,12 @@ body {
 [data-theme="dark"] .modal-overlay,
 [data-theme="dark"] .auth-overlay,
 [data-theme="dark"] .lightbox-overlay {
-  background: rgba(4, 5, 8, 0.82);
+  background: rgba(4, 5, 8, 0.85);
 }
 
 [data-theme="dark"] .write-modal-dialog,
 [data-theme="dark"] .auth-dialog {
-  background: #131724;
+  background: #111520;
   border: 2px solid #242c3d;
   color: #f8fafc;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
@@ -3183,7 +3183,7 @@ body {
 [data-theme="dark"] .write-modal-header,
 [data-theme="dark"] .write-modal-footer,
 [data-theme="dark"] .auth-header {
-  background: #161c2a;
+  background: #141926;
   border-color: #242c3d;
 }
 
@@ -3192,39 +3192,23 @@ body {
   color: #f8fafc;
 }
 
-[data-theme="dark"] .editor-toolbar {
-  background: #161c2a;
-  border-color: #242c3d;
-}
-
-[data-theme="dark"] .btn-tb {
-  background: #1c2333;
-  border-color: #2a354c;
-  color: #f8fafc;
-}
-
-[data-theme="dark"] .btn-tb:hover {
-  background: #242e44;
-  border-color: #38bdf8;
-  color: #38bdf8;
-}
-
 [data-theme="dark"] .modal-col-editor {
-  background: #131724;
+  background: #0e121a !important;
+  border-right-color: #242c3d !important;
 }
 
 [data-theme="dark"] .modal-col-preview {
-  background: #0c0f17;
-  border-left-color: #242c3d;
+  background: #080a0f !important;
+  border-left-color: #242c3d !important;
 }
 
 [data-theme="dark"] .preview-header-bar {
-  background: #141926;
+  background: #121622;
   border-bottom-color: #242c3d;
 }
 
 [data-theme="dark"] .preview-tab {
-  background: #182030;
+  background: #161c28;
   border-color: #28334a;
   color: #94a3b8;
 }
@@ -3235,56 +3219,193 @@ body {
   border-color: #38bdf8;
 }
 
-[data-theme="dark"] .meta-input,
-[data-theme="dark"] .meta-select,
+/* 📝 글 작성 폼 컨트롤: 명확하고 선명한 다크 입력칸 (흰색 번짐 제거) */
+[data-theme="dark"] .form-control,
 [data-theme="dark"] .record-textarea,
+[data-theme="dark"] #recordTitleInput,
+[data-theme="dark"] #recordCategorySelect,
+[data-theme="dark"] #recordTagInput,
 [data-theme="dark"] .auth-input {
-  background: #090c12;
-  border-color: #242c3d;
-  color: #f8fafc;
+  background-color: #07090e !important;
+  border: 1.5px solid #283347 !important;
+  color: #f8fafc !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
 }
 
-[data-theme="dark"] .meta-input:focus,
-[data-theme="dark"] .meta-select:focus,
+[data-theme="dark"] .form-control:focus,
 [data-theme="dark"] .record-textarea:focus,
+[data-theme="dark"] #recordTitleInput:focus,
+[data-theme="dark"] #recordCategorySelect:focus,
+[data-theme="dark"] #recordTagInput:focus,
 [data-theme="dark"] .auth-input:focus {
-  border-color: #38bdf8;
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+  background-color: #0a0d14 !important;
+  border-color: #38bdf8 !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(56, 189, 248, 0.22) !important;
+  outline: none !important;
 }
 
-[data-theme="dark"] .field-label {
-  color: #cbd5e1;
+[data-theme="dark"] .form-control::placeholder,
+[data-theme="dark"] .record-textarea::placeholder,
+[data-theme="dark"] .auth-input::placeholder {
+  color: #64748b !important;
 }
 
-[data-theme="dark"] .btn-radio-chip {
-  background: #182030;
-  border-color: #28334a;
-  color: #94a3b8;
+[data-theme="dark"] select.form-control option {
+  background-color: #0c0f17 !important;
+  color: #f8fafc !important;
 }
 
-[data-theme="dark"] .btn-radio-chip.active {
-  background: #f8fafc;
-  color: #020617;
-  border-color: #f8fafc;
+[data-theme="dark"] .form-label {
+  color: #cbd5e1 !important;
 }
 
-[data-theme="dark"] .btn-radio-chip[data-visibility="private"].active {
-  background: rgba(180, 83, 9, 0.22);
-  color: #fcd34d;
-  border-color: #b45309;
+/* 🔒 공개/비공개 세그먼트 스위치 */
+[data-theme="dark"] .visibility-switch-box-compact {
+  background-color: #07090e !important;
+  border: 1.5px solid #283347 !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
 }
 
+[data-theme="dark"] .visibility-option-compact {
+  color: #64748b !important;
+}
+
+[data-theme="dark"] .visibility-option-compact:hover {
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .visibility-option-compact#labelPublic.active {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 2px 0 #0369a1 !important;
+}
+
+[data-theme="dark"] .visibility-option-compact#labelPrivate.active {
+  background: rgba(180, 83, 9, 0.35) !important;
+  color: #fcd34d !important;
+  border-color: #b45309 !important;
+  box-shadow: 0 2px 0 #78350f !important;
+}
+
+/* 🛠️ 에디터 서식 툴바 & 버튼 */
+[data-theme="dark"] .editor-toolbar {
+  background-color: #121622 !important;
+  border: 1.5px solid #283347 !important;
+}
+
+[data-theme="dark"] .btn-tb {
+  background: #181d2a !important;
+  border: 1px solid #283347 !important;
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .btn-tb:hover {
+  background: #232b3d !important;
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
+}
+
+/* 💻 </> 코드 작성 버튼 (선명한 일렉트릭 시안 하이라이트) */
+[data-theme="dark"] .btn-tb-code,
+[data-theme="dark"] #tbCodeBlock,
+[data-theme="dark"] #tbInlineCode {
+  color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.14) !important;
+  border: 1px solid rgba(56, 189, 248, 0.45) !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dark"] .btn-tb-code:hover,
+[data-theme="dark"] #tbCodeBlock:hover,
+[data-theme="dark"] #tbInlineCode:hover {
+  background: rgba(56, 189, 248, 0.28) !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
+}
+
+[data-theme="dark"] .tb-divider {
+  background-color: #283347 !important;
+}
+
+/* 글자 크기 스텝퍼 */
+[data-theme="dark"] .font-stepper-box {
+  background-color: #07090e !important;
+  border: 1.5px solid #283347 !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+}
+
+[data-theme="dark"] .btn-step {
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .btn-step:hover {
+  background-color: #1c2333 !important;
+  color: #38bdf8 !important;
+}
+
+[data-theme="dark"] .step-num-input {
+  background: transparent !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .step-unit {
+  color: #64748b !important;
+}
+
+/* 파일 및 사진 업로드 드롭존 */
+[data-theme="dark"] .drop-zone,
+[data-theme="dark"] .drop-zone-compact,
 [data-theme="dark"] .upload-drop-zone {
-  background: #0b0e15;
-  border-color: #242c3d;
-  color: #94a3b8;
+  background-color: #07090e !important;
+  border: 1.5px dashed #283347 !important;
+  color: #94a3b8 !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
 }
 
+[data-theme="dark"] .drop-zone:hover,
+[data-theme="dark"] .drop-zone.dragover,
+[data-theme="dark"] .drop-zone-compact:hover,
+[data-theme="dark"] .drop-zone-compact.dragover,
 [data-theme="dark"] .upload-drop-zone:hover {
-  border-color: #38bdf8;
-  background: #101520;
+  border-color: #38bdf8 !important;
+  background-color: #101624 !important;
+  color: #38bdf8 !important;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.18) !important;
 }
 
+[data-theme="dark"] .drop-text {
+  color: inherit !important;
+}
+
+/* 태그 및 첨부파일 칩 */
+[data-theme="dark"] .modal-tag-chip {
+  background-color: #161e2c !important;
+  border: 1px solid #283750 !important;
+  color: #38bdf8 !important;
+}
+
+[data-theme="dark"] .modal-tag-chip button {
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .modal-tag-chip button:hover {
+  color: #f87171 !important;
+}
+
+[data-theme="dark"] .thumb-preview-item {
+  background-color: #07090e !important;
+  border-color: #283347 !important;
+}
+
+[data-theme="dark"] .attached-file-item {
+  background-color: #121622 !important;
+  border-color: #283347 !important;
+  color: #f8fafc !important;
+}
+
+/* 모달 하단 버튼 */
 [data-theme="dark"] .btn-cancel {
   background: #182030;
   border-color: #28334a;
