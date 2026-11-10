@@ -342,22 +342,25 @@ body {
   box-shadow: 0 3px 0 #334155, 0 6px 14px rgba(15, 23, 42, 0.25);
 }
 
-/* ☀️/🌙 테마 전환 버튼 (헤더) */
+/* 🔤 테마 전환 버튼 (헤더 영문 버튼: DARK / LIGHT) */
 .btn-theme-toggle {
   background: #ffffff;
   border: 1px solid var(--border-medium);
   color: var(--text-primary);
-  width: 40px;
+  padding: 8px 14px;
+  min-width: 66px;
   height: 38px;
   border-radius: var(--radius-sm);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.15rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
   cursor: pointer;
   box-shadow: var(--depth-btn);
   transition: var(--transition);
-  padding: 0;
   user-select: none;
 }
 
@@ -373,10 +376,10 @@ body {
   box-shadow: var(--depth-btn-active);
 }
 
-.btn-theme-toggle .theme-icon-sun {
+.btn-theme-toggle .theme-text-sun {
   display: none;
 }
-.btn-theme-toggle .theme-icon-moon {
+.btn-theme-toggle .theme-text-moon {
   display: inline-block;
   line-height: 1;
 }
@@ -2871,20 +2874,22 @@ body {
 [data-theme="dark"] .btn-theme-toggle {
   background: #181d2a;
   border-color: #2e384e;
-  color: #f8fafc;
+  color: #38bdf8;
+  box-shadow: 0 3px 0 #0b0e14, 0 6px 14px rgba(0, 0, 0, 0.45);
 }
 
 [data-theme="dark"] .btn-theme-toggle:hover {
   background: #232b3d;
   border-color: #38bdf8;
+  color: #ffffff;
 }
 
-[data-theme="dark"] .btn-theme-toggle .theme-icon-sun {
+[data-theme="dark"] .btn-theme-toggle .theme-text-sun {
   display: inline-block;
   line-height: 1;
 }
 
-[data-theme="dark"] .btn-theme-toggle .theme-icon-moon {
+[data-theme="dark"] .btn-theme-toggle .theme-text-moon {
   display: none;
 }
 
@@ -3180,16 +3185,57 @@ body {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
 }
 
+[data-theme="dark"] .modal-header,
 [data-theme="dark"] .write-modal-header,
 [data-theme="dark"] .write-modal-footer,
 [data-theme="dark"] .auth-header {
-  background: #141926;
-  border-color: #242c3d;
+  background: #141926 !important;
+  border-color: #242c3d !important;
 }
 
 [data-theme="dark"] .modal-title,
 [data-theme="dark"] .auth-title {
-  color: #f8fafc;
+  color: #f8fafc !important;
+}
+
+/* 🎛️ [분할 | 작성 | 미리보기] 다크모드 뷰 전환 탭 */
+[data-theme="dark"] .modal-view-mode-toggle {
+  background-color: #07090e !important;
+  border: 1.5px solid #283347 !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+}
+
+[data-theme="dark"] .btn-mode-toggle {
+  background: transparent !important;
+  color: #94a3b8 !important;
+  border: 1px solid transparent !important;
+}
+
+[data-theme="dark"] .btn-mode-toggle:hover {
+  color: #f8fafc !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+[data-theme="dark"] .btn-mode-toggle.active {
+  background: #38bdf8 !important;
+  color: #020617 !important;
+  font-weight: 900 !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ❌ 모달 닫기 버튼 */
+[data-theme="dark"] .btn-modal-close {
+  background-color: #181d2a !important;
+  border-color: #283347 !important;
+  color: #94a3b8 !important;
+  box-shadow: 0 2px 0 #080a0f !important;
+}
+
+[data-theme="dark"] .btn-modal-close:hover {
+  background-color: #232b3d !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
 }
 
 [data-theme="dark"] .modal-col-editor {
