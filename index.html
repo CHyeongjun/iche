@@ -17,7 +17,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
-  <link rel="stylesheet" href="styles.css?v=26" />
+  <link rel="stylesheet" href="styles.css?v=27" />
 </head>
 
 <body>
@@ -186,39 +186,30 @@
               </div>
             </div>
 
-            <!-- 2행: 태그 및 미디어 첨부 (컴팩트 가로 배치) -->
+            <!-- 2행: 태그 입력 (전폭 확장) -->
             <div class="form-row form-sub-row">
-              <!-- 태그 입력 -->
               <div class="form-group flex-1">
                 <label class="form-label" for="recordTagInput">태그 (쉼표/엔터 구분)</label>
                 <input type="text" id="recordTagInput" class="form-control form-control-sm"
                   placeholder="예: 개발, 자바스크립트, 일기" />
                 <div class="tags-badge-container" id="writeModalTagsContainer"></div>
               </div>
-
-              <!-- 첨부 파일 컴팩트 버튼 영역 -->
-              <div class="form-group flex-1">
-                <label class="form-label">사진 및 파일 첨부</label>
-                <div class="attachment-zones-grid">
-                  <div class="drop-zone drop-zone-compact" id="photoDropZone" title="사진 끌어다 놓기, 클릭 또는 Ctrl+V 붙여넣기">
-                    <input type="file" id="photoFileInput" multiple accept="image/*" class="file-hidden-input" />
-                    <span class="drop-text">사진 첨부 (Ctrl+V)</span>
-                  </div>
-                  <div class="drop-zone drop-zone-compact" id="fileDropZone" title="일반 파일 끌어다 놓기 또는 클릭">
-                    <input type="file" id="generalFileInput" multiple class="file-hidden-input" />
-                    <span class="drop-text">파일 첨부</span>
-                  </div>
-                </div>
-              </div>
             </div>
 
-            <!-- 첨부된 썸네일 & 파일 스트립 -->
+            <!-- 첨부된 썸네일 & 파일 스트립 (첨부 파일이 있을 때만 동적 표시) -->
             <div class="preview-thumbnails-grid" id="photoPreviewList"></div>
             <div class="attached-files-list" id="filePreviewList"></div>
 
             <!-- 3행: 서식 도구 바 + 본문 에디터 (남은 공간 전폭 확장) -->
             <div class="form-group form-group-content flex-grow">
               <div class="editor-toolbar">
+                <button type="button" class="btn-tb btn-tb-attach" id="tbAttachFile" title="사진 및 파일 첨부 (+)">
+                  <strong class="tb-plus-symbol">＋</strong> 파일 첨부
+                </button>
+                <input type="file" id="unifiedFileInput" multiple class="file-hidden-input" />
+                <input type="file" id="photoFileInput" multiple accept="image/*" class="file-hidden-input" />
+                <input type="file" id="generalFileInput" multiple class="file-hidden-input" />
+                <div class="tb-divider"></div>
                 <button type="button" class="btn-tb" id="tbBold" title="굵게"><strong>B</strong></button>
                 <button type="button" class="btn-tb" id="tbHeading" title="큰 제목">H2</button>
                 <button type="button" class="btn-tb" id="tbSubHeading" title="중간 제목">H3</button>
@@ -228,8 +219,7 @@
                   title="코드 블록 삽입 (```language ... ```)"><strong>&lt;/&gt; 코드</strong></button>
                 <button type="button" class="btn-tb" id="tbInlineCode" title="인라인 코드 (`code`)">`코드`</button>
                 <div class="tb-divider"></div>
-                <button type="button" class="btn-tb" id="tbInsertPhoto" title="본문 원하는 위치에 사진 배치 (예: ![사진1])">📷 사진
-                  배치</button>
+                <button type="button" class="btn-tb" id="tbInsertPhoto" title="본문 원하는 위치에 사진 배치 (예: ![사진1])">📷 사진 배치</button>
                 <div class="tb-divider"></div>
                 <div class="font-stepper-box">
                   <button type="button" class="btn-step" id="fontDecBtn" title="글자 작게">-</button>
@@ -321,7 +311,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <!-- 코어 스크립트 로드 -->
-  <script src="app.js?v=24"></script>
+  <script src="app.js?v=25"></script>
 </body>
 
 </html>
