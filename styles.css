@@ -2745,11 +2745,11 @@ body {
   --outline-card-public: rgba(56, 189, 248, 0.35);
   --shadow-card-public: 0 4px 0 #07090e, 0 14px 32px -4px rgba(0, 0, 0, 0.7);
 
-  /* 🔒 PRIVATE 기록 (다크 모드): 칠흑의 옵시디언 금고 & 발광 앰버/골드 시큐리티 */
-  --bg-card-private: #050608;
-  --border-card-private: #1a140c;
-  --outline-card-private: #f59e0b;
-  --shadow-card-private: 0 4px 0 #000000, 0 0 26px rgba(245, 158, 11, 0.28), 0 16px 36px rgba(0, 0, 0, 0.85);
+  /* 🔒 PRIVATE 기록 (다크 모드): 차분한 딥 옵시디언 금고 & 은은한 소프트 브론즈/앰버 */
+  --bg-card-private: #06070a;
+  --border-card-private: #161820;
+  --outline-card-private: rgba(217, 119, 6, 0.4);
+  --shadow-card-private: 0 4px 0 #000000, 0 14px 32px rgba(0, 0, 0, 0.7);
 
   --bg-modal: #121520;
 
@@ -2908,15 +2908,15 @@ body {
 }
 
 [data-theme="dark"] .tab-btn.tab-private {
-  color: #fbbf24;
-  border-color: rgba(245, 158, 11, 0.3);
+  color: #d97706;
+  border-color: rgba(217, 119, 6, 0.25);
 }
 
 [data-theme="dark"] .tab-btn.tab-private.active {
-  background: #f59e0b;
-  border-color: #fbbf24;
-  color: #000000;
-  box-shadow: 0 0 16px rgba(245, 158, 11, 0.45);
+  background: rgba(180, 83, 9, 0.22);
+  border-color: #b45309;
+  color: #fcd34d;
+  box-shadow: none;
 }
 
 [data-theme="dark"] .category-pill {
@@ -3001,52 +3001,52 @@ body {
   box-shadow: 0 0 10px rgba(56, 189, 248, 0.35) !important;
 }
 
-/* 2. PRIVATE 액자 카드 (다크 모드): 칠흑의 옵시디언 금고 & 발광 앰버/골드 시큐리티 */
+/* 2. PRIVATE 액자 카드 (다크 모드): 차분하고 고급스러운 딥 옵시디언 금고 & 은은한 소프트 브론즈 */
 [data-theme="dark"] .record-card.is-private-card {
-  background: #050608 !important;
-  border: 8px solid #1a140c !important;
-  border-top: 6px solid #f59e0b !important;
-  outline: 2px solid #f59e0b !important;
-  box-shadow: 0 4px 0 #000000, 0 0 26px rgba(245, 158, 11, 0.28), 0 16px 36px rgba(0, 0, 0, 0.85) !important;
-  color: #ffffff !important;
+  background: #06070a !important;
+  border: 8px solid #161820 !important;
+  border-top: 3px solid #b45309 !important;
+  outline: 1px solid rgba(217, 119, 6, 0.35) !important;
+  box-shadow: 0 4px 0 #000000, 0 14px 32px rgba(0, 0, 0, 0.7) !important;
+  color: #e2e8f0 !important;
 }
 
 [data-theme="dark"] .record-card.is-private-card:hover {
-  background: #0a0b10 !important;
-  border-color: #271e11 !important;
-  border-top-color: #fbbf24 !important;
-  outline: 2px solid #fbbf24 !important;
-  box-shadow: 0 8px 0 #000000, 0 0 40px rgba(245, 158, 11, 0.45), 0 28px 60px rgba(0, 0, 0, 0.95) !important;
+  background: #0c0e14 !important;
+  border-color: #20232e !important;
+  border-top-color: #d97706 !important;
+  outline-color: rgba(217, 119, 6, 0.6) !important;
+  box-shadow: 0 8px 0 #000000, 0 20px 40px rgba(0, 0, 0, 0.8) !important;
 }
 
 [data-theme="dark"] .record-card.is-private-card .card-title {
-  color: #fef3c7 !important;
+  color: #e2e8f0 !important;
 }
 
 [data-theme="dark"] .record-card.is-private-card .card-excerpt {
-  color: #cbd5e1 !important;
+  color: #94a3b8 !important;
 }
 
 [data-theme="dark"] .record-card.is-private-card .badge-category {
-  background-color: #24190b !important;
-  border-color: rgba(245, 158, 11, 0.45) !important;
-  color: #fbbf24 !important;
+  background-color: #161820 !important;
+  border-color: #2a3040 !important;
+  color: #94a3b8 !important;
 }
 
 [data-theme="dark"] .badge-private,
 [data-theme="dark"] .badge-private-locked {
-  background: #f59e0b !important;
-  color: #000000 !important;
-  font-weight: 900 !important;
-  border: 1.5px solid #fbbf24 !important;
-  box-shadow: 0 0 14px rgba(245, 158, 11, 0.65) !important;
+  background: rgba(180, 83, 9, 0.18) !important;
+  color: #fcd34d !important;
+  font-weight: 700 !important;
+  border: 1px solid rgba(217, 119, 6, 0.4) !important;
+  box-shadow: none !important;
 }
 
 /* 리스트형 뷰 (다크 모드) */
 [data-theme="dark"] .records-grid.view-list .record-card:not(.is-private-card) {
   background: #141824 !important;
   border: 1px solid #232c40 !important;
-  border-left: 5px solid #38bdf8 !important;
+  border-left: 3px solid #38bdf8 !important;
   border-top: 1px solid #2e3950 !important;
   border-bottom: 3px solid #090c13 !important;
   box-shadow: 0 4px 0 #090c13, 0 8px 18px rgba(0, 0, 0, 0.5) !important;
@@ -3060,35 +3060,35 @@ body {
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card.is-private-card {
-  background: #050608 !important;
-  border: 1px solid rgba(245, 158, 11, 0.35) !important;
-  border-left: 5px solid #f59e0b !important;
+  background: #06070a !important;
+  border: 1px solid #1e222d !important;
+  border-left: 3px solid #b45309 !important;
   border-bottom: 3px solid #000000 !important;
-  box-shadow: 0 4px 0 #000000, 0 0 18px rgba(245, 158, 11, 0.22) !important;
+  box-shadow: 0 4px 0 #000000, 0 8px 18px rgba(0, 0, 0, 0.6) !important;
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card.is-private-card:hover {
-  background: #0a0b10 !important;
-  border-left-color: #fbbf24 !important;
-  border-color: rgba(245, 158, 11, 0.6) !important;
-  box-shadow: 0 6px 0 #000000, 0 0 30px rgba(245, 158, 11, 0.4) !important;
+  background: #0c0e14 !important;
+  border-left-color: #d97706 !important;
+  border-color: #2e3445 !important;
+  box-shadow: 0 6px 0 #000000, 0 16px 32px rgba(0, 0, 0, 0.7) !important;
 }
 
 /* 상세 보기 카드 (다크 모드) */
 [data-theme="dark"] .record-detail-card {
   background: #131724;
   border: 2px solid #232c40;
-  border-top: 5px solid #38bdf8;
+  border-top: 3px solid #38bdf8;
   border-bottom: 4px solid #090c13;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
   color: #f8fafc;
 }
 
 [data-theme="dark"] .record-detail-card.is-private-detail {
-  background: #06070a;
-  border: 2px solid rgba(245, 158, 11, 0.45);
-  border-top: 6px solid #f59e0b;
-  box-shadow: 0 0 36px rgba(245, 158, 11, 0.22), 0 16px 40px rgba(0, 0, 0, 0.85);
+  background: #07090e;
+  border: 2px solid #232734;
+  border-top: 3px solid #b45309;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);
 }
 
 [data-theme="dark"] .detail-title {
@@ -3105,8 +3105,9 @@ body {
 }
 
 [data-theme="dark"] .detail-body mark {
-  background-color: #f59e0b;
-  color: #000000;
+  background-color: rgba(217, 119, 6, 0.25);
+  color: #fef3c7;
+  border-bottom: 1px solid #b45309;
 }
 
 [data-theme="dark"] .detail-body code:not(pre code) {
@@ -3268,9 +3269,9 @@ body {
 }
 
 [data-theme="dark"] .btn-radio-chip[data-visibility="private"].active {
-  background: #f59e0b;
-  color: #000000;
-  border-color: #fbbf24;
+  background: rgba(180, 83, 9, 0.22);
+  color: #fcd34d;
+  border-color: #b45309;
 }
 
 [data-theme="dark"] .upload-drop-zone {
