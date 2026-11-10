@@ -342,6 +342,45 @@ body {
   box-shadow: 0 3px 0 #334155, 0 6px 14px rgba(15, 23, 42, 0.25);
 }
 
+/* ☀️/🌙 테마 전환 버튼 (헤더) */
+.btn-theme-toggle {
+  background: #ffffff;
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary);
+  width: 40px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  cursor: pointer;
+  box-shadow: var(--depth-btn);
+  transition: var(--transition);
+  padding: 0;
+  user-select: none;
+}
+
+.btn-theme-toggle:hover {
+  background: #f8fafc;
+  border-color: #0f172a;
+  transform: translateY(-2px);
+  box-shadow: var(--depth-btn-hover);
+}
+
+.btn-theme-toggle:active {
+  transform: translateY(2px);
+  box-shadow: var(--depth-btn-active);
+}
+
+.btn-theme-toggle .theme-icon-sun {
+  display: none;
+}
+.btn-theme-toggle .theme-icon-moon {
+  display: inline-block;
+  line-height: 1;
+}
+
 /* ==========================================================================
    🎛️ 4. 컨트롤 바 (탭, 필터, 뷰 모드 스위처)
    ========================================================================== */
@@ -2685,3 +2724,597 @@ body {
     justify-content: space-between;
   }
 }
+
+/* ==========================================================================
+   🌙 DARK MODE MASTER SYSTEM
+   - PUBLIC과 PRIVATE가 한눈에 극명하게 식별되는 3D 하이 콘트라스트 시스템
+   - PUBLIC: 세련된 다크 카본 슬레이트 & 일렉트릭 시안/블루 엣지
+   - PRIVATE: 칠흑의 옵시디언 금고 & 발광 앰버/골드 시큐리티 볼트
+   ========================================================================== */
+
+[data-theme="dark"] {
+  /* 🌌 심연의 스페이스 옵시디언 배경 팔레트 */
+  --bg-void: #090b10;
+  --bg-primary: #0e1118;
+  --bg-surface: #141724;
+  --bg-recessed: #0a0c12;
+
+  /* 🌐 PUBLIC 기록 (다크 모드): 미래적인 미드나이트 카본 & 시안/블루 엣지 */
+  --bg-card-public: #141824;
+  --border-card-public: #202737;
+  --outline-card-public: rgba(56, 189, 248, 0.35);
+  --shadow-card-public: 0 4px 0 #07090e, 0 14px 32px -4px rgba(0, 0, 0, 0.7);
+
+  /* 🔒 PRIVATE 기록 (다크 모드): 칠흑의 옵시디언 금고 & 발광 앰버/골드 시큐리티 */
+  --bg-card-private: #050608;
+  --border-card-private: #1a140c;
+  --outline-card-private: #f59e0b;
+  --shadow-card-private: 0 4px 0 #000000, 0 0 26px rgba(245, 158, 11, 0.28), 0 16px 36px rgba(0, 0, 0, 0.85);
+
+  --bg-modal: #121520;
+
+  /* 🔤 고대비 다크 타이포그래피 */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-white: #ffffff;
+
+  /* ⚡ 3D 보더 & 베벨 */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: #242c3d;
+  --border-strong: #38455e;
+  --border-solid: #38bdf8;
+
+  /* 💎 3D 버튼 섀도우 */
+  --depth-btn: 0 3px 0 #080a0f, 0 6px 14px rgba(0, 0, 0, 0.5);
+  --depth-btn-hover: 0 5px 0 #1b212e, 0 10px 20px rgba(0, 0, 0, 0.7);
+  --depth-btn-active: 0 1px 0 #080a0f, 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 다크 모드 3D 앰비언트 배경 */
+[data-theme="dark"] .cyber-spatial-backdrop {
+  background-color: var(--bg-void);
+}
+
+[data-theme="dark"] .cyber-ambient-light {
+  background: 
+    radial-gradient(ellipse 80% 50% at 50% -5%, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.4) 45%, transparent 80%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(14, 165, 233, 0.08) 0%, transparent 65%);
+}
+
+[data-theme="dark"] .cyber-horizon-glow {
+  background: linear-gradient(90deg, transparent 5%, rgba(56, 189, 248, 0.2) 50%, transparent 95%);
+}
+
+[data-theme="dark"] .cyber-grid-3d {
+  background-image: radial-gradient(rgba(56, 189, 248, 0.12) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+[data-theme="dark"] .cyber-vignette {
+  background: radial-gradient(circle at 50% 40%, transparent 40%, rgba(3, 4, 7, 0.8) 100%);
+}
+
+/* 상단 헤더 & 검색창 */
+[data-theme="dark"] .app-header {
+  background: rgba(18, 22, 32, 0.94);
+  border-bottom: 2px solid #232c40;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .brand-badge {
+  background: #38bdf8;
+  color: #020617;
+  border-color: #38bdf8;
+  box-shadow: 0 3px 0 #0284c7, 0 0 14px rgba(56, 189, 248, 0.35);
+}
+
+[data-theme="dark"] .brand-title {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .search-input {
+  background-color: #0b0e14;
+  border-color: #242c3d;
+  color: #f8fafc;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .search-input:focus {
+  border-color: #38bdf8;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+[data-theme="dark"] .search-icon {
+  color: #64748b;
+}
+
+[data-theme="dark"] .search-clear-btn {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .btn-primary {
+  background: #38bdf8;
+  color: #020617;
+  border-color: #38bdf8;
+  box-shadow: 0 4px 0 #0284c7, 0 8px 18px rgba(56, 189, 248, 0.3);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  background: #7dd3fc;
+  border-color: #7dd3fc;
+  box-shadow: 0 6px 0 #0284c7, 0 12px 24px rgba(56, 189, 248, 0.45);
+}
+
+[data-theme="dark"] .btn-primary:active {
+  box-shadow: 0 1px 0 #0284c7, 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .btn-admin-auth {
+  background: #181d2a;
+  border-color: #2e384e;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .btn-admin-auth:hover {
+  background: #232b3d;
+  border-color: #38bdf8;
+}
+
+[data-theme="dark"] .btn-admin-auth.is-admin {
+  background: #38bdf8;
+  color: #020617;
+  border-color: #38bdf8;
+  box-shadow: 0 3px 0 #0284c7, 0 0 16px rgba(56, 189, 248, 0.35);
+}
+
+[data-theme="dark"] .btn-theme-toggle {
+  background: #181d2a;
+  border-color: #2e384e;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .btn-theme-toggle:hover {
+  background: #232b3d;
+  border-color: #38bdf8;
+}
+
+[data-theme="dark"] .btn-theme-toggle .theme-icon-sun {
+  display: inline-block;
+  line-height: 1;
+}
+
+[data-theme="dark"] .btn-theme-toggle .theme-icon-moon {
+  display: none;
+}
+
+/* 컨트롤 바 (탭 & 카테고리) */
+[data-theme="dark"] .tab-btn {
+  background: #141824;
+  border-color: #242c3d;
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .tab-btn:hover {
+  background: #1c2232;
+  border-color: #38bdf8;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .tab-btn.active {
+  background: #f8fafc;
+  border-color: #f8fafc;
+  color: #020617;
+}
+
+[data-theme="dark"] .tab-btn.tab-private {
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+[data-theme="dark"] .tab-btn.tab-private.active {
+  background: #f59e0b;
+  border-color: #fbbf24;
+  color: #000000;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.45);
+}
+
+[data-theme="dark"] .category-pill {
+  background: #141824;
+  border-color: #242c3d;
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .category-pill:hover {
+  background: #1c2232;
+  color: #f8fafc;
+  border-color: #38bdf8;
+}
+
+[data-theme="dark"] .category-pill.active {
+  background: #38bdf8;
+  border-color: #38bdf8;
+  color: #020617;
+}
+
+[data-theme="dark"] .records-count-info {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .records-count-info strong {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .view-mode-switcher {
+  background: #0b0e14;
+  border-color: #242c3d;
+}
+
+[data-theme="dark"] .btn-view-toggle {
+  color: #64748b;
+}
+
+[data-theme="dark"] .btn-view-toggle.active {
+  background: #1c2232;
+  border-color: #2e384e;
+  color: #f8fafc;
+}
+
+/* ==========================================================================
+   🚨 다크 모드 핵심: PUBLIC vs PRIVATE 극명한 3D 시각 대비
+   ========================================================================== */
+
+/* 1. PUBLIC 액자 카드 (다크 모드): 쿨 미드나이트 카본 & 시안/블루 엣지 */
+[data-theme="dark"] .record-card:not(.is-private-card) {
+  background: #141824 !important;
+  border: 8px solid #202737 !important;
+  outline: 1.5px solid rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 4px 0 #090c13, 0 14px 32px -4px rgba(0, 0, 0, 0.7) !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .record-card:not(.is-private-card):hover {
+  background: #1a2030 !important;
+  border-color: #2a354c !important;
+  outline-color: #38bdf8 !important;
+  box-shadow: 0 8px 0 #090c13, 0 0 24px rgba(56, 189, 248, 0.22), 0 28px 60px -8px rgba(0, 0, 0, 0.8) !important;
+}
+
+[data-theme="dark"] .record-card:not(.is-private-card) .card-title {
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .record-card:not(.is-private-card) .card-excerpt {
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .record-card:not(.is-private-card) .badge-category {
+  background-color: #1a2233 !important;
+  border-color: #2c3952 !important;
+  color: #38bdf8 !important;
+}
+
+[data-theme="dark"] .badge-public {
+  background-color: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.35) !important;
+}
+
+/* 2. PRIVATE 액자 카드 (다크 모드): 칠흑의 옵시디언 금고 & 발광 앰버/골드 시큐리티 */
+[data-theme="dark"] .record-card.is-private-card {
+  background: #050608 !important;
+  border: 8px solid #1a140c !important;
+  border-top: 6px solid #f59e0b !important;
+  outline: 2px solid #f59e0b !important;
+  box-shadow: 0 4px 0 #000000, 0 0 26px rgba(245, 158, 11, 0.28), 0 16px 36px rgba(0, 0, 0, 0.85) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .record-card.is-private-card:hover {
+  background: #0a0b10 !important;
+  border-color: #271e11 !important;
+  border-top-color: #fbbf24 !important;
+  outline: 2px solid #fbbf24 !important;
+  box-shadow: 0 8px 0 #000000, 0 0 40px rgba(245, 158, 11, 0.45), 0 28px 60px rgba(0, 0, 0, 0.95) !important;
+}
+
+[data-theme="dark"] .record-card.is-private-card .card-title {
+  color: #fef3c7 !important;
+}
+
+[data-theme="dark"] .record-card.is-private-card .card-excerpt {
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .record-card.is-private-card .badge-category {
+  background-color: #24190b !important;
+  border-color: rgba(245, 158, 11, 0.45) !important;
+  color: #fbbf24 !important;
+}
+
+[data-theme="dark"] .badge-private,
+[data-theme="dark"] .badge-private-locked {
+  background: #f59e0b !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  border: 1.5px solid #fbbf24 !important;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.65) !important;
+}
+
+/* 리스트형 뷰 (다크 모드) */
+[data-theme="dark"] .records-grid.view-list .record-card:not(.is-private-card) {
+  background: #141824 !important;
+  border: 1px solid #232c40 !important;
+  border-left: 5px solid #38bdf8 !important;
+  border-top: 1px solid #2e3950 !important;
+  border-bottom: 3px solid #090c13 !important;
+  box-shadow: 0 4px 0 #090c13, 0 8px 18px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .records-grid.view-list .record-card:not(.is-private-card):hover {
+  background: #1a2030 !important;
+  border-left-color: #38bdf8 !important;
+  border-top-color: #38bdf8 !important;
+  box-shadow: 0 6px 0 #090c13, 0 16px 32px rgba(56, 189, 248, 0.2) !important;
+}
+
+[data-theme="dark"] .records-grid.view-list .record-card.is-private-card {
+  background: #050608 !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+  border-left: 5px solid #f59e0b !important;
+  border-bottom: 3px solid #000000 !important;
+  box-shadow: 0 4px 0 #000000, 0 0 18px rgba(245, 158, 11, 0.22) !important;
+}
+
+[data-theme="dark"] .records-grid.view-list .record-card.is-private-card:hover {
+  background: #0a0b10 !important;
+  border-left-color: #fbbf24 !important;
+  border-color: rgba(245, 158, 11, 0.6) !important;
+  box-shadow: 0 6px 0 #000000, 0 0 30px rgba(245, 158, 11, 0.4) !important;
+}
+
+/* 상세 보기 카드 (다크 모드) */
+[data-theme="dark"] .record-detail-card {
+  background: #131724;
+  border: 2px solid #232c40;
+  border-top: 5px solid #38bdf8;
+  border-bottom: 4px solid #090c13;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .record-detail-card.is-private-detail {
+  background: #06070a;
+  border: 2px solid rgba(245, 158, 11, 0.45);
+  border-top: 6px solid #f59e0b;
+  box-shadow: 0 0 36px rgba(245, 158, 11, 0.22), 0 16px 40px rgba(0, 0, 0, 0.85);
+}
+
+[data-theme="dark"] .detail-title {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .detail-body {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .detail-body h2,
+[data-theme="dark"] .detail-body h3 {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .detail-body mark {
+  background-color: #f59e0b;
+  color: #000000;
+}
+
+[data-theme="dark"] .detail-body code:not(pre code) {
+  background-color: #1a2233;
+  color: #38bdf8;
+  border-color: #2c3952;
+}
+
+[data-theme="dark"] .btn-back {
+  background: #141824;
+  border-color: #242c3d;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .btn-back:hover {
+  background: #1c2232;
+  border-color: #38bdf8;
+}
+
+[data-theme="dark"] .tag-pill {
+  background-color: #1a2233;
+  border-color: #2c3952;
+  color: #38bdf8;
+}
+
+[data-theme="dark"] .attached-file-download-card {
+  background: #161c2a;
+  border: 1px solid #242c3d;
+  border-top: 2px solid #2e384e;
+  border-bottom: 3px solid #090c13;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .attached-file-download-card:hover {
+  border-color: #38bdf8;
+  background: #1c2436;
+}
+
+[data-theme="dark"] .attached-file-download-card .file-card-name {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .inline-photo-wrap {
+  background-color: #0a0d14;
+  border-color: #242c3d;
+}
+
+[data-theme="dark"] .inline-record-img {
+  background-color: #0a0d14;
+}
+
+[data-theme="dark"] .inline-photo-caption {
+  background-color: #111520;
+  border-top-color: #242c3d;
+  color: #94a3b8;
+}
+
+/* 모달 (작성 모달 및 관리자 로그인 모달) */
+[data-theme="dark"] .modal-overlay,
+[data-theme="dark"] .auth-overlay,
+[data-theme="dark"] .lightbox-overlay {
+  background: rgba(4, 5, 8, 0.82);
+}
+
+[data-theme="dark"] .write-modal-dialog,
+[data-theme="dark"] .auth-dialog {
+  background: #131724;
+  border: 2px solid #242c3d;
+  color: #f8fafc;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
+}
+
+[data-theme="dark"] .write-modal-header,
+[data-theme="dark"] .write-modal-footer,
+[data-theme="dark"] .auth-header {
+  background: #161c2a;
+  border-color: #242c3d;
+}
+
+[data-theme="dark"] .modal-title,
+[data-theme="dark"] .auth-title {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .editor-toolbar {
+  background: #161c2a;
+  border-color: #242c3d;
+}
+
+[data-theme="dark"] .btn-tb {
+  background: #1c2333;
+  border-color: #2a354c;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .btn-tb:hover {
+  background: #242e44;
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+[data-theme="dark"] .modal-col-editor {
+  background: #131724;
+}
+
+[data-theme="dark"] .modal-col-preview {
+  background: #0c0f17;
+  border-left-color: #242c3d;
+}
+
+[data-theme="dark"] .preview-header-bar {
+  background: #141926;
+  border-bottom-color: #242c3d;
+}
+
+[data-theme="dark"] .preview-tab {
+  background: #182030;
+  border-color: #28334a;
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .preview-tab.active {
+  background: #38bdf8;
+  color: #020617;
+  border-color: #38bdf8;
+}
+
+[data-theme="dark"] .meta-input,
+[data-theme="dark"] .meta-select,
+[data-theme="dark"] .record-textarea,
+[data-theme="dark"] .auth-input {
+  background: #090c12;
+  border-color: #242c3d;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .meta-input:focus,
+[data-theme="dark"] .meta-select:focus,
+[data-theme="dark"] .record-textarea:focus,
+[data-theme="dark"] .auth-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+[data-theme="dark"] .field-label {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .btn-radio-chip {
+  background: #182030;
+  border-color: #28334a;
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .btn-radio-chip.active {
+  background: #f8fafc;
+  color: #020617;
+  border-color: #f8fafc;
+}
+
+[data-theme="dark"] .btn-radio-chip[data-visibility="private"].active {
+  background: #f59e0b;
+  color: #000000;
+  border-color: #fbbf24;
+}
+
+[data-theme="dark"] .upload-drop-zone {
+  background: #0b0e15;
+  border-color: #242c3d;
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .upload-drop-zone:hover {
+  border-color: #38bdf8;
+  background: #101520;
+}
+
+[data-theme="dark"] .btn-cancel {
+  background: #182030;
+  border-color: #28334a;
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .btn-cancel:hover {
+  background: #202a40;
+  border-color: #384663;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .btn-secondary {
+  background: #182030;
+  border-color: #28334a;
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background: #202a40;
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .empty-state {
+  color: #64748b;
+}
+
+[data-theme="dark"] .toast-msg {
+  background: #181d2a;
+  border-color: #38bdf8;
+  box-shadow: 0 4px 0 #000000, 0 16px 36px rgba(0, 0, 0, 0.6);
+}
+
