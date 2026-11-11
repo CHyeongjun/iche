@@ -142,6 +142,21 @@ function verifyAdmin(req) {
   );
 }
 
+function isPrivateRecord(r) {
+  if (!r) return false;
+  if (r.is_private === true || r.is_private === "true" || r.is_private === 1 || r.is_private === "1") return true;
+  if (r.isPrivate === true || r.isPrivate === "true" || r.isPrivate === 1) return true;
+  if (r.visibility === "private") return true;
+  if (r.is_guest_private === true) return true;
+  if (typeof r.category === "string" && (r.category.trim() === "비밀" || r.category.trim().toLowerCase() === "private")) return true;
+  if (typeof r.title === "string" && (r.title.includes("[Private]") || r.title.includes("[비공개]") || r.title.includes("🔒"))) return true;
+  if (Array.isArray(r.tags) && r.tags.some(t => {
+    const s = String(t).trim().toLowerCase();
+    return s === "private" || s === "비밀" || s === "비공개";
+  })) return true;
+  return false;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -171,14 +186,14 @@ module.exports = async function handler(req, res) {
 
     if (!isAdmin) {
       // 일반 방문자(비로그인)는 Private 기록을 조회할 수 없음 (Public 기록만 제공)
-      filtered = filtered.filter((r) => !r.is_private);
+      filtered = filtered.filter((r) => !isPrivateRecord(r));
     } else {
       // 관리자 로그인 시: 필터 파라미터 적용 (all, public, private)
       const filter = req.query ? req.query.filter : "all";
       if (filter === "private") {
-        filtered = filtered.filter((r) => r.is_private);
+        filtered = filtered.filter((r) => isPrivateRecord(r));
       } else if (filter === "public") {
-        filtered = filtered.filter((r) => !r.is_private);
+        filtered = filtered.filter((r) => !isPrivateRecord(r));
       }
     }
 
@@ -211,7 +226,7 @@ module.exports = async function handler(req, res) {
         tags: Array.isArray(body.tags) ? body.tags : [],
         images: Array.isArray(body.images) ? body.images : [],
         files: Array.isArray(body.files) ? body.files : [],
-        is_private: Boolean(body.is_private),
+        is_private: Boolean(body.is_private || body.category === "비밀" || body.visibility === "private"),
         created_at: new Date().toISOString()
       };
 
@@ -246,7 +261,9 @@ module.exports = async function handler(req, res) {
         tags: Array.isArray(body.tags) ? body.tags : records[index].tags,
         images: Array.isArray(body.images) ? body.images : records[index].images,
         files: Array.isArray(body.files) ? body.files : records[index].files,
-        is_private: body.is_private !== undefined ? Boolean(body.is_private) : records[index].is_private
+        is_private: body.is_private !== undefined
+          ? Boolean(body.is_private || body.category === "비밀" || body.visibility === "private")
+          : (body.category === "비밀" ? true : isPrivateRecord(records[index]))
       };
 
       await saveStorage(records);
