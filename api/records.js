@@ -144,16 +144,42 @@ function verifyAdmin(req) {
 
 function isPrivateRecord(r) {
   if (!r) return false;
+  // 1. 불리언/숫자/문자열 플래그
   if (r.is_private === true || r.is_private === "true" || r.is_private === 1 || r.is_private === "1") return true;
-  if (r.isPrivate === true || r.isPrivate === "true" || r.isPrivate === 1) return true;
-  if (r.visibility === "private") return true;
+  if (r.private === true || r.private === "true" || r.private === 1 || r.private === "1") return true;
+  if (r.isPrivate === true || r.isPrivate === "true" || r.isPrivate === 1 || r.isPrivate === "1") return true;
   if (r.is_guest_private === true) return true;
-  if (typeof r.category === "string" && (r.category.trim() === "비밀" || r.category.trim().toLowerCase() === "private")) return true;
-  if (typeof r.title === "string" && (r.title.includes("[Private]") || r.title.includes("[비공개]") || r.title.includes("🔒"))) return true;
-  if (Array.isArray(r.tags) && r.tags.some(t => {
-    const s = String(t).trim().toLowerCase();
-    return s === "private" || s === "비밀" || s === "비공개";
+  if (r.is_public === false || r.is_public === "false" || r.is_public === 0 || r.is_public === "0") return true;
+  if (r.public === false || r.public === "false" || r.public === 0 || r.public === "0") return true;
+  if (r.isPublic === false || r.isPublic === "false" || r.isPublic === 0 || r.isPublic === "0") return true;
+
+  // 2. 가시성 문자열 (대소문자 무관 및 다양한 필드명)
+  const vis = String(r.visibility || r.recordVisibility || r.record_visibility || r.scope || r.status || r.access || r.type || "").trim().toLowerCase();
+  if (vis === "private" || vis === "secret" || vis === "hidden") return true;
+
+  // 3. 카테고리
+  if (typeof r.category === "string") {
+    const cat = r.category.trim().toLowerCase();
+    if (cat === "비밀" || cat === "private" || cat === "비공개" || cat === "secret") return true;
+  }
+
+  // 4. 제목 표식
+  if (typeof r.title === "string") {
+    const t = r.title.toLowerCase();
+    if (t.includes("[private]") || t.includes("[비공개]") || t.includes("[비밀]") || t.includes("🔒") || t.includes("(private)") || t.includes("(비공개)")) return true;
+  }
+
+  // 5. 마스킹된 본문 흔적
+  if (typeof r.content === "string") {
+    if (r.content.includes("🔒 관리자만 열람할 수 있는 비공개 기록입니다") || r.content.includes("is_guest_private")) return true;
+  }
+
+  // 6. 태그
+  if (Array.isArray(r.tags) && r.tags.some(tag => {
+    const s = String(tag).trim().toLowerCase();
+    return s === "private" || s === "비밀" || s === "비공개" || s === "secret";
   })) return true;
+
   return false;
 }
 
@@ -217,6 +243,16 @@ module.exports = async function handler(req, res) {
         return res.status(200).json({ success: true, count: records.length });
       }
 
+      const isPriv = Boolean(
+        body.is_private === true || body.is_private === "true" || body.is_private === 1 || body.is_private === "1" ||
+        body.private === true || body.private === "true" ||
+        body.isPrivate === true || body.isPrivate === "true" ||
+        String(body.visibility || "").toLowerCase() === "private" ||
+        String(body.recordVisibility || "").toLowerCase() === "private" ||
+        String(body.category || "").trim().toLowerCase() === "비밀" ||
+        String(body.category || "").trim().toLowerCase() === "private"
+      );
+
       const newRecord = {
         id: Number(body.id) || Date.now(),
         title: String(body.title || "").trim(),
@@ -226,7 +262,9 @@ module.exports = async function handler(req, res) {
         tags: Array.isArray(body.tags) ? body.tags : [],
         images: Array.isArray(body.images) ? body.images : [],
         files: Array.isArray(body.files) ? body.files : [],
-        is_private: Boolean(body.is_private || body.category === "비밀" || body.visibility === "private"),
+        is_private: isPriv,
+        visibility: isPriv ? "private" : "public",
+        recordVisibility: isPriv ? "private" : "public",
         created_at: new Date().toISOString()
       };
 
@@ -253,6 +291,10 @@ module.exports = async function handler(req, res) {
         return res.status(404).json({ error: "수정할 기록을 찾을 수 없습니다." });
       }
 
+      const isPriv = body.is_private !== undefined
+        ? Boolean(body.is_private || String(body.visibility || "").toLowerCase() === "private" || String(body.recordVisibility || "").toLowerCase() === "private" || body.category === "비밀")
+        : (body.category === "비밀" ? true : isPrivateRecord(records[index]));
+
       records[index] = {
         ...records[index],
         title: body.title !== undefined ? String(body.title).trim() : records[index].title,
@@ -261,9 +303,9 @@ module.exports = async function handler(req, res) {
         tags: Array.isArray(body.tags) ? body.tags : records[index].tags,
         images: Array.isArray(body.images) ? body.images : records[index].images,
         files: Array.isArray(body.files) ? body.files : records[index].files,
-        is_private: body.is_private !== undefined
-          ? Boolean(body.is_private || body.category === "비밀" || body.visibility === "private")
-          : (body.category === "비밀" ? true : isPrivateRecord(records[index]))
+        is_private: isPriv,
+        visibility: isPriv ? "private" : "public",
+        recordVisibility: isPriv ? "private" : "public"
       };
 
       await saveStorage(records);
