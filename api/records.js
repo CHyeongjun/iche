@@ -157,7 +157,7 @@ module.exports = async function handler(req, res) {
   const isAdmin = verifyAdmin(req);
   let records = await getStorage();
 
-  // 1. GET: 목록 조회 (Admin은 원본 전체, Guest는 Public + 마스킹된 Private)
+  // 1. GET: 목록 조회 (Admin은 원본 전체, Guest는 Public만 조회)
   if (req.method === "GET") {
     // 스토리지 연결 상태 확인 헬스체크
     if (req.query && req.query.status === "storage") {
@@ -167,35 +167,19 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const filter = req.query ? req.query.filter : "all";
     let filtered = records;
 
-    if (filter === "private") {
-      filtered = filtered.filter((r) => r.is_private);
-    } else if (filter === "public") {
-      filtered = filtered.filter((r) => !r.is_private);
-    }
-
     if (!isAdmin) {
-      // 일반 방문자에게는 Private 기록의 민감 본문 및 첨부파일을 서버단에서 마스킹/보호
-      filtered = filtered.map((r) => {
-        if (r.is_private) {
-          return {
-            id: r.id,
-            title: r.title,
-            category: r.category,
-            date: r.date,
-            content: "이 기록은 Private 상태입니다. 관리자 로그인 후 열람할 수 있습니다.",
-            tags: Array.isArray(r.tags) ? r.tags : [],
-            images: [],
-            files: [],
-            is_private: true,
-            is_guest_private: true,
-            created_at: r.created_at
-          };
-        }
-        return r;
-      });
+      // 일반 방문자(비로그인)는 Private 기록을 조회할 수 없음 (Public 기록만 제공)
+      filtered = filtered.filter((r) => !r.is_private);
+    } else {
+      // 관리자 로그인 시: 필터 파라미터 적용 (all, public, private)
+      const filter = req.query ? req.query.filter : "all";
+      if (filter === "private") {
+        filtered = filtered.filter((r) => r.is_private);
+      } else if (filter === "public") {
+        filtered = filtered.filter((r) => !r.is_private);
+      }
     }
 
     filtered.sort((a, b) => Number(b.id) - Number(a.id));
