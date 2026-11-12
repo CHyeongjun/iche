@@ -106,7 +106,7 @@ async function parseBody(req) {
     }
     return req.body;
   }
-  if (req.readableEnded) {
+  if (!req || typeof req.on !== "function" || req.readableEnded) {
     return {};
   }
   return new Promise((resolve) => {
@@ -227,18 +227,46 @@ module.exports = async function handler(req, res) {
     return res.status(200).json(filtered);
   }
 
-  // 2. 관리자 권한 확인 (POST, PUT, DELETE 공통)
+  const query = getQuery(req);
+
+  // 2. 조회수 증가 (POST with action=increment_view 또는 action=view) - 게스트/관리자 공통
+  let parsedBody = null;
+  if (req.method === "POST") {
+    parsedBody = await parseBody(req);
+    const action = (parsedBody && parsedBody.action) || query.action;
+    if (action === "increment_view" || action === "view") {
+      const targetId = Number((parsedBody && parsedBody.id) || query.id);
+      if (!targetId || isNaN(targetId)) {
+        return res.status(400).json({ error: "기록 ID가 올바르지 않습니다." });
+      }
+      const record = records.find(r => Number(r.id) === targetId);
+      if (!record) {
+        return res.status(404).json({ error: "기록을 찾을 수 없습니다." });
+      }
+      if (!isAdmin && isPrivateRecord(record)) {
+        return res.status(403).json({ error: "비공개 기록의 조회수는 열람하거나 증가할 수 없습니다." });
+      }
+      record.views = (Number(record.views) || 0) + 1;
+      await saveStorage(records);
+      return res.status(200).json({ success: true, id: targetId, views: record.views });
+    }
+  }
+
+  // 3. 관리자 권한 확인 (POST 새 글, PUT, DELETE 공통)
   if (!isAdmin) {
     return res.status(403).json({ error: "관리자 인증이 필요합니다." });
   }
 
-  // 3. POST: 새 기록 등록 (또는 일괄 복원/동기화)
+  // 4. POST: 새 기록 등록 (또는 일괄 복원/동기화)
   if (req.method === "POST") {
     try {
-      const body = await parseBody(req);
+      const body = parsedBody || (await parseBody(req));
 
       if (body.bulk_sync && Array.isArray(body.records)) {
-        records = body.records;
+        records = body.records.map(r => ({
+          ...r,
+          views: Number(r.views) || 0
+        }));
         await saveStorage(records);
         return res.status(200).json({ success: true, count: records.length });
       }
@@ -262,6 +290,7 @@ module.exports = async function handler(req, res) {
         tags: Array.isArray(body.tags) ? body.tags : [],
         images: Array.isArray(body.images) ? body.images : [],
         files: Array.isArray(body.files) ? body.files : [],
+        views: Number(body.views) || 0,
         is_private: isPriv,
         visibility: isPriv ? "private" : "public",
         recordVisibility: isPriv ? "private" : "public",
@@ -303,6 +332,7 @@ module.exports = async function handler(req, res) {
         tags: Array.isArray(body.tags) ? body.tags : records[index].tags,
         images: Array.isArray(body.images) ? body.images : records[index].images,
         files: Array.isArray(body.files) ? body.files : records[index].files,
+        views: body.views !== undefined ? Number(body.views) : (records[index].views || 0),
         is_private: isPriv,
         visibility: isPriv ? "private" : "public",
         recordVisibility: isPriv ? "private" : "public"
