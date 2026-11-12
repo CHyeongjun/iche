@@ -17,7 +17,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
-  <link rel="stylesheet" href="styles.css?v=33" />
+  <link rel="stylesheet" href="styles.css?v=34" />
 </head>
 
 <body>
@@ -129,6 +129,39 @@
       <article class="record-detail-card" id="recordDetailCard">
         <!-- 상세 본문이 동적으로 채워집니다 -->
       </article>
+
+      <!-- 💬 댓글 & 답글 섹션 -->
+      <section class="comments-section" id="commentsSection">
+        <div class="comments-header">
+          <h3 class="comments-title">
+            <span class="comments-icon">💬</span> 댓글 <span class="comments-count-badge" id="commentsCountBadge">0</span>
+          </h3>
+        </div>
+
+        <!-- 새 댓글 작성 폼 -->
+        <form id="commentForm" class="comment-form">
+          <input type="hidden" id="commentParentId" value="" />
+          <div class="reply-target-indicator hidden" id="replyTargetIndicator">
+            <span id="replyTargetText">@누군가에게 답글 작성 중</span>
+            <button type="button" class="btn-cancel-reply" id="cancelReplyBtn">✕ 취소</button>
+          </div>
+          <div class="comment-meta-inputs" id="commentMetaInputs">
+            <input type="text" id="commentAuthorInput" class="comment-input comment-input-sm" placeholder="작성자 이름" maxlength="20" />
+            <input type="password" id="commentPasswordInput" class="comment-input comment-input-sm" placeholder="삭제 비밀번호 (선택)" maxlength="30" />
+          </div>
+          <div class="comment-content-wrap">
+            <textarea id="commentContentInput" class="comment-textarea" placeholder="따뜻하고 자유로운 생각을 남겨주세요." required rows="3"></textarea>
+            <div class="comment-submit-row">
+              <button type="submit" class="btn-primary btn-submit-comment" id="submitCommentBtn">댓글 등록</button>
+            </div>
+          </div>
+        </form>
+
+        <!-- 댓글 목록 컨테이너 -->
+        <div class="comments-list" id="commentsListContainer">
+          <!-- JS 동적 렌더링 -->
+        </div>
+      </section>
     </section>
   </main>
 
@@ -138,6 +171,7 @@
       <div class="modal-header">
         <div class="modal-header-left">
           <h3 class="modal-title" id="writeModalTitle">새 기록 작성</h3>
+          <span class="draft-status-badge hidden" id="draftStatusBadge"></span>
           <div class="modal-view-mode-toggle" id="modalViewToggle">
             <button type="button" class="btn-mode-toggle active" data-mode="split">분할</button>
             <button type="button" class="btn-mode-toggle" data-mode="editor">작성</button>
@@ -151,6 +185,15 @@
         <!-- 좌측: 에디터 칼럼 -->
         <div class="modal-col-editor" id="modalColEditor">
           <form id="writeRecordForm" class="record-form" autocomplete="off">
+            <!-- 💾 임시 저장 복원 알림 배너 -->
+            <div class="draft-restore-banner hidden" id="draftRestoreBanner">
+              <span class="draft-banner-text">💾 작성 중이던 임시 저장 글이 있습니다.</span>
+              <div class="draft-banner-actions">
+                <button type="button" class="btn-draft-action btn-draft-restore" id="btnDraftRestore">불러오기</button>
+                <button type="button" class="btn-draft-action btn-draft-discard" id="btnDraftDiscard">삭제</button>
+              </div>
+            </div>
+
             <!-- 1행: 제목 + 카테고리 + 공개/비공개 설정 (반응형 2행/3열 배치) -->
             <div class="form-row form-meta-row">
               <div class="form-group flex-2">
@@ -203,13 +246,13 @@
             <!-- 3행: 서식 도구 바 + 본문 에디터 (남은 공간 전폭 확장) -->
             <div class="form-group form-group-content flex-grow">
               <div class="editor-toolbar">
-                <button type="button" class="btn-tb btn-tb-attach" id="tbAttachFile" title="사진 및 파일 첨부 (+)">
+                <button type="button" class="btn-tb btn-tb-attach" id="tbAttachFile" title="사진, 압축파일(.zip), 문서 파일 첨부 (+)">
                   <span class="tb-plus-symbol">＋</span>
-                  <span class="tb-txt">파일 첨부</span>
+                  <span class="tb-txt">파일/ZIP 첨부</span>
                 </button>
-                <input type="file" id="unifiedFileInput" multiple class="file-hidden-input" style="display:none;" />
+                <input type="file" id="unifiedFileInput" multiple accept="image/*,.zip,.rar,.7z,.tar,.gz,.pdf,.txt,.doc,.docx,.xls,.xlsx,.ppt,.pptx" class="file-hidden-input" style="display:none;" />
                 <input type="file" id="photoFileInput" multiple accept="image/*" class="file-hidden-input" style="display:none;" />
-                <input type="file" id="generalFileInput" multiple class="file-hidden-input" style="display:none;" />
+                <input type="file" id="generalFileInput" multiple accept=".zip,.rar,.7z,.tar,.gz,.pdf,.txt,.doc,.docx,.xls,.xlsx,.ppt,.pptx" class="file-hidden-input" style="display:none;" />
                 <div class="tb-divider"></div>
                 <button type="button" class="btn-tb" id="tbBold" title="굵게"><strong>B</strong></button>
                 <button type="button" class="btn-tb" id="tbHeading" title="큰 제목">H2</button>
@@ -237,6 +280,7 @@
             <!-- 4행: 하단 모달 액션 버튼 -->
             <div class="modal-actions">
               <button type="button" class="btn-cancel" id="cancelWriteBtn">취소</button>
+              <button type="button" class="btn-cancel btn-draft" id="saveDraftBtn" title="현재 작성 중인 내용을 브라우저에 임시 저장">임시저장</button>
               <button type="submit" class="btn-primary" id="saveRecordSubmitBtn">기록 저장</button>
             </div>
           </form>
@@ -312,7 +356,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <!-- 코어 스크립트 로드 -->
-  <script src="app.js?v=36"></script>
+  <script src="app.js?v=37"></script>
 </body>
 
 </html>
