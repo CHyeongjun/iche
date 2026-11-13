@@ -3095,22 +3095,29 @@ body {
   box-shadow: none;
 }
 
+[data-theme="dark"] .pill-btn,
 [data-theme="dark"] .category-pill {
   background: #141824;
   border-color: #242c3d;
   color: #94a3b8;
+  box-shadow: 0 2px 0 #090b10;
 }
 
+[data-theme="dark"] .pill-btn:hover,
 [data-theme="dark"] .category-pill:hover {
   background: #1c2232;
   color: #f8fafc;
   border-color: #38bdf8;
+  box-shadow: 0 2px 0 #090b10, 0 0 10px rgba(56, 189, 248, 0.2);
 }
 
+[data-theme="dark"] .pill-btn.active,
 [data-theme="dark"] .category-pill.active {
-  background: #38bdf8;
-  border-color: #38bdf8;
-  color: #020617;
+  background: #38bdf8 !important;
+  border-color: #38bdf8 !important;
+  color: #020617 !important;
+  font-weight: 900 !important;
+  box-shadow: 0 2px 0 #0284c7, 0 0 16px rgba(56, 189, 248, 0.5) !important;
 }
 
 [data-theme="dark"] .records-count-info {
