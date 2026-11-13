@@ -1537,14 +1537,15 @@ body {
   gap: 1.4rem;
 }
 
-.auth-error-msg {
-  background-color: #0f172a;
-  color: #ffffff;
-  font-weight: 800;
-  padding: 8px 12px;
+.auth-error-msg,
+.form-error-msg {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  font-weight: 700;
+  padding: 9px 12px;
   border-radius: var(--radius-xs);
   font-size: 0.82rem;
-  border: 1px solid #0f172a;
+  border: 1px solid #f87171;
 }
 
 .write-modal-dialog {
@@ -3381,30 +3382,77 @@ body {
 
 /* 모달 (작성 모달 및 관리자 로그인 모달) */
 [data-theme="dark"] .modal-overlay,
+[data-theme="dark"] .modal-overlay,
 [data-theme="dark"] .auth-overlay,
 [data-theme="dark"] .lightbox-overlay {
   background: rgba(4, 5, 8, 0.85);
 }
 
+[data-theme="dark"] .modal-dialog,
 [data-theme="dark"] .write-modal-dialog,
+[data-theme="dark"] .auth-modal-dialog,
 [data-theme="dark"] .auth-dialog {
-  background: #111520;
-  border: 2px solid #242c3d;
-  color: #f8fafc;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
+  background: #0f1422 !important;
+  border: 2px solid #242c3d !important;
+  border-top: 4px solid #38bdf8 !important;
+  border-bottom: 6px solid #060910 !important;
+  color: #f8fafc !important;
+  box-shadow: 0 12px 0 #05070c, 0 30px 80px rgba(0, 0, 0, 0.9) !important;
 }
 
 [data-theme="dark"] .modal-header,
 [data-theme="dark"] .write-modal-header,
 [data-theme="dark"] .write-modal-footer,
-[data-theme="dark"] .auth-header {
+[data-theme="dark"] .auth-header,
+[data-theme="dark"] .auth-modal-dialog .modal-header {
   background: #141926 !important;
   border-color: #242c3d !important;
 }
 
 [data-theme="dark"] .modal-title,
-[data-theme="dark"] .auth-title {
+[data-theme="dark"] .auth-title,
+[data-theme="dark"] .auth-modal-title,
+[data-theme="dark"] .write-modal-title {
   color: #f8fafc !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="dark"] .auth-form {
+  background: #0f1422 !important;
+}
+
+[data-theme="dark"] .auth-form .form-label {
+  color: #cbd5e1 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="dark"] .auth-form #adminPasswordInput,
+[data-theme="dark"] .auth-form .form-control {
+  background-color: #07090e !important;
+  border: 1.5px solid #283347 !important;
+  color: #f8fafc !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+}
+
+[data-theme="dark"] .auth-form #adminPasswordInput:focus,
+[data-theme="dark"] .auth-form .form-control:focus {
+  background-color: #0c101a !important;
+  border-color: #38bdf8 !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7), 0 0 0 3px rgba(56, 189, 248, 0.28) !important;
+  outline: none !important;
+}
+
+[data-theme="dark"] .auth-form #adminPasswordInput::placeholder,
+[data-theme="dark"] .auth-form .form-control::placeholder {
+  color: #64748b !important;
+}
+
+[data-theme="dark"] .form-error-msg,
+[data-theme="dark"] .auth-error-msg {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  border: 1px solid #dc2626 !important;
+  color: #fca5a5 !important;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.25) !important;
 }
 
 /* 🎛️ [분할 | 작성 | 미리보기] 다크모드 뷰 전환 탭 (고대비 키캡 스타일) */
