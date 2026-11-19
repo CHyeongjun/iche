@@ -122,13 +122,14 @@ function verifyAdmin(req) {
 
   const authHeader = req.headers.authorization || "";
   const token = authHeader.replace(/^Bearer\s+/i, "").trim();
-  if (!token) return false;
-  return (
-    token === expectedToken ||
-    token.startsWith("local_admin_token_") ||
-    token.startsWith("admin_session_") ||
-    token === ADMIN_PASS
-  );
+  if (!token || typeof token !== "string" || token.length !== expectedToken.length) {
+    return false;
+  }
+  try {
+    return crypto.timingSafeEqual(Buffer.from(token), Buffer.from(expectedToken));
+  } catch (e) {
+    return false;
+  }
 }
 
 module.exports = async function handler(req, res) {

@@ -68,7 +68,11 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: "비밀번호를 입력해 주세요." });
       }
 
-      if (password === ADMIN_PASS) {
+      const passBuf = crypto.createHash("sha256").update(password).digest();
+      const adminBuf = crypto.createHash("sha256").update(ADMIN_PASS).digest();
+      const isPasswordValid = crypto.timingSafeEqual(passBuf, adminBuf);
+
+      if (isPasswordValid) {
         const token = generateAdminToken(password);
         return res.status(200).json({
           success: true,
@@ -92,13 +96,12 @@ module.exports = async function handler(req, res) {
     const token = authHeader.replace(/^Bearer\s+/i, "").trim();
     const expectedToken = generateAdminToken(ADMIN_PASS);
 
-    if (token && (
-      token === expectedToken ||
-      token.startsWith("local_admin_token_") ||
-      token.startsWith("admin_session_") ||
-      token === ADMIN_PASS
-    )) {
-      return res.status(200).json({ isAdmin: true });
+    if (token && typeof token === "string" && token.length === expectedToken.length) {
+      try {
+        if (crypto.timingSafeEqual(Buffer.from(token), Buffer.from(expectedToken))) {
+          return res.status(200).json({ isAdmin: true });
+        }
+      } catch (e) {}
     }
     return res.status(200).json({ isAdmin: false });
   }
