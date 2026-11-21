@@ -1254,142 +1254,147 @@ body {
   display: block;
 }
 
-/* 📷 첨부 사진 섹션 (다운로드 & 이미지 복사 지원) */
-.detail-photos-section {
+/* 📎 첨부 사진 및 첨부 파일 섹션 (파일명.형태 텍스트 다운로드 링크) */
+.detail-photos-section,
+.detail-files-section {
   background-color: #f8fafc;
   border: 1px solid var(--border-medium);
-  border-radius: var(--radius-md);
-  padding: 1.4rem;
-  margin-bottom: 2rem;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 1.8rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
 }
 
-.attached-photos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0.85rem;
-}
-
-.attached-photo-card {
+.files-section-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  margin-bottom: 0.85rem;
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  background: #ffffff;
+  gap: 0.45rem;
+  color: var(--text-primary);
+}
+
+.attached-files-list,
+.attached-photos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.attached-file-text-link,
+.attached-photo-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 6px 12px;
+  background-color: #ffffff;
   border: 1px solid var(--border-medium);
-  border-top: 2px solid #ffffff;
-  border-bottom: 3px solid #cbd5e1;
   border-radius: var(--radius-xs);
-  padding: 10px 14px;
-  box-shadow: 0 3px 0 #cbd5e1, 0 6px 14px rgba(15, 23, 42, 0.06);
+  text-decoration: none;
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-weight: 600;
   transition: var(--transition);
+  width: fit-content;
+  max-width: 100%;
 }
 
-.attached-photo-card:hover {
-  background: #f8fafc;
-  border-top-color: #0f172a;
-  border-left: 3px solid #0f172a;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 0 #94a3b8, 0 12px 24px rgba(15, 23, 42, 0.12);
+.attached-file-text-link:hover,
+.attached-photo-text-link:hover {
+  background-color: #f1f5f9;
+  border-color: #0284c7;
+  color: #0284c7;
+  transform: translateY(-1px);
 }
 
-.attached-photo-thumb-wrap {
-  width: 52px;
-  height: 52px;
+.attached-file-text-link:hover .file-text-name,
+.attached-photo-text-link:hover .file-text-name {
+  text-decoration: underline;
+  color: #0284c7;
+}
+
+.file-text-icon {
+  font-size: 0.82rem;
+  color: #0284c7;
+  flex-shrink: 0;
+}
+
+.file-text-name {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-primary);
+}
+
+.file-text-size {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.attached-photo-text-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.attached-photo-thumb-mini {
+  width: 32px;
+  height: 32px;
   border-radius: 4px;
   overflow: hidden;
-  position: relative;
   flex-shrink: 0;
   cursor: pointer;
   border: 1px solid var(--border-medium);
   background-color: #0f172a;
-}
-
-.attached-photo-thumb {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.25s ease;
-}
-
-.attached-photo-thumb-wrap:hover .attached-photo-thumb {
-  transform: scale(1.15);
-}
-
-.photo-thumb-zoom-icon {
-  position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(15, 23, 42, 0.5);
-  color: #ffffff;
-  font-size: 0.85rem;
-  opacity: 0;
-  transition: opacity 0.2s ease;
 }
 
-.attached-photo-thumb-wrap:hover .photo-thumb-zoom-icon {
-  opacity: 1;
+.attached-photo-thumb-mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
 }
 
-.attached-photo-details {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+.attached-photo-thumb-mini:hover img {
+  transform: scale(1.15);
 }
 
-.attached-photo-name {
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-}
-
-.attached-photo-size {
+.btn-text-copy-photo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-muted);
-}
-
-.attached-photo-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background-color: #ffffff;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-xs);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
   flex-shrink: 0;
 }
 
-.btn-photo-action {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 4px 8px;
-  border-radius: var(--radius-xs);
-  border: 1px solid var(--border-medium);
-  background: #f1f5f9;
-  color: #1e293b;
-  cursor: pointer;
-  transition: var(--transition);
-  white-space: nowrap;
-}
-
-.btn-photo-action:hover {
-  background: #0f172a;
+.btn-text-copy-photo:hover {
+  background-color: #0f172a;
   color: #ffffff;
   border-color: #0f172a;
-  transform: translateY(-1px);
 }
 
-.btn-photo-action.copied {
-  background: #10b981 !important;
+.btn-text-copy-photo.copied {
+  background-color: #10b981 !important;
   color: #ffffff !important;
   border-color: #10b981 !important;
 }
@@ -1458,108 +1463,6 @@ body {
   color: #0f172a;
   border-color: #38bdf8;
   transform: translateY(-1px);
-}
-
-/* 📁 첨부 파일 섹션 */
-.detail-files-section {
-  background-color: #f8fafc;
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-md);
-  padding: 1.4rem;
-  margin-bottom: 2rem;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-.files-section-title {
-  font-size: 0.95rem;
-  font-weight: 800;
-  font-family: var(--font-mono);
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: var(--text-primary);
-}
-
-.file-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 0.85rem;
-}
-
-.attached-file-download-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff;
-  border: 1px solid var(--border-medium);
-  border-top: 2px solid #ffffff;
-  border-bottom: 3px solid #cbd5e1;
-  border-radius: var(--radius-xs);
-  padding: 12px 16px;
-  text-decoration: none;
-  color: inherit;
-  box-shadow: 0 3px 0 #cbd5e1, 0 6px 14px rgba(15, 23, 42, 0.06);
-  transition: var(--transition);
-}
-
-.attached-file-download-card:hover {
-  background: #f8fafc;
-  border-top-color: #0f172a;
-  border-left: 3px solid #0f172a;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 0 #94a3b8, 0 12px 24px rgba(15, 23, 42, 0.12);
-}
-
-.file-card-info {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  overflow: hidden;
-}
-
-.file-card-icon {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 800;
-  padding: 4px 7px;
-  background: #0f172a;
-  color: #ffffff;
-  border-radius: var(--radius-xs);
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-.file-card-texts {
-  overflow: hidden;
-}
-
-.file-card-name {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-}
-
-.file-card-size {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.file-card-dl-icon {
-  font-family: var(--font-mono);
-  font-weight: 800;
-  color: #0f172a;
-  font-size: 0.75rem;
-  margin-left: 0.5rem;
-  background: #e2e8f0;
-  padding: 3px 6px;
-  border-radius: var(--radius-xs);
 }
 
 /* 본문 스타일 */
@@ -3158,8 +3061,9 @@ body {
     width: 100%;
     justify-content: space-between;
   }
-  .attached-photos-grid {
-    grid-template-columns: 1fr;
+  .attached-file-text-link,
+  .attached-photo-text-link {
+    max-width: 100%;
   }
   .lightbox-header-bar {
     flex-wrap: wrap;
@@ -3631,62 +3535,58 @@ body {
   color: #38bdf8;
 }
 
-[data-theme="dark"] .detail-photos-section {
-  background-color: #0f1420;
+[data-theme="dark"] .detail-photos-section,
+[data-theme="dark"] .detail-files-section {
+  background-color: #101522;
+  border-color: #1f2738;
+  box-shadow: none;
+}
+
+[data-theme="dark"] .attached-file-text-link,
+[data-theme="dark"] .attached-photo-text-link {
+  background-color: #161c2a;
   border-color: #242c3d;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  color: #f1f5f9;
 }
 
-[data-theme="dark"] .attached-photo-card {
-  background: #161c2a;
-  border: 1px solid #242c3d;
-  border-top: 2px solid #2e384e;
-  border-bottom: 3px solid #090c13;
-  box-shadow: 0 3px 0 #090c13, 0 6px 14px rgba(0, 0, 0, 0.35);
-  color: #f8fafc;
-}
-
-[data-theme="dark"] .attached-photo-card:hover {
+[data-theme="dark"] .attached-file-text-link:hover,
+[data-theme="dark"] .attached-photo-text-link:hover {
+  background-color: #1c2438;
   border-color: #38bdf8;
-  background: #1c2436;
+  color: #38bdf8;
 }
 
-[data-theme="dark"] .attached-photo-name {
-  color: #f8fafc;
+[data-theme="dark"] .file-text-icon {
+  color: #38bdf8;
 }
 
-[data-theme="dark"] .attached-photo-size {
+[data-theme="dark"] .file-text-name {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .attached-file-text-link:hover .file-text-name,
+[data-theme="dark"] .attached-photo-text-link:hover .file-text-name {
+  color: #38bdf8;
+}
+
+[data-theme="dark"] .file-text-size {
   color: #94a3b8;
 }
 
-[data-theme="dark"] .btn-photo-action {
-  background: #1e2538;
-  color: #e2e8f0;
-  border-color: #334155;
+[data-theme="dark"] .attached-photo-thumb-mini {
+  border-color: #242c3d;
 }
 
-[data-theme="dark"] .btn-photo-action:hover {
-  background: #38bdf8;
+[data-theme="dark"] .btn-text-copy-photo {
+  background-color: #161c2a;
+  border-color: #242c3d;
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .btn-text-copy-photo:hover {
+  background-color: #38bdf8;
   color: #090d16;
   border-color: #38bdf8;
-  font-weight: 800;
-}
-
-[data-theme="dark"] .attached-file-download-card {
-  background: #161c2a;
-  border: 1px solid #242c3d;
-  border-top: 2px solid #2e384e;
-  border-bottom: 3px solid #090c13;
-  color: #f8fafc;
-}
-
-[data-theme="dark"] .attached-file-download-card:hover {
-  border-color: #38bdf8;
-  background: #1c2436;
-}
-
-[data-theme="dark"] .attached-file-download-card .file-card-name {
-  color: #f8fafc;
 }
 
 [data-theme="dark"] .inline-photo-wrap {
