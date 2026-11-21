@@ -3099,20 +3099,20 @@ body {
   --bg-void: #0B0B0C;            /* Outermost window / backdrop */
   --bg-primary: #0F0F11;         /* Editor canvas / workspace */
   --bg-surface: #111113;         /* Panel card surface */
-  --bg-recessed: #161618;        /* Raised nodes / recessed */
+  --bg-recessed: #0A0A0C;        /* Inset recessed slots */
   --bg-control: #1E1E21;         /* Controls / inputs / secondary buttons */
 
-  /* 🌐 PUBLIC Card */
+  /* 🌐 PUBLIC Card (Tactile 3D Module) */
   --bg-card-public: #111113;
   --border-card-public: #222225;
   --outline-card-public: rgba(46, 91, 216, 0.25);
-  --shadow-card-public: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-card-public: 0 4px 0 #060607, 0 14px 28px rgba(0, 0, 0, 0.55);
 
-  /* 🔒 PRIVATE Card */
-  --bg-card-private: #111113;
-  --border-card-private: #222225;
+  /* 🔒 PRIVATE Card (Tactile 3D Vault) */
+  --bg-card-private: #0D0D0F;
+  --border-card-private: #1C1C1F;
   --outline-card-private: rgba(250, 204, 21, 0.35);
-  --shadow-card-private: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-card-private: 0 4px 0 #040405, 0 14px 28px rgba(0, 0, 0, 0.7);
 
   --bg-modal: #111113;
 
@@ -3122,11 +3122,16 @@ body {
   --text-muted: #8E8E96;
   --text-white: #FFFFFF;
 
-  /* ⚡ Borders */
+  /* ⚡ Borders & 3D Bevels */
   --border-subtle: #222225;
   --border-medium: #222225;
   --border-strong: #2A2A2E;
   --border-solid: #2E5BD8;
+
+  /* 💎 3D Tactile Keycap Shadows */
+  --depth-btn: 0 2px 0 #09090B, 0 5px 12px rgba(0, 0, 0, 0.4);
+  --depth-btn-hover: 0 4px 0 #09090B, 0 8px 18px rgba(0, 0, 0, 0.55);
+  --depth-btn-active: 0 1px 0 #09090B, 0 2px 4px rgba(0, 0, 0, 0.3);
 
   /* 🎯 Accents & Signals */
   --color-agent: #A78BFA;
@@ -3142,36 +3147,36 @@ body {
   --radius-lg: 14px;
 }
 
-/* 다크 모드 앰비언트 배경 */
+/* 다크 모드 3D 앰비언트 배경 */
 [data-theme="dark"] .cyber-spatial-backdrop {
   background-color: #0B0B0C;
 }
 
 [data-theme="dark"] .cyber-ambient-light {
   background: 
-    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(30, 30, 36, 0.5) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(46, 91, 216, 0.05) 0%, transparent 65%);
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(35, 35, 42, 0.45) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(46, 91, 216, 0.06) 0%, transparent 65%);
 }
 
 [data-theme="dark"] .cyber-horizon-glow {
-  background: linear-gradient(90deg, transparent 5%, rgba(46, 91, 216, 0.15) 50%, transparent 95%);
+  background: linear-gradient(90deg, transparent 5%, rgba(46, 91, 216, 0.18) 50%, transparent 95%);
 }
 
 [data-theme="dark"] .cyber-grid-3d {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1.1px, transparent 1.1px);
   background-size: 24px 24px;
 }
 
 [data-theme="dark"] .cyber-vignette {
-  background: radial-gradient(circle at 50% 40%, transparent 50%, rgba(7, 7, 8, 0.85) 100%);
+  background: radial-gradient(circle at 50% 40%, transparent 45%, rgba(6, 6, 7, 0.88) 100%);
 }
 
 /* 상단 헤더 & 검색창 */
 [data-theme="dark"] .app-header {
   background: rgba(15, 15, 17, 0.94);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid #222225;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border-bottom: 2px solid #222225;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
 }
 
 [data-theme="dark"] .brand-badge {
@@ -3179,7 +3184,7 @@ body {
   color: #A78BFA;
   border: 1px solid rgba(167, 139, 250, 0.35);
   border-radius: 5px;
-  box-shadow: none;
+  box-shadow: 0 2px 0 #09090B, 0 0 10px rgba(167, 139, 250, 0.2);
 }
 
 [data-theme="dark"] .brand-title {
@@ -3193,22 +3198,24 @@ body {
 
 [data-theme="dark"] .admin-indicator-bar {
   background: #0B0B0C;
-  border-bottom: 1px solid #222225;
+  border-bottom: 2px solid #222225;
   color: #A78BFA;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .search-input {
-  background-color: #1E1E21;
-  border: 1px solid #222225;
+  background-color: #161618;
+  border: 1.5px solid #222225;
   color: #E7E7E9;
   border-radius: 7px;
-  box-shadow: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
 }
 
 [data-theme="dark"] .search-input:focus {
-  background-color: #161618;
+  background-color: #1A1A1D;
   border-color: #2E5BD8;
-  box-shadow: 0 0 0 2px rgba(46, 91, 216, 0.3);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(46, 91, 216, 0.28);
   outline: none;
 }
 
@@ -3228,7 +3235,7 @@ body {
   color: #E7E7E9;
 }
 
-/* ⚪ Primary Button: "Only one white button per view" */
+/* ⚪ Primary Button: "Only one white button per view" (Tactile 3D Keycap) */
 [data-theme="dark"] .btn-primary,
 [data-theme="dark"] #openWriteModalBtn,
 [data-theme="dark"] .btn-new-record,
@@ -3238,45 +3245,55 @@ body {
   font-weight: 700 !important;
   border: 1px solid #FFFFFF !important;
   border-radius: 7px !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 12px rgba(255, 255, 255, 0.12) !important;
-  transition: all 0.15s ease !important;
+  box-shadow: 0 3px 0 #9E9EA8, 0 6px 16px rgba(0, 0, 0, 0.45) !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease !important;
 }
 
 [data-theme="dark"] .btn-primary:hover,
 [data-theme="dark"] #openWriteModalBtn:hover,
 [data-theme="dark"] .btn-new-record:hover,
 [data-theme="dark"] #saveRecordSubmitBtn:hover {
-  background: #F0F0F2 !important;
+  background: #F4F4F6 !important;
   color: #0B0B0C !important;
-  border-color: #F0F0F2 !important;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 4px 0 #9E9EA8, 0 8px 20px rgba(255, 255, 255, 0.25) !important;
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .btn-primary:active,
 [data-theme="dark"] #openWriteModalBtn:active,
 [data-theme="dark"] #saveRecordSubmitBtn:active {
-  transform: translateY(0);
+  transform: translateY(2px) !important;
+  box-shadow: 0 1px 0 #9E9EA8, 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* 🔘 Secondary Buttons (Control: #1E1E21, Border: #222225) */
+/* 🔘 Secondary Buttons (Control: #1E1E21, 3D Keycap) */
 [data-theme="dark"] .btn-admin-auth {
   background: #1E1E21;
   border: 1px solid #222225;
   color: #E7E7E9;
   border-radius: 7px;
+  box-shadow: 0 2px 0 #09090B, 0 4px 10px rgba(0, 0, 0, 0.35);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
 }
 
 [data-theme="dark"] .btn-admin-auth:hover {
   background: #2A2A2E;
   border-color: #2A2A2E;
   color: #FFFFFF;
+  box-shadow: 0 3px 0 #09090B, 0 6px 14px rgba(0, 0, 0, 0.45);
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .btn-admin-auth:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #09090B;
 }
 
 [data-theme="dark"] .btn-admin-auth.is-admin {
   background: rgba(167, 139, 250, 0.16);
   color: #A78BFA;
   border-color: rgba(167, 139, 250, 0.4);
+  box-shadow: 0 2px 0 #09090B, 0 0 12px rgba(167, 139, 250, 0.25);
 }
 
 [data-theme="dark"] .btn-theme-toggle {
@@ -3284,13 +3301,21 @@ body {
   border: 1px solid #222225;
   color: #A1A1A8;
   border-radius: 7px;
-  box-shadow: none;
+  box-shadow: 0 2px 0 #09090B, 0 4px 10px rgba(0, 0, 0, 0.35);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
 }
 
 [data-theme="dark"] .btn-theme-toggle:hover {
   background: #2A2A2E;
   border-color: #2A2A2E;
   color: #E7E7E9;
+  box-shadow: 0 3px 0 #09090B, 0 6px 14px rgba(0, 0, 0, 0.45);
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .btn-theme-toggle:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #09090B;
 }
 
 [data-theme="dark"] .btn-theme-toggle .theme-text-sun {
@@ -3302,59 +3327,70 @@ body {
   display: none;
 }
 
-/* 컨트롤 바 (필터 탭 & 카테고리 필) */
+/* 컨트롤 바 (필터 탭 & 카테고리 필 - 3D 키캡) */
 [data-theme="dark"] .tab-btn {
   background: #1E1E21;
   border: 1px solid #222225;
   color: #A1A1A8;
   border-radius: 7px;
   font-weight: 600;
+  box-shadow: 0 2px 0 #09090B;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
 }
 
 [data-theme="dark"] .tab-btn:hover {
   background: #2A2A2E;
   border-color: #2A2A2E;
   color: #E7E7E9;
+  box-shadow: 0 3px 0 #09090B;
+  transform: translateY(-1px);
 }
 
-/* 🟦 Selection, active mode -> #2E5BD8 */
+[data-theme="dark"] .tab-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #09090B;
+}
+
+/* 🟦 Selection, active mode -> #2E5BD8 (3D 볼륨 키캡) */
 [data-theme="dark"] .tab-btn.active {
   background: #2E5BD8 !important;
   border-color: #2E5BD8 !important;
   color: #FFFFFF !important;
   font-weight: 700 !important;
-  box-shadow: 0 0 12px rgba(46, 91, 216, 0.4) !important;
+  box-shadow: 0 2px 0 #1B3EA8, 0 0 14px rgba(46, 91, 216, 0.45) !important;
 }
 
 [data-theme="dark"] .tab-btn.tab-private {
   color: #FACC15;
   border-color: rgba(250, 204, 21, 0.25);
   background: rgba(250, 204, 21, 0.05);
+  box-shadow: 0 2px 0 #09090B;
 }
 
 [data-theme="dark"] .tab-btn.tab-private:hover {
   background: rgba(250, 204, 21, 0.12);
   border-color: rgba(250, 204, 21, 0.45);
   color: #FDE047;
+  box-shadow: 0 3px 0 #09090B;
 }
 
 [data-theme="dark"] .tab-btn.tab-private.active {
   background: rgba(250, 204, 21, 0.2) !important;
   border-color: #FACC15 !important;
   color: #FACC15 !important;
-  box-shadow: 0 0 12px rgba(250, 204, 21, 0.3) !important;
+  box-shadow: 0 2px 0 #785A05, 0 0 12px rgba(250, 204, 21, 0.3) !important;
 }
 
-/* 🟦 카테고리 필 (미선택: #1E1E21, 선택됨: #2E5BD8 (디자인 스펙의 IDE 필과 동일)) */
+/* 🟦 카테고리 필 (3D 물리 키캡 버튼) */
 [data-theme="dark"] .pill-btn,
 [data-theme="dark"] .category-pill {
   background: #1E1E21;
   border: 1px solid #222225;
   color: #A1A1A8;
   border-radius: 7px;
-  box-shadow: none;
   font-weight: 600;
-  transition: all 0.15s ease;
+  box-shadow: 0 2px 0 #09090B;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease, color 0.15s ease;
 }
 
 [data-theme="dark"] .pill-btn:hover,
@@ -3362,6 +3398,14 @@ body {
   background: #2A2A2E;
   color: #E7E7E9;
   border-color: #2A2A2E;
+  box-shadow: 0 3px 0 #09090B;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .pill-btn:active,
+[data-theme="dark"] .category-pill:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #09090B;
 }
 
 [data-theme="dark"] .pill-btn.active,
@@ -3370,7 +3414,7 @@ body {
   border-color: #2E5BD8 !important;
   color: #FFFFFF !important;
   font-weight: 700 !important;
-  box-shadow: 0 0 14px rgba(46, 91, 216, 0.45) !important;
+  box-shadow: 0 2px 0 #1B3EA8, 0 0 16px rgba(46, 91, 216, 0.5) !important;
 }
 
 [data-theme="dark"] .records-count-info {
@@ -3382,9 +3426,10 @@ body {
 }
 
 [data-theme="dark"] .view-mode-switcher {
-  background: #1E1E21;
-  border: 1px solid #222225;
+  background: #161618;
+  border: 1.5px solid #222225;
   border-radius: 7px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .btn-view-toggle {
@@ -3395,28 +3440,29 @@ body {
 [data-theme="dark"] .btn-view-toggle.active {
   background: #2E5BD8;
   color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 /* ==========================================================================
-   📦 RECORD CARDS (Panel card: #111113, Border: #222225, Radius: 11px)
+   📦 RECORD CARDS: TACTILE 3D ARCHITECTURAL PANELS
    ========================================================================== */
 
-/* 1. PUBLIC 카드: 모던 패널 카드 & 은은한 엣지 */
+/* 1. PUBLIC 카드: 3D 모듈 패널 & 정밀 2px 베벨 액자 */
 [data-theme="dark"] .record-card:not(.is-private-card) {
   background: #111113 !important;
-  border: 1px solid #222225 !important;
+  border: 2px solid #222225 !important;
   border-radius: 11px !important;
   outline: none !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 4px 0 #060607, 0 14px 28px rgba(0, 0, 0, 0.55) !important;
   color: #E7E7E9 !important;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease !important;
 }
 
 [data-theme="dark"] .record-card:not(.is-private-card):hover {
-  background: #161618 !important;
-  border-color: #2A2A2E !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
-  transform: translateY(-2px);
+  background: #151517 !important;
+  border-color: #2E5BD8 !important;
+  box-shadow: 0 7px 0 #060607, 0 0 22px rgba(46, 91, 216, 0.18), 0 20px 42px rgba(0, 0, 0, 0.65) !important;
+  transform: translateY(-3px);
 }
 
 [data-theme="dark"] .record-card:not(.is-private-card) .card-title {
@@ -3427,24 +3473,24 @@ body {
   color: #A1A1A8 !important;
 }
 
-/* 2. PRIVATE 카드: 골드 앰버 탑 액센트 & 보안 패널 */
+/* 2. PRIVATE 카드: 흑연 티타늄 금고 3D 볼트 & 골드 앰버 인디케이터 */
 [data-theme="dark"] .record-card.is-private-card {
-  background: #111113 !important;
-  border: 1px solid #222225 !important;
-  border-top: 2px solid rgba(250, 204, 21, 0.55) !important;
+  background: #0D0D0F !important;
+  border: 2px solid #1C1C1F !important;
+  border-top: 3px solid #FACC15 !important;
   border-radius: 11px !important;
   outline: none !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 4px 0 #040405, 0 14px 28px rgba(0, 0, 0, 0.7) !important;
   color: #E7E7E9 !important;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease !important;
 }
 
 [data-theme="dark"] .record-card.is-private-card:hover {
-  background: #161618 !important;
-  border-color: rgba(250, 204, 21, 0.4) !important;
-  border-top-color: #FACC15 !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
-  transform: translateY(-2px);
+  background: #131316 !important;
+  border-color: rgba(250, 204, 21, 0.45) !important;
+  border-top-color: #FDE047 !important;
+  box-shadow: 0 7px 0 #040405, 0 0 24px rgba(250, 204, 21, 0.22), 0 22px 46px rgba(0, 0, 0, 0.8) !important;
+  transform: translateY(-3px);
 }
 
 [data-theme="dark"] .record-card.is-private-card .card-title {
@@ -3455,35 +3501,33 @@ body {
   color: #A1A1A8 !important;
 }
 
-/* 🏷️ 신호 뱃지 (Radius: 5px) */
-/* Agent 퍼플 (#A78BFA) 카테고리 뱃지 */
+/* 🏷️ 신호 뱃지 (Radius: 5px, 3D 깊이감) */
 [data-theme="dark"] .badge-category {
   background-color: rgba(167, 139, 250, 0.12) !important;
-  border: 1px solid rgba(167, 139, 250, 0.3) !important;
+  border: 1px solid rgba(167, 139, 250, 0.35) !important;
   color: #A78BFA !important;
   border-radius: 5px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Pass 에메랄드 (#4ADE80) 공개 뱃지 */
 [data-theme="dark"] .badge-public {
-  background-color: rgba(74, 222, 128, 0.12) !important;
+  background-color: rgba(74, 222, 128, 0.14) !important;
   color: #4ADE80 !important;
-  border: 1px solid rgba(74, 222, 128, 0.35) !important;
+  border: 1px solid rgba(74, 222, 128, 0.4) !important;
   border-radius: 5px !important;
-  box-shadow: none !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 8px rgba(74, 222, 128, 0.15) !important;
 }
 
-/* Note 앰버 (#FACC15) 비공개 뱃지 */
 [data-theme="dark"] .badge-private,
 [data-theme="dark"] .badge-private-locked {
-  background: rgba(250, 204, 21, 0.12) !important;
+  background: rgba(250, 204, 21, 0.14) !important;
   color: #FACC15 !important;
-  border: 1px solid rgba(250, 204, 21, 0.35) !important;
+  border: 1px solid rgba(250, 204, 21, 0.4) !important;
   border-radius: 5px !important;
-  box-shadow: none !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 8px rgba(250, 204, 21, 0.15) !important;
 }
 
 [data-theme="dark"] .view-count-badge {
@@ -3491,6 +3535,7 @@ body {
   color: #8E8E96 !important;
   border: 1px solid #222225 !important;
   border-radius: 5px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
 [data-theme="dark"] .card-date {
@@ -3502,56 +3547,59 @@ body {
   border: 1px solid #222225 !important;
   color: #8E8E96 !important;
   border-radius: 5px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* 리스트형 뷰 */
+/* 리스트형 뷰 (3D 물리감) */
 [data-theme="dark"] .records-grid.view-list .record-card:not(.is-private-card) {
   background: #111113 !important;
-  border: 1px solid #222225 !important;
-  border-left: 3px solid #2E5BD8 !important;
+  border: 1.5px solid #222225 !important;
+  border-left: 4px solid #2E5BD8 !important;
   border-radius: 7px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 2px 0 #060607, 0 6px 14px rgba(0, 0, 0, 0.35) !important;
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card:not(.is-private-card):hover {
   background: #161618 !important;
   border-color: #2A2A2E !important;
   border-left-color: #2E5BD8 !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 4px 0 #060607, 0 10px 24px rgba(0, 0, 0, 0.5) !important;
+  transform: translateY(-2px);
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card.is-private-card {
-  background: #111113 !important;
-  border: 1px solid #222225 !important;
-  border-left: 3px solid #FACC15 !important;
+  background: #0D0D0F !important;
+  border: 1.5px solid #1C1C1F !important;
+  border-left: 4px solid #FACC15 !important;
   border-radius: 7px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 2px 0 #040405, 0 6px 14px rgba(0, 0, 0, 0.45) !important;
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card.is-private-card:hover {
-  background: #161618 !important;
+  background: #141417 !important;
   border-color: #2A2A2E !important;
   border-left-color: #FACC15 !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55) !important;
+  box-shadow: 0 4px 0 #040405, 0 10px 24px rgba(0, 0, 0, 0.6) !important;
+  transform: translateY(-2px);
 }
 
 /* ==========================================================================
-   📖 RECORD DETAIL (Panel Card: #111113, Radius: 11px)
+   📖 RECORD DETAIL (3D Architectural Panel, Radius: 11px)
    ========================================================================== */
 [data-theme="dark"] .record-detail-card {
   background: #111113;
-  border: 1px solid #222225;
+  border: 2px solid #222225;
   border-radius: 11px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 6px 0 #060607, 0 20px 48px rgba(0, 0, 0, 0.6);
   color: #E7E7E9;
 }
 
 [data-theme="dark"] .record-detail-card.is-private-detail {
-  background: #111113;
-  border: 1px solid #222225;
-  border-top: 2px solid #FACC15;
+  background: #0D0D0F;
+  border: 2px solid #1C1C1F;
+  border-top: 4px solid #FACC15;
   border-radius: 11px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 6px 0 #040405, 0 20px 48px rgba(0, 0, 0, 0.7);
 }
 
 [data-theme="dark"] .detail-title {
@@ -3587,27 +3635,44 @@ body {
   border: 1px solid #222225;
   color: #E7E7E9;
   border-radius: 7px;
+  box-shadow: 0 2px 0 #09090B;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 [data-theme="dark"] .btn-back:hover {
   background: #2A2A2E;
   border-color: #2A2A2E;
   color: #FFFFFF;
+  box-shadow: 0 3px 0 #09090B;
+  transform: translateY(-1px);
 }
 
-/* 관리자 수정/삭제 버튼 */
+[data-theme="dark"] .btn-back:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #09090B;
+}
+
+/* 관리자 수정/삭제 버튼 (3D 키캡 피드백) */
 [data-theme="dark"] .btn-edit {
   background: #1E1E21 !important;
   border: 1px solid #222225 !important;
   color: #E7E7E9 !important;
   border-radius: 7px !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 0 #09090B !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease !important;
 }
 
 [data-theme="dark"] .btn-edit:hover {
   background: #2A2A2E !important;
   border-color: #2E5BD8 !important;
   color: #FFFFFF !important;
+  box-shadow: 0 3px 0 #09090B !important;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .btn-edit:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 0 0 #09090B !important;
 }
 
 /* Fail 코랄 레드 (#F87171) 삭제 버튼 */
@@ -3616,13 +3681,21 @@ body {
   border: 1px solid rgba(248, 113, 113, 0.3) !important;
   color: #F87171 !important;
   border-radius: 7px !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 0 #09090B !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease !important;
 }
 
 [data-theme="dark"] .btn-delete:hover {
   background: #F87171 !important;
   border-color: #F87171 !important;
   color: #0B0B0C !important;
+  box-shadow: 0 3px 0 #A83333 !important;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .btn-delete:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 0 0 #09090B !important;
 }
 
 [data-theme="dark"] .tag-pill {
@@ -3632,28 +3705,38 @@ body {
   border-radius: 5px;
 }
 
-/* 파일 & 사진 섹션 및 다운로드 텍스트 링크 */
+/* 파일 & 사진 섹션 및 다운로드 텍스트 링크 (3D 택타일) */
 [data-theme="dark"] .detail-photos-section,
 [data-theme="dark"] .detail-files-section {
   background-color: #0F0F11;
-  border: 1px solid #222225;
+  border: 1.5px solid #222225;
   border-radius: 7px;
-  box-shadow: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .attached-file-text-link,
 [data-theme="dark"] .attached-photo-text-link {
-  background-color: #1E1E21;
+  background-color: #161618;
   border: 1px solid #222225;
   color: #E7E7E9;
   border-radius: 7px;
+  box-shadow: 0 2px 0 #09090B;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease, border-color 0.15s ease;
 }
 
 [data-theme="dark"] .attached-file-text-link:hover,
 [data-theme="dark"] .attached-photo-text-link:hover {
-  background-color: #2A2A2E;
+  background-color: #1E1E21;
   border-color: #2E5BD8;
   color: #FFFFFF;
+  box-shadow: 0 3px 0 #09090B, 0 0 12px rgba(46, 91, 216, 0.25);
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .attached-file-text-link:active,
+[data-theme="dark"] .attached-photo-text-link:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #09090B;
 }
 
 [data-theme="dark"] .file-text-icon {
@@ -3683,18 +3766,27 @@ body {
   border: 1px solid #222225;
   color: #8E8E96;
   border-radius: 5px;
+  box-shadow: 0 2px 0 #09090B;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 [data-theme="dark"] .btn-text-copy-photo:hover {
   background-color: #2A2A2E;
   color: #E7E7E9;
   border-color: #2A2A2E;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .btn-text-copy-photo:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #09090B;
 }
 
 [data-theme="dark"] .inline-photo-wrap {
   background-color: #0F0F11;
-  border: 1px solid #222225;
+  border: 1.5px solid #222225;
   border-radius: 7px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .inline-record-img {
@@ -3708,7 +3800,7 @@ body {
 }
 
 /* ==========================================================================
-   🪟 MODALS & FORMS (Window / Panel: #111113, Radius: 14px)
+   🪟 MODALS & FORMS (3D Architectural Window Dialog, Radius: 14px)
    ========================================================================== */
 [data-theme="dark"] .modal-overlay,
 [data-theme="dark"] .auth-overlay,
@@ -3722,10 +3814,12 @@ body {
 [data-theme="dark"] .auth-modal-dialog,
 [data-theme="dark"] .auth-dialog {
   background: #111113 !important;
-  border: 1px solid #222225 !important;
+  border: 2px solid #222225 !important;
+  border-top: 3px solid #2E5BD8 !important;
+  border-bottom: 6px solid #060607 !important;
   border-radius: 14px !important;
   color: #E7E7E9 !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8) !important;
+  box-shadow: 0 12px 0 #040405, 0 30px 80px rgba(0, 0, 0, 0.9) !important;
 }
 
 [data-theme="dark"] .modal-header,
@@ -3756,18 +3850,18 @@ body {
 
 [data-theme="dark"] .auth-form #adminPasswordInput,
 [data-theme="dark"] .auth-form .form-control {
-  background-color: #1E1E21 !important;
-  border: 1px solid #222225 !important;
+  background-color: #161618 !important;
+  border: 1.5px solid #222225 !important;
   color: #E7E7E9 !important;
   border-radius: 7px !important;
-  box-shadow: none !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
 }
 
 [data-theme="dark"] .auth-form #adminPasswordInput:focus,
 [data-theme="dark"] .auth-form .form-control:focus {
-  background-color: #161618 !important;
+  background-color: #1A1A1D !important;
   border-color: #2E5BD8 !important;
-  box-shadow: 0 0 0 2px rgba(46, 91, 216, 0.3) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(46, 91, 216, 0.28) !important;
   outline: none !important;
 }
 
@@ -3782,16 +3876,17 @@ body {
   border: 1px solid rgba(248, 113, 113, 0.35) !important;
   color: #F87171 !important;
   border-radius: 7px !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 6px rgba(248, 113, 113, 0.2) !important;
 }
 
-/* 🎛️ 에디터 뷰 전환 탭 (분할 / 작성 / 미리보기) */
+/* 🎛️ 에디터 뷰 전환 탭 (분할 / 작성 / 미리보기 - 3D 딤) */
 [data-theme="dark"] .modal-view-mode-toggle {
   background-color: #0F0F11 !important;
-  border: 1px solid #222225 !important;
+  border: 1.5px solid #222225 !important;
   border-radius: 7px !important;
   padding: 3px !important;
   gap: 3px !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5) !important;
 }
 
 [data-theme="dark"] .btn-mode-toggle {
@@ -3800,6 +3895,7 @@ body {
   border: none !important;
   border-radius: 5px !important;
   font-weight: 600 !important;
+  transition: all 0.15s ease !important;
 }
 
 [data-theme="dark"] .btn-mode-toggle:hover {
@@ -3811,6 +3907,7 @@ body {
   background: #2E5BD8 !important;
   color: #FFFFFF !important;
   font-weight: 700 !important;
+  box-shadow: 0 1px 4px rgba(46, 91, 216, 0.4) !important;
 }
 
 [data-theme="dark"] .btn-modal-close {
@@ -3818,7 +3915,7 @@ body {
   border: 1px solid #222225 !important;
   color: #8E8E96 !important;
   border-radius: 7px !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 0 #09090B !important;
 }
 
 [data-theme="dark"] .btn-modal-close:hover {
@@ -3857,6 +3954,7 @@ body {
   border: 1px solid #222225 !important;
   color: #A1A1A8 !important;
   border-radius: 5px !important;
+  box-shadow: 0 1px 0 #09090B !important;
 }
 
 [data-theme="dark"] .preview-tab:hover {
@@ -3869,6 +3967,7 @@ body {
   color: #FFFFFF !important;
   border-color: #2E5BD8 !important;
   font-weight: 700 !important;
+  box-shadow: 0 1px 0 #1B3EA8, 0 0 10px rgba(46, 91, 216, 0.35) !important;
 }
 
 [data-theme="dark"] .preview-scroll-pane {
@@ -3879,19 +3978,19 @@ body {
   color: #8E8E96 !important;
 }
 
-/* 실시간 미리보기 상세 카드 */
+/* 실시간 미리보기 상세 카드 (3D 패널) */
 [data-theme="dark"] .live-preview-detail {
   background: #111113 !important;
-  border: 1px solid #222225 !important;
+  border: 2px solid #222225 !important;
   border-radius: 11px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 4px 0 #060607, 0 12px 28px rgba(0, 0, 0, 0.5) !important;
   color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .live-preview-detail.is-private-detail {
-  background: #111113 !important;
-  border: 1px solid #222225 !important;
-  border-top: 2px solid #FACC15 !important;
+  background: #0D0D0F !important;
+  border: 2px solid #1C1C1F !important;
+  border-top: 3px solid #FACC15 !important;
 }
 
 /* 📝 글 작성 폼 컨트롤 */
@@ -3901,11 +4000,12 @@ body {
 [data-theme="dark"] #recordCategorySelect,
 [data-theme="dark"] #recordTagInput,
 [data-theme="dark"] .auth-input {
-  background-color: #1E1E21 !important;
-  border: 1px solid #222225 !important;
+  background-color: #161618 !important;
+  border: 1.5px solid #222225 !important;
   color: #E7E7E9 !important;
   border-radius: 7px !important;
-  box-shadow: none !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.2s ease !important;
 }
 
 [data-theme="dark"] .form-control:focus,
@@ -3914,9 +4014,9 @@ body {
 [data-theme="dark"] #recordCategorySelect:focus,
 [data-theme="dark"] #recordTagInput:focus,
 [data-theme="dark"] .auth-input:focus {
-  background-color: #161618 !important;
+  background-color: #1A1A1D !important;
   border-color: #2E5BD8 !important;
-  box-shadow: 0 0 0 2px rgba(46, 91, 216, 0.3) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(46, 91, 216, 0.28) !important;
   outline: none !important;
 }
 
@@ -3935,11 +4035,12 @@ body {
   color: #A1A1A8 !important;
 }
 
-/* 🔒 공개/비공개 세그먼트 스위치 */
+/* 🔒 공개/비공개 세그먼트 스위치 (3D 입체 스위치) */
 [data-theme="dark"] .visibility-switch-box-compact {
   background-color: #0F0F11 !important;
-  border: 1px solid #222225 !important;
+  border: 1.5px solid #222225 !important;
   border-radius: 7px !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5) !important;
 }
 
 [data-theme="dark"] .visibility-option-compact {
@@ -3955,6 +4056,7 @@ body {
   color: #4ADE80 !important;
   border: 1px solid #4ADE80 !important;
   border-radius: 5px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
 [data-theme="dark"] .visibility-option-compact#labelPrivate.active {
@@ -3962,13 +4064,15 @@ body {
   color: #FACC15 !important;
   border: 1px solid #FACC15 !important;
   border-radius: 5px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* 🛠️ 에디터 서식 툴바 & 버튼 */
 [data-theme="dark"] .editor-toolbar {
   background-color: #161618 !important;
-  border: 1px solid #222225 !important;
+  border: 1.5px solid #222225 !important;
   border-radius: 7px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
 }
 
 [data-theme="dark"] .btn-tb {
@@ -3976,6 +4080,7 @@ body {
   border: 1px solid #222225 !important;
   color: #A1A1A8 !important;
   border-radius: 5px !important;
+  box-shadow: 0 1px 0 #09090B !important;
 }
 
 [data-theme="dark"] .btn-tb:hover {
@@ -3992,6 +4097,7 @@ body {
   background: rgba(167, 139, 250, 0.15) !important;
   border: 1px solid rgba(167, 139, 250, 0.35) !important;
   font-weight: 700 !important;
+  box-shadow: 0 1px 0 #09090B !important;
 }
 
 [data-theme="dark"] .btn-tb-code:hover,
@@ -4007,6 +4113,7 @@ body {
   border: 1px solid #222225 !important;
   color: #E7E7E9 !important;
   border-radius: 5px !important;
+  box-shadow: 0 1px 0 #09090B !important;
 }
 
 [data-theme="dark"] .btn-tb-attach .tb-plus-symbol {
@@ -4023,6 +4130,7 @@ body {
   border: 1px solid #222225 !important;
   color: #A1A1A8 !important;
   border-radius: 5px !important;
+  box-shadow: 0 1px 0 #09090B !important;
 }
 
 [data-theme="dark"] #tbInsertPhoto:hover {
@@ -4033,8 +4141,9 @@ body {
 
 [data-theme="dark"] .gallery-photo-card {
   background-color: #0F0F11 !important;
-  border: 1px solid #222225 !important;
+  border: 1.5px solid #222225 !important;
   border-radius: 7px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
 }
 
 [data-theme="dark"] .gallery-photo-card:hover {
@@ -4059,6 +4168,7 @@ body {
   background-color: #1E1E21 !important;
   border: 1px solid #222225 !important;
   border-radius: 5px !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4) !important;
 }
 
 [data-theme="dark"] .btn-step {
@@ -4084,9 +4194,10 @@ body {
 [data-theme="dark"] .drop-zone-compact,
 [data-theme="dark"] .upload-drop-zone {
   background-color: #0F0F11 !important;
-  border: 1px dashed #222225 !important;
+  border: 1.5px dashed #222225 !important;
   color: #8E8E96 !important;
   border-radius: 7px !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
 }
 
 [data-theme="dark"] .drop-zone:hover,
@@ -4109,6 +4220,7 @@ body {
   border: 1px solid #222225 !important;
   color: #A78BFA !important;
   border-radius: 5px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
 [data-theme="dark"] .modal-tag-chip button {
@@ -4139,6 +4251,8 @@ body {
   border: 1px solid #222225;
   color: #A1A1A8;
   border-radius: 7px;
+  box-shadow: 0 2px 0 #09090B;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 [data-theme="dark"] .btn-cancel:hover,
@@ -4146,6 +4260,14 @@ body {
   background: #2A2A2E;
   border-color: #2A2A2E;
   color: #E7E7E9;
+  box-shadow: 0 3px 0 #09090B;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .btn-cancel:active,
+[data-theme="dark"] .btn-secondary:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #09090B;
 }
 
 [data-theme="dark"] .empty-state {
@@ -4157,7 +4279,7 @@ body {
   border: 1px solid #2A2A2E;
   color: #E7E7E9;
   border-radius: 7px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 0 #09090B, 0 12px 28px rgba(0, 0, 0, 0.7);
 }
 
 /* ==========================================================================
@@ -4465,59 +4587,64 @@ body {
 }
 
 /* ==========================================================================
-   🌙 댓글, 임시저장, 코드블록 다크 모드 스타일 (IDE 테마 매핑)
+   🌙 댓글, 임시저장, 코드블록 다크 모드 스타일 (Tactile 3D IDE 하이브리드)
    ========================================================================== */
 [data-theme="dark"] .comments-section {
   background: #111113;
-  border: 1px solid #222225;
+  border: 2px solid #222225;
   border-radius: 11px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 0 #060607, 0 16px 36px rgba(0, 0, 0, 0.5);
   color: #E7E7E9;
 }
 
 [data-theme="dark"] .comments-header {
-  border-bottom: 1px solid #222225;
+  border-bottom: 1.5px solid #222225;
 }
 
 [data-theme="dark"] .comments-count-badge {
   background: rgba(167, 139, 250, 0.15);
   color: #A78BFA;
-  border: 1px solid rgba(167, 139, 250, 0.3);
+  border: 1px solid rgba(167, 139, 250, 0.35);
   border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .comment-form {
   background: #0F0F11;
-  border: 1px solid #222225;
+  border: 1.5px solid #222225;
   border-radius: 7px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .comment-input,
 [data-theme="dark"] .comment-textarea {
-  background: #1E1E21;
-  border: 1px solid #222225;
+  background: #161618;
+  border: 1.5px solid #222225;
   color: #E7E7E9;
   border-radius: 7px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
 }
 
 [data-theme="dark"] .comment-input:focus,
 [data-theme="dark"] .comment-textarea:focus {
   border-color: #2E5BD8;
-  background-color: #161618;
-  box-shadow: 0 0 0 2px rgba(46, 91, 216, 0.3);
+  background-color: #1A1A1D;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(46, 91, 216, 0.28);
   outline: none;
 }
 
 [data-theme="dark"] .comment-card {
   background: #161618;
-  border: 1px solid #222225;
+  border: 1.5px solid #222225;
   border-radius: 7px;
+  box-shadow: 0 2px 0 #09090B, 0 4px 10px rgba(0, 0, 0, 0.35);
   color: #E7E7E9;
 }
 
 [data-theme="dark"] .comment-card.is-reply {
-  background: #1E1E21;
-  border-left: 3px solid #2E5BD8;
+  background: #1A1A1D;
+  border-left: 3.5px solid #2E5BD8;
 }
 
 [data-theme="dark"] .comment-author-name {
@@ -4541,6 +4668,8 @@ body {
 
 [data-theme="dark"] .btn-comment-action {
   color: #8E8E96;
+  border-radius: 4px;
+  transition: all 0.15s ease;
 }
 
 [data-theme="dark"] .btn-comment-action:hover {
@@ -4560,9 +4689,10 @@ body {
 
 [data-theme="dark"] .draft-restore-banner {
   background: rgba(250, 204, 21, 0.12);
-  border: 1px solid rgba(250, 204, 21, 0.35);
+  border: 1.5px solid rgba(250, 204, 21, 0.35);
   color: #FACC15;
   border-radius: 7px;
+  box-shadow: 0 2px 6px rgba(250, 204, 21, 0.15);
 }
 
 [data-theme="dark"] .draft-status-badge {
@@ -4577,19 +4707,28 @@ body {
   border: 1px solid #222225;
   color: #A1A1A8;
   border-radius: 7px;
+  box-shadow: 0 2px 0 #09090B;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 [data-theme="dark"] .btn-draft:hover {
   background: #2A2A2E;
   color: #E7E7E9;
+  box-shadow: 0 3px 0 #09090B;
+  transform: translateY(-1px);
 }
 
-/* 💻 코드 블록 */
+[data-theme="dark"] .btn-draft:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #09090B;
+}
+
+/* 💻 코드 블록 (3D 택타일 컨테이너) */
 [data-theme="dark"] .code-block-container {
   background-color: #0F0F11;
-  border: 1px solid #222225;
+  border: 1.5px solid #222225;
   border-radius: 7px;
-  box-shadow: none;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
 [data-theme="dark"] .code-block-header {
@@ -4602,6 +4741,7 @@ body {
   color: #A78BFA;
   border: 1px solid #222225;
   border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .btn-copy-code {
@@ -4609,17 +4749,26 @@ body {
   border: 1px solid #222225;
   color: #8E8E96;
   border-radius: 5px;
+  box-shadow: 0 2px 0 #09090B;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
 }
 
 [data-theme="dark"] .btn-copy-code:hover {
   background: #2A2A2E;
   border-color: #2A2A2E;
   color: #E7E7E9;
+  box-shadow: 0 3px 0 #09090B;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .btn-copy-code:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #09090B;
 }
 
 [data-theme="dark"] .btn-copy-code.copied {
   background: #4ADE80 !important;
   border-color: #4ADE80 !important;
   color: #0B0B0C !important;
-  box-shadow: 0 0 10px rgba(74, 222, 128, 0.4) !important;
+  box-shadow: 0 2px 0 #238A4A, 0 0 12px rgba(74, 222, 128, 0.45) !important;
 }
