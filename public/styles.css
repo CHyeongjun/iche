@@ -4,47 +4,47 @@
    ========================================================================== */
 
 :root {
-  /* 🏛️ 너무 밝지 않은 은은한 오프화이트 배경 팔레트 */
-  --bg-void: #ebeef2;           /* 눈이 편안한 소프트 티타늄 오프화이트 베이스 */
-  --bg-primary: #f0f2f6;        /* 보조 오프화이트 배경 */
-  --bg-surface: #f8fafc;        /* 상단 헤더 및 서피스 */
-  --bg-recessed: #e2e6eb;       /* 음각 파인 3D 트랙 */
+  /* 🏛️ 눈이 편안한 차분한 웜 슬레이트 티타늄 (눈부심 제로 안심 모드) */
+  --bg-void: #D6DCE5;           /* 눈이 편안한 미드 슬레이트 그레이 베이스 */
+  --bg-primary: #DFE5ED;        /* 작업 캔버스 */
+  --bg-surface: #E6ECF4;        /* 상단 헤더 및 패널 서피스 */
+  --bg-recessed: #CAD2DC;       /* 음각 트랙 */
   
-  /* 🌐 PUBLIC 기록: 순백의 입체 3D 갤러리 액자 */
-  --bg-card-public: #ffffff;
-  --border-card-public: #ffffff;
-  --outline-card-public: rgba(0, 0, 0, 0.1);
-  --shadow-card-public: 0 4px 0 #cbd5e1, 0 14px 30px -4px rgba(15, 23, 42, 0.1);
+  /* 🌐 PUBLIC 기록 (라이트): 눈부신 쌩백색 제거 -> 차분한 오프화이트 실버 펄 */
+  --bg-card-public: #F1F4F9;
+  --border-card-public: #2563EB;
+  --outline-card-public: rgba(37, 99, 235, 0.3);
+  --shadow-card-public: 0 4px 0 #B0BAC8, 0 12px 26px -4px rgba(15, 23, 42, 0.09);
   
-  /* 🔒 PRIVATE 기록: 묵직한 딥 옵시디언 볼트(금고) 3D 액자 */
-  --bg-card-private: #14161c;
-  --border-card-private: #22252e;
-  --outline-card-private: rgba(255, 255, 255, 0.15);
-  --shadow-card-private: 0 4px 0 #090a0d, 0 16px 36px -4px rgba(0, 0, 0, 0.45);
+  /* 🔒 PRIVATE 기록 (라이트): 묵직한 딥 다크 티타늄 금고 액자 */
+  --bg-card-private: #141722;
+  --border-card-private: #B45309;
+  --outline-card-private: rgba(245, 158, 11, 0.4);
+  --shadow-card-private: 0 4px 0 #090B10, 0 16px 36px -4px rgba(0, 0, 0, 0.35);
 
-  --bg-modal: #ffffff;
+  --bg-modal: #EAEFF6;
 
-  /* 🔤 흑백 하이 콘트라스트 타이포그래피 */
-  --text-primary: #0f172a;      /* 진한 차콜 블랙 */
+  /* 🔤 고가독성 차콜 타이포그래피 */
+  --text-primary: #0F172A;      /* 진한 차콜 블랙 */
   --text-secondary: #475569;    /* 슬레이트 그레이 */
-  --text-muted: #94a3b8;        /* 뮤트 그레이 */
-  --text-white: #ffffff;
+  --text-muted: #64748B;        /* 뮤트 그레이 */
+  --text-white: #FFFFFF;
 
   /* ⚡ 3D 보더 & 베벨 */
-  --border-subtle: rgba(0, 0, 0, 0.08);
-  --border-medium: #cbd5e1;
-  --border-strong: #94a3b8;
-  --border-solid: #0f172a;
+  --border-subtle: #CBD5E1;
+  --border-medium: #94A3B8;
+  --border-strong: #64748B;
+  --border-solid: #0284C7;
 
-  /* 💎 3D 물리적 압출 버튼 섀도우 */
-  --depth-btn: 0 3px 0 #cbd5e1, 0 6px 14px rgba(15, 23, 42, 0.08);
-  --depth-btn-hover: 0 5px 0 #94a3b8, 0 10px 20px rgba(15, 23, 42, 0.14);
-  --depth-btn-active: 0 1px 0 #cbd5e1, 0 2px 4px rgba(15, 23, 42, 0.1);
+  /* 💎 3D 버튼 섀도우 */
+  --depth-btn: 0 2px 0 #B0BAC8, 0 5px 12px rgba(15, 23, 42, 0.08);
+  --depth-btn-hover: 0 4px 0 #94A3B8, 0 8px 18px rgba(15, 23, 42, 0.12);
+  --depth-btn-active: 0 1px 0 #B0BAC8, 0 2px 4px rgba(15, 23, 42, 0.06);
 
   /* 📐 3D 라디우스 */
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 10px;
+  --radius-xs: 5px;
+  --radius-sm: 7px;
+  --radius-md: 11px;
   --radius-lg: 14px;
   --radius-xl: 18px;
 
@@ -93,8 +93,8 @@ body {
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(ellipse 80% 50% at 50% -5%, #ffffff 0%, rgba(255, 255, 255, 0.5) 45%, transparent 80%),
-    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(220, 226, 234, 0.7) 0%, transparent 65%);
+    radial-gradient(ellipse 80% 50% at 50% -5%, rgba(240, 244, 250, 0.3) 0%, rgba(220, 226, 235, 0.2) 45%, transparent 80%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(185, 198, 214, 0.45) 0%, transparent 65%);
 }
 
 .cyber-horizon-glow {
@@ -568,7 +568,8 @@ body {
 /* 🌐 1) PUBLIC 기록: 순백의 3D 몰딩 갤러리 액자 */
 .record-card {
   background: var(--bg-card-public);
-  border: 8px solid var(--border-card-public);
+  border: 2px solid #2563EB;
+  border-top: 4px solid #0284C7;
   outline: 1px solid var(--outline-card-public);
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -785,7 +786,8 @@ body {
    ========================================================================== */
 .record-card.is-private-card {
   background: var(--bg-card-private);
-  border: 8px solid var(--border-card-private);
+  border: 2px solid #B45309;
+  border-top: 4.5px solid #F59E0B;
   outline: 1px solid var(--outline-card-private);
   box-shadow: var(--shadow-card-private);
   color: var(--text-white);
@@ -3447,178 +3449,184 @@ body {
 }
 
 /* ==========================================================================
-   📦 RECORD CARDS: PUBLIC (다크 네이비 카본) vs PRIVATE (옵시디언 금고)
+   📦 RECORD CARDS: PUBLIC (쿨 일렉트릭 블루/시안) vs PRIVATE (골드 앰버 금고 볼트)
+   - 극명한 색상/프레임/글로우 차별화: 0.1초 만에 성격 식별
    ========================================================================== */
 
-/* 1. PUBLIC 카드: 미래지향적 다크 네이비 카본 + 시안/블루 림 */
+/* 🌐 1. PUBLIC 카드: 선명한 쿨 일렉트릭 블루/시안 프레임 & 4.5px 시안 탑바 */
 [data-theme="dark"] .record-card:not(.is-private-card) {
-  background: #121520 !important;
-  border: 2px solid #1E2536 !important;
+  background: #111625 !important;
+  border: 2px solid #2563EB !important;
+  border-top: 4.5px solid #38BDF8 !important;
   border-radius: 11px !important;
-  outline: none !important;
-  box-shadow: 0 4px 0 #07090F, 0 14px 28px rgba(0, 0, 0, 0.55) !important;
-  color: #E7E7E9 !important;
+  outline: 1px solid rgba(56, 189, 248, 0.4) !important;
+  box-shadow: 0 4px 0 #070912, 0 0 18px rgba(56, 189, 248, 0.16), 0 14px 28px rgba(0, 0, 0, 0.55) !important;
+  color: #F1F5F9 !important;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease !important;
 }
 
 [data-theme="dark"] .record-card:not(.is-private-card):hover {
-  background: #171C2B !important;
+  background: #171E32 !important;
   border-color: #38BDF8 !important;
-  box-shadow: 0 7px 0 #07090F, 0 0 22px rgba(56, 189, 248, 0.22), 0 20px 42px rgba(0, 0, 0, 0.65) !important;
+  border-top-color: #7DD3FC !important;
+  box-shadow: 0 7px 0 #070912, 0 0 28px rgba(56, 189, 248, 0.32), 0 20px 42px rgba(0, 0, 0, 0.7) !important;
   transform: translateY(-3px);
 }
 
 [data-theme="dark"] .record-card:not(.is-private-card) .card-title {
-  color: #E7E7E9 !important;
+  color: #F1F5F9 !important;
 }
 
 [data-theme="dark"] .record-card:not(.is-private-card) .card-excerpt {
-  color: #9FA4B2 !important;
+  color: #94A3B8 !important;
 }
 
-/* 2. PRIVATE 카드: 칠흑의 옵시디언 금고 + 골드 앰버 인디케이터 */
+/* 🔒 2. PRIVATE 카드: 칠흑의 제트 옵시디언 + 확실한 골드 앰버 프레임 & 4.5px 골드 탑바 */
 [data-theme="dark"] .record-card.is-private-card {
-  background: #07080B !important;
-  border: 2px solid #16171D !important;
-  border-top: 3.5px solid #FACC15 !important;
+  background: #060709 !important;
+  border: 2px solid #B45309 !important;
+  border-top: 4.5px solid #F59E0B !important;
   border-radius: 11px !important;
-  outline: none !important;
-  box-shadow: 0 4px 0 #020304, 0 14px 28px rgba(0, 0, 0, 0.75) !important;
-  color: #E7E7E9 !important;
+  outline: 1px solid rgba(245, 158, 11, 0.45) !important;
+  box-shadow: 0 4px 0 #000000, 0 0 20px rgba(245, 158, 11, 0.18), 0 14px 28px rgba(0, 0, 0, 0.8) !important;
+  color: #FEF3C7 !important;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease !important;
 }
 
 [data-theme="dark"] .record-card.is-private-card:hover {
-  background: #0E1015 !important;
-  border-color: rgba(250, 204, 21, 0.45) !important;
+  background: #0D0F14 !important;
+  border-color: #F59E0B !important;
   border-top-color: #FDE047 !important;
-  box-shadow: 0 7px 0 #020304, 0 0 24px rgba(250, 204, 21, 0.25), 0 22px 46px rgba(0, 0, 0, 0.85) !important;
+  box-shadow: 0 7px 0 #000000, 0 0 30px rgba(245, 158, 11, 0.35), 0 22px 46px rgba(0, 0, 0, 0.9) !important;
   transform: translateY(-3px);
 }
 
 [data-theme="dark"] .record-card.is-private-card .card-title {
-  color: #E7E7E9 !important;
+  color: #FEF3C7 !important;
 }
 
 [data-theme="dark"] .record-card.is-private-card .card-excerpt {
-  color: #9FA4B2 !important;
+  color: #D1D5DB !important;
 }
 
-/* 🏷️ 신호 뱃지 (Radius: 5px, 3D 깊이감) */
+/* 🏷️ 신호 뱃지: PUBLIC(선명한 시안) vs PRIVATE(발광 골드 앰버) */
 [data-theme="dark"] .badge-category {
-  background-color: rgba(167, 139, 250, 0.14) !important;
-  border: 1px solid rgba(167, 139, 250, 0.35) !important;
+  background-color: rgba(167, 139, 250, 0.16) !important;
+  border: 1px solid rgba(167, 139, 250, 0.45) !important;
   color: #A78BFA !important;
   border-radius: 5px !important;
   font-weight: 700 !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
+/* 🌐 PUBLIC 뱃지: 시안 네온 */
 [data-theme="dark"] .badge-public {
-  background-color: rgba(74, 222, 128, 0.14) !important;
-  color: #4ADE80 !important;
-  border: 1px solid rgba(74, 222, 128, 0.4) !important;
-  border-radius: 5px !important;
-  font-weight: 700 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 8px rgba(74, 222, 128, 0.15) !important;
-}
-
-[data-theme="dark"] .badge-private,
-[data-theme="dark"] .badge-private-locked {
-  background: rgba(250, 204, 21, 0.14) !important;
-  color: #FACC15 !important;
-  border: 1px solid rgba(250, 204, 21, 0.4) !important;
+  background-color: rgba(56, 189, 248, 0.18) !important;
+  color: #38BDF8 !important;
+  border: 1.5px solid #38BDF8 !important;
   border-radius: 5px !important;
   font-weight: 800 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 8px rgba(250, 204, 21, 0.15) !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3) !important;
+}
+
+/* 🔒 PRIVATE 뱃지: 골드 앰버 볼트 */
+[data-theme="dark"] .badge-private,
+[data-theme="dark"] .badge-private-locked {
+  background: rgba(245, 158, 11, 0.2) !important;
+  color: #FCD34D !important;
+  border: 1.5px solid #F59E0B !important;
+  border-radius: 5px !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3) !important;
 }
 
 [data-theme="dark"] .view-count-badge {
   background: #141724 !important;
-  color: #7E8494 !important;
-  border: 1px solid #1E2536 !important;
+  color: #94A3B8 !important;
+  border: 1px solid #242D42 !important;
   border-radius: 5px !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
 [data-theme="dark"] .card-date {
-  color: #7E8494 !important;
+  color: #94A3B8 !important;
 }
 
 [data-theme="dark"] .card-file-badge {
   background-color: #141724 !important;
-  border: 1px solid #1E2536 !important;
-  color: #7E8494 !important;
+  border: 1px solid #242D42 !important;
+  color: #94A3B8 !important;
   border-radius: 5px !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* 리스트형 뷰 (3D 물리감) */
+/* 📑 리스트형 뷰 (PUBLIC 시안 바 vs PRIVATE 앰버 바) */
 [data-theme="dark"] .records-grid.view-list .record-card:not(.is-private-card) {
-  background: #121520 !important;
-  border: 1.5px solid #1E2536 !important;
-  border-left: 4px solid #38BDF8 !important;
+  background: #111625 !important;
+  border: 1.5px solid #2563EB !important;
+  border-left: 5px solid #38BDF8 !important;
   border-radius: 7px !important;
-  box-shadow: 0 2px 0 #07090F, 0 6px 14px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 2px 0 #070912, 0 6px 14px rgba(0, 0, 0, 0.35) !important;
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card:not(.is-private-card):hover {
-  background: #171C2B !important;
-  border-color: #2D374D !important;
-  border-left-color: #38BDF8 !important;
-  box-shadow: 0 4px 0 #07090F, 0 10px 24px rgba(56, 189, 248, 0.2) !important;
+  background: #161D30 !important;
+  border-color: #38BDF8 !important;
+  border-left-color: #7DD3FC !important;
+  box-shadow: 0 4px 0 #070912, 0 10px 24px rgba(56, 189, 248, 0.25) !important;
   transform: translateY(-2px);
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card.is-private-card {
-  background: #07080B !important;
-  border: 1.5px solid #16171D !important;
-  border-left: 4px solid #FACC15 !important;
+  background: #060709 !important;
+  border: 1.5px solid #B45309 !important;
+  border-left: 5px solid #F59E0B !important;
   border-radius: 7px !important;
-  box-shadow: 0 2px 0 #020304, 0 6px 14px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 2px 0 #000000, 0 6px 14px rgba(0, 0, 0, 0.45) !important;
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card.is-private-card:hover {
-  background: #0E1015 !important;
-  border-color: #242732 !important;
-  border-left-color: #FACC15 !important;
-  box-shadow: 0 4px 0 #020304, 0 10px 24px rgba(0, 0, 0, 0.6) !important;
+  background: #0D0F14 !important;
+  border-color: #F59E0B !important;
+  border-left-color: #FDE047 !important;
+  box-shadow: 0 4px 0 #000000, 0 10px 24px rgba(245, 158, 11, 0.25) !important;
   transform: translateY(-2px);
 }
 
 /* ==========================================================================
-   📖 RECORD DETAIL (3D Architectural Panel, Radius: 11px)
+   📖 RECORD DETAIL (PUBLIC 블루/시안 vs PRIVATE 골드 앰버)
    ========================================================================== */
 [data-theme="dark"] .record-detail-card {
-  background: #121520;
-  border: 2px solid #1E2536;
-  border-top: 3.5px solid #38BDF8;
+  background: #111625;
+  border: 2px solid #2563EB;
+  border-top: 4.5px solid #38BDF8;
   border-radius: 11px;
-  box-shadow: 0 6px 0 #07090F, 0 20px 48px rgba(0, 0, 0, 0.6);
-  color: #E7E7E9;
+  box-shadow: 0 6px 0 #070912, 0 0 24px rgba(56, 189, 248, 0.18), 0 20px 48px rgba(0, 0, 0, 0.65);
+  color: #F1F5F9;
 }
 
 [data-theme="dark"] .record-detail-card.is-private-detail {
-  background: #07080B;
-  border: 2px solid #16171D;
-  border-top: 4px solid #FACC15;
+  background: #060709;
+  border: 2px solid #B45309;
+  border-top: 5px solid #F59E0B;
   border-radius: 11px;
-  box-shadow: 0 6px 0 #020304, 0 20px 48px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 6px 0 #000000, 0 0 28px rgba(245, 158, 11, 0.22), 0 20px 48px rgba(0, 0, 0, 0.85);
+  color: #FEF3C7;
 }
 
 [data-theme="dark"] .detail-title {
-  color: #E7E7E9;
+  color: #FFFFFF;
 }
 
 [data-theme="dark"] .detail-body {
-  color: #9FA4B2;
+  color: #CBD5E1;
 }
 
 [data-theme="dark"] .detail-body h1,
 [data-theme="dark"] .detail-body h2,
 [data-theme="dark"] .detail-body h3,
 [data-theme="dark"] .detail-body h4 {
-  color: #E7E7E9;
+  color: #FFFFFF;
 }
 
 [data-theme="dark"] .detail-body mark {
