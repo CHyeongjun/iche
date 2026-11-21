@@ -3095,38 +3095,38 @@ body {
    ========================================================================== */
 
 [data-theme="dark"] {
-  /* 🌌 Surface Palette */
+  /* 🌌 Surface Palette: Cyber-Obsidian Hybrid */
   --bg-void: #0B0B0C;            /* Outermost window / backdrop */
   --bg-primary: #0F0F11;         /* Editor canvas / workspace */
-  --bg-surface: #111113;         /* Panel card surface */
-  --bg-recessed: #0A0A0C;        /* Inset recessed slots */
+  --bg-surface: #121520;         /* Default surface */
+  --bg-recessed: #0A0B0E;        /* Inset recessed slots */
   --bg-control: #1E1E21;         /* Controls / inputs / secondary buttons */
 
-  /* 🌐 PUBLIC Card (Tactile 3D Module) */
-  --bg-card-public: #111113;
-  --border-card-public: #222225;
-  --outline-card-public: rgba(46, 91, 216, 0.25);
-  --shadow-card-public: 0 4px 0 #060607, 0 14px 28px rgba(0, 0, 0, 0.55);
+  /* 🌐 PUBLIC Card: Mid-Dark Navy Carbon + Electric Cyan/Blue Rim */
+  --bg-card-public: #121520;
+  --border-card-public: #1E2536;
+  --outline-card-public: rgba(56, 189, 248, 0.25);
+  --shadow-card-public: 0 4px 0 #07090F, 0 14px 28px rgba(0, 0, 0, 0.55);
 
-  /* 🔒 PRIVATE Card (Tactile 3D Vault) */
-  --bg-card-private: #0D0D0F;
-  --border-card-private: #1C1C1F;
+  /* 🔒 PRIVATE Card: Pitch-Black Obsidian Vault + Gold Amber Indicator */
+  --bg-card-private: #07080B;
+  --border-card-private: #16171D;
   --outline-card-private: rgba(250, 204, 21, 0.35);
-  --shadow-card-private: 0 4px 0 #040405, 0 14px 28px rgba(0, 0, 0, 0.7);
+  --shadow-card-private: 0 4px 0 #020304, 0 14px 28px rgba(0, 0, 0, 0.75);
 
-  --bg-modal: #111113;
+  --bg-modal: #11131A;
 
   /* 🔤 Typography */
   --text-primary: #E7E7E9;
-  --text-secondary: #A1A1A8;
-  --text-muted: #8E8E96;
+  --text-secondary: #9FA4B2;
+  --text-muted: #7E8494;
   --text-white: #FFFFFF;
 
   /* ⚡ Borders & 3D Bevels */
-  --border-subtle: #222225;
-  --border-medium: #222225;
-  --border-strong: #2A2A2E;
-  --border-solid: #2E5BD8;
+  --border-subtle: #1E222D;
+  --border-medium: #222736;
+  --border-strong: #2D3448;
+  --border-solid: #38BDF8;
 
   /* 💎 3D Tactile Keycap Shadows */
   --depth-btn: 0 2px 0 #09090B, 0 5px 12px rgba(0, 0, 0, 0.4);
@@ -3136,6 +3136,7 @@ body {
   /* 🎯 Accents & Signals */
   --color-agent: #A78BFA;
   --color-selection: #2E5BD8;
+  --color-cyan: #38BDF8;
   --color-pass: #4ADE80;
   --color-note: #FACC15;
   --color-fail: #F87171;
@@ -3154,37 +3155,39 @@ body {
 
 [data-theme="dark"] .cyber-ambient-light {
   background: 
-    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(35, 35, 42, 0.45) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(46, 91, 216, 0.06) 0%, transparent 65%);
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(30, 38, 55, 0.45) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(56, 189, 248, 0.07) 0%, transparent 65%);
 }
 
 [data-theme="dark"] .cyber-horizon-glow {
-  background: linear-gradient(90deg, transparent 5%, rgba(46, 91, 216, 0.18) 50%, transparent 95%);
+  background: linear-gradient(90deg, transparent 5%, rgba(56, 189, 248, 0.22) 50%, transparent 95%);
 }
 
 [data-theme="dark"] .cyber-grid-3d {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1.1px, transparent 1.1px);
+  background-image: radial-gradient(rgba(56, 189, 248, 0.07) 1.1px, transparent 1.1px);
   background-size: 24px 24px;
 }
 
 [data-theme="dark"] .cyber-vignette {
-  background: radial-gradient(circle at 50% 40%, transparent 45%, rgba(6, 6, 7, 0.88) 100%);
+  background: radial-gradient(circle at 50% 40%, transparent 45%, rgba(6, 6, 8, 0.9) 100%);
 }
 
 /* 상단 헤더 & 검색창 */
 [data-theme="dark"] .app-header {
-  background: rgba(15, 15, 17, 0.94);
+  background: rgba(15, 17, 23, 0.94);
   backdrop-filter: blur(12px);
-  border-bottom: 2px solid #222225;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  border-bottom: 2px solid #1E2332;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
+/* 💎 브랜드 뱃지: 시안 ➜ 퍼플 네온 그라디언트 */
 [data-theme="dark"] .brand-badge {
-  background: rgba(167, 139, 250, 0.15);
-  color: #A78BFA;
-  border: 1px solid rgba(167, 139, 250, 0.35);
+  background: linear-gradient(135deg, #38BDF8 0%, #A78BFA 100%);
+  color: #080A0F;
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 5px;
-  box-shadow: 0 2px 0 #09090B, 0 0 10px rgba(167, 139, 250, 0.2);
+  box-shadow: 0 2px 0 #07090F, 0 0 14px rgba(56, 189, 248, 0.4);
+  font-weight: 900;
 }
 
 [data-theme="dark"] .brand-title {
@@ -3193,19 +3196,19 @@ body {
 }
 
 [data-theme="dark"] .brand-desc {
-  color: #8E8E96;
+  color: #7E8494;
 }
 
 [data-theme="dark"] .admin-indicator-bar {
-  background: #0B0B0C;
-  border-bottom: 2px solid #222225;
+  background: #080A0E;
+  border-bottom: 2px solid #1E2332;
   color: #A78BFA;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .search-input {
-  background-color: #161618;
-  border: 1.5px solid #222225;
+  background-color: #121520;
+  border: 1.5px solid #1E2536;
   color: #E7E7E9;
   border-radius: 7px;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -3213,29 +3216,29 @@ body {
 }
 
 [data-theme="dark"] .search-input:focus {
-  background-color: #1A1A1D;
-  border-color: #2E5BD8;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(46, 91, 216, 0.28);
+  background-color: #161A28;
+  border-color: #38BDF8;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(56, 189, 248, 0.25);
   outline: none;
 }
 
 [data-theme="dark"] .search-input::placeholder {
-  color: #8E8E96;
+  color: #7E8494;
 }
 
 [data-theme="dark"] .search-icon {
-  color: #8E8E96;
+  color: #7E8494;
 }
 
 [data-theme="dark"] .search-clear-btn {
-  color: #8E8E96;
+  color: #7E8494;
 }
 
 [data-theme="dark"] .search-clear-btn:hover {
   color: #E7E7E9;
 }
 
-/* ⚪ Primary Button: "Only one white button per view" (Tactile 3D Keycap) */
+/* ⚪ Primary Button: "Only one white button per view" (Tactile Keycap with Cyan Hover Aura) */
 [data-theme="dark"] .btn-primary,
 [data-theme="dark"] #openWriteModalBtn,
 [data-theme="dark"] .btn-new-record,
@@ -3255,7 +3258,7 @@ body {
 [data-theme="dark"] #saveRecordSubmitBtn:hover {
   background: #F4F4F6 !important;
   color: #0B0B0C !important;
-  box-shadow: 0 4px 0 #9E9EA8, 0 8px 20px rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 4px 0 #9E9EA8, 0 0 18px rgba(56, 189, 248, 0.35) !important;
   transform: translateY(-1px);
 }
 
@@ -3266,56 +3269,56 @@ body {
   box-shadow: 0 1px 0 #9E9EA8, 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* 🔘 Secondary Buttons (Control: #1E1E21, 3D Keycap) */
+/* 🔘 Secondary Buttons (Control: #171A24, 3D Keycap) */
 [data-theme="dark"] .btn-admin-auth {
-  background: #1E1E21;
-  border: 1px solid #222225;
+  background: #171A24;
+  border: 1px solid #232A3C;
   color: #E7E7E9;
   border-radius: 7px;
-  box-shadow: 0 2px 0 #09090B, 0 4px 10px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 2px 0 #090B10, 0 4px 10px rgba(0, 0, 0, 0.35);
   transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
 }
 
 [data-theme="dark"] .btn-admin-auth:hover {
-  background: #2A2A2E;
-  border-color: #2A2A2E;
+  background: #202636;
+  border-color: #38BDF8;
   color: #FFFFFF;
-  box-shadow: 0 3px 0 #09090B, 0 6px 14px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 3px 0 #090B10, 0 6px 14px rgba(0, 0, 0, 0.45);
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .btn-admin-auth:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 #09090B;
+  box-shadow: 0 0 0 #090B10;
 }
 
 [data-theme="dark"] .btn-admin-auth.is-admin {
-  background: rgba(167, 139, 250, 0.16);
-  color: #A78BFA;
-  border-color: rgba(167, 139, 250, 0.4);
-  box-shadow: 0 2px 0 #09090B, 0 0 12px rgba(167, 139, 250, 0.25);
+  background: rgba(56, 189, 248, 0.16);
+  color: #38BDF8;
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 2px 0 #090B10, 0 0 14px rgba(56, 189, 248, 0.3);
 }
 
 [data-theme="dark"] .btn-theme-toggle {
-  background: #1E1E21;
-  border: 1px solid #222225;
-  color: #A1A1A8;
+  background: #171A24;
+  border: 1px solid #232A3C;
+  color: #9FA4B2;
   border-radius: 7px;
-  box-shadow: 0 2px 0 #09090B, 0 4px 10px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 2px 0 #090B10, 0 4px 10px rgba(0, 0, 0, 0.35);
   transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
 }
 
 [data-theme="dark"] .btn-theme-toggle:hover {
-  background: #2A2A2E;
-  border-color: #2A2A2E;
+  background: #202636;
+  border-color: #38BDF8;
   color: #E7E7E9;
-  box-shadow: 0 3px 0 #09090B, 0 6px 14px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 3px 0 #090B10, 0 6px 14px rgba(0, 0, 0, 0.45);
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .btn-theme-toggle:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 #09090B;
+  box-shadow: 0 0 0 #090B10;
 }
 
 [data-theme="dark"] .btn-theme-toggle .theme-text-sun {
@@ -3329,96 +3332,96 @@ body {
 
 /* 컨트롤 바 (필터 탭 & 카테고리 필 - 3D 키캡) */
 [data-theme="dark"] .tab-btn {
-  background: #1E1E21;
-  border: 1px solid #222225;
-  color: #A1A1A8;
+  background: #151822;
+  border: 1px solid #222736;
+  color: #9FA4B2;
   border-radius: 7px;
   font-weight: 600;
-  box-shadow: 0 2px 0 #09090B;
+  box-shadow: 0 2px 0 #080A0E;
   transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
 }
 
 [data-theme="dark"] .tab-btn:hover {
-  background: #2A2A2E;
-  border-color: #2A2A2E;
+  background: #1F2433;
+  border-color: #38BDF8;
   color: #E7E7E9;
-  box-shadow: 0 3px 0 #09090B;
+  box-shadow: 0 3px 0 #080A0E;
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .tab-btn:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 #09090B;
+  box-shadow: 0 0 0 #080A0E;
 }
 
-/* 🟦 Selection, active mode -> #2E5BD8 (3D 볼륨 키캡) */
+/* 🟦 Selection: 로열 블루(#2E5BD8) + 시안 테두리 글로우(#38BDF8) */
 [data-theme="dark"] .tab-btn.active {
   background: #2E5BD8 !important;
-  border-color: #2E5BD8 !important;
+  border-color: #38BDF8 !important;
   color: #FFFFFF !important;
   font-weight: 700 !important;
-  box-shadow: 0 2px 0 #1B3EA8, 0 0 14px rgba(46, 91, 216, 0.45) !important;
+  box-shadow: 0 2px 0 #18338C, 0 0 16px rgba(56, 189, 248, 0.4) !important;
 }
 
 [data-theme="dark"] .tab-btn.tab-private {
   color: #FACC15;
-  border-color: rgba(250, 204, 21, 0.25);
-  background: rgba(250, 204, 21, 0.05);
-  box-shadow: 0 2px 0 #09090B;
+  border-color: rgba(250, 204, 21, 0.28);
+  background: rgba(250, 204, 21, 0.06);
+  box-shadow: 0 2px 0 #080A0E;
 }
 
 [data-theme="dark"] .tab-btn.tab-private:hover {
-  background: rgba(250, 204, 21, 0.12);
-  border-color: rgba(250, 204, 21, 0.45);
+  background: rgba(250, 204, 21, 0.14);
+  border-color: rgba(250, 204, 21, 0.5);
   color: #FDE047;
-  box-shadow: 0 3px 0 #09090B;
+  box-shadow: 0 3px 0 #080A0E;
 }
 
 [data-theme="dark"] .tab-btn.tab-private.active {
-  background: rgba(250, 204, 21, 0.2) !important;
+  background: rgba(250, 204, 21, 0.22) !important;
   border-color: #FACC15 !important;
   color: #FACC15 !important;
-  box-shadow: 0 2px 0 #785A05, 0 0 12px rgba(250, 204, 21, 0.3) !important;
+  box-shadow: 0 2px 0 #6B4F04, 0 0 14px rgba(250, 204, 21, 0.35) !important;
 }
 
-/* 🟦 카테고리 필 (3D 물리 키캡 버튼) */
+/* 🟦 카테고리 필 (로열 블루 + 시안 하이라이트) */
 [data-theme="dark"] .pill-btn,
 [data-theme="dark"] .category-pill {
-  background: #1E1E21;
-  border: 1px solid #222225;
-  color: #A1A1A8;
+  background: #151822;
+  border: 1px solid #222736;
+  color: #9FA4B2;
   border-radius: 7px;
   font-weight: 600;
-  box-shadow: 0 2px 0 #09090B;
+  box-shadow: 0 2px 0 #080A0E;
   transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease, color 0.15s ease;
 }
 
 [data-theme="dark"] .pill-btn:hover,
 [data-theme="dark"] .category-pill:hover {
-  background: #2A2A2E;
+  background: #1F2433;
   color: #E7E7E9;
-  border-color: #2A2A2E;
-  box-shadow: 0 3px 0 #09090B;
+  border-color: #38BDF8;
+  box-shadow: 0 3px 0 #080A0E;
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .pill-btn:active,
 [data-theme="dark"] .category-pill:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 #09090B;
+  box-shadow: 0 0 0 #080A0E;
 }
 
 [data-theme="dark"] .pill-btn.active,
 [data-theme="dark"] .category-pill.active {
   background: #2E5BD8 !important;
-  border-color: #2E5BD8 !important;
+  border-color: #38BDF8 !important;
   color: #FFFFFF !important;
   font-weight: 700 !important;
-  box-shadow: 0 2px 0 #1B3EA8, 0 0 16px rgba(46, 91, 216, 0.5) !important;
+  box-shadow: 0 2px 0 #18338C, 0 0 18px rgba(56, 189, 248, 0.45) !important;
 }
 
 [data-theme="dark"] .records-count-info {
-  color: #8E8E96;
+  color: #7E8494;
 }
 
 [data-theme="dark"] .records-count-info strong {
@@ -3426,14 +3429,14 @@ body {
 }
 
 [data-theme="dark"] .view-mode-switcher {
-  background: #161618;
-  border: 1.5px solid #222225;
+  background: #121520;
+  border: 1.5px solid #1E2536;
   border-radius: 7px;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .btn-view-toggle {
-  color: #8E8E96;
+  color: #7E8494;
   border-radius: 5px;
 }
 
@@ -3444,24 +3447,24 @@ body {
 }
 
 /* ==========================================================================
-   📦 RECORD CARDS: TACTILE 3D ARCHITECTURAL PANELS
+   📦 RECORD CARDS: PUBLIC (다크 네이비 카본) vs PRIVATE (옵시디언 금고)
    ========================================================================== */
 
-/* 1. PUBLIC 카드: 3D 모듈 패널 & 정밀 2px 베벨 액자 */
+/* 1. PUBLIC 카드: 미래지향적 다크 네이비 카본 + 시안/블루 림 */
 [data-theme="dark"] .record-card:not(.is-private-card) {
-  background: #111113 !important;
-  border: 2px solid #222225 !important;
+  background: #121520 !important;
+  border: 2px solid #1E2536 !important;
   border-radius: 11px !important;
   outline: none !important;
-  box-shadow: 0 4px 0 #060607, 0 14px 28px rgba(0, 0, 0, 0.55) !important;
+  box-shadow: 0 4px 0 #07090F, 0 14px 28px rgba(0, 0, 0, 0.55) !important;
   color: #E7E7E9 !important;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease !important;
 }
 
 [data-theme="dark"] .record-card:not(.is-private-card):hover {
-  background: #151517 !important;
-  border-color: #2E5BD8 !important;
-  box-shadow: 0 7px 0 #060607, 0 0 22px rgba(46, 91, 216, 0.18), 0 20px 42px rgba(0, 0, 0, 0.65) !important;
+  background: #171C2B !important;
+  border-color: #38BDF8 !important;
+  box-shadow: 0 7px 0 #07090F, 0 0 22px rgba(56, 189, 248, 0.22), 0 20px 42px rgba(0, 0, 0, 0.65) !important;
   transform: translateY(-3px);
 }
 
@@ -3470,26 +3473,26 @@ body {
 }
 
 [data-theme="dark"] .record-card:not(.is-private-card) .card-excerpt {
-  color: #A1A1A8 !important;
+  color: #9FA4B2 !important;
 }
 
-/* 2. PRIVATE 카드: 흑연 티타늄 금고 3D 볼트 & 골드 앰버 인디케이터 */
+/* 2. PRIVATE 카드: 칠흑의 옵시디언 금고 + 골드 앰버 인디케이터 */
 [data-theme="dark"] .record-card.is-private-card {
-  background: #0D0D0F !important;
-  border: 2px solid #1C1C1F !important;
-  border-top: 3px solid #FACC15 !important;
+  background: #07080B !important;
+  border: 2px solid #16171D !important;
+  border-top: 3.5px solid #FACC15 !important;
   border-radius: 11px !important;
   outline: none !important;
-  box-shadow: 0 4px 0 #040405, 0 14px 28px rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 4px 0 #020304, 0 14px 28px rgba(0, 0, 0, 0.75) !important;
   color: #E7E7E9 !important;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease !important;
 }
 
 [data-theme="dark"] .record-card.is-private-card:hover {
-  background: #131316 !important;
+  background: #0E1015 !important;
   border-color: rgba(250, 204, 21, 0.45) !important;
   border-top-color: #FDE047 !important;
-  box-shadow: 0 7px 0 #040405, 0 0 24px rgba(250, 204, 21, 0.22), 0 22px 46px rgba(0, 0, 0, 0.8) !important;
+  box-shadow: 0 7px 0 #020304, 0 0 24px rgba(250, 204, 21, 0.25), 0 22px 46px rgba(0, 0, 0, 0.85) !important;
   transform: translateY(-3px);
 }
 
@@ -3498,12 +3501,12 @@ body {
 }
 
 [data-theme="dark"] .record-card.is-private-card .card-excerpt {
-  color: #A1A1A8 !important;
+  color: #9FA4B2 !important;
 }
 
 /* 🏷️ 신호 뱃지 (Radius: 5px, 3D 깊이감) */
 [data-theme="dark"] .badge-category {
-  background-color: rgba(167, 139, 250, 0.12) !important;
+  background-color: rgba(167, 139, 250, 0.14) !important;
   border: 1px solid rgba(167, 139, 250, 0.35) !important;
   color: #A78BFA !important;
   border-radius: 5px !important;
@@ -3531,55 +3534,55 @@ body {
 }
 
 [data-theme="dark"] .view-count-badge {
-  background: #161618 !important;
-  color: #8E8E96 !important;
-  border: 1px solid #222225 !important;
+  background: #141724 !important;
+  color: #7E8494 !important;
+  border: 1px solid #1E2536 !important;
   border-radius: 5px !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
 [data-theme="dark"] .card-date {
-  color: #8E8E96 !important;
+  color: #7E8494 !important;
 }
 
 [data-theme="dark"] .card-file-badge {
-  background-color: #161618 !important;
-  border: 1px solid #222225 !important;
-  color: #8E8E96 !important;
+  background-color: #141724 !important;
+  border: 1px solid #1E2536 !important;
+  color: #7E8494 !important;
   border-radius: 5px !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* 리스트형 뷰 (3D 물리감) */
 [data-theme="dark"] .records-grid.view-list .record-card:not(.is-private-card) {
-  background: #111113 !important;
-  border: 1.5px solid #222225 !important;
-  border-left: 4px solid #2E5BD8 !important;
+  background: #121520 !important;
+  border: 1.5px solid #1E2536 !important;
+  border-left: 4px solid #38BDF8 !important;
   border-radius: 7px !important;
-  box-shadow: 0 2px 0 #060607, 0 6px 14px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 2px 0 #07090F, 0 6px 14px rgba(0, 0, 0, 0.35) !important;
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card:not(.is-private-card):hover {
-  background: #161618 !important;
-  border-color: #2A2A2E !important;
-  border-left-color: #2E5BD8 !important;
-  box-shadow: 0 4px 0 #060607, 0 10px 24px rgba(0, 0, 0, 0.5) !important;
+  background: #171C2B !important;
+  border-color: #2D374D !important;
+  border-left-color: #38BDF8 !important;
+  box-shadow: 0 4px 0 #07090F, 0 10px 24px rgba(56, 189, 248, 0.2) !important;
   transform: translateY(-2px);
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card.is-private-card {
-  background: #0D0D0F !important;
-  border: 1.5px solid #1C1C1F !important;
+  background: #07080B !important;
+  border: 1.5px solid #16171D !important;
   border-left: 4px solid #FACC15 !important;
   border-radius: 7px !important;
-  box-shadow: 0 2px 0 #040405, 0 6px 14px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 2px 0 #020304, 0 6px 14px rgba(0, 0, 0, 0.45) !important;
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card.is-private-card:hover {
-  background: #141417 !important;
-  border-color: #2A2A2E !important;
+  background: #0E1015 !important;
+  border-color: #242732 !important;
   border-left-color: #FACC15 !important;
-  box-shadow: 0 4px 0 #040405, 0 10px 24px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 4px 0 #020304, 0 10px 24px rgba(0, 0, 0, 0.6) !important;
   transform: translateY(-2px);
 }
 
@@ -3587,19 +3590,20 @@ body {
    📖 RECORD DETAIL (3D Architectural Panel, Radius: 11px)
    ========================================================================== */
 [data-theme="dark"] .record-detail-card {
-  background: #111113;
-  border: 2px solid #222225;
+  background: #121520;
+  border: 2px solid #1E2536;
+  border-top: 3.5px solid #38BDF8;
   border-radius: 11px;
-  box-shadow: 0 6px 0 #060607, 0 20px 48px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 6px 0 #07090F, 0 20px 48px rgba(0, 0, 0, 0.6);
   color: #E7E7E9;
 }
 
 [data-theme="dark"] .record-detail-card.is-private-detail {
-  background: #0D0D0F;
-  border: 2px solid #1C1C1F;
+  background: #07080B;
+  border: 2px solid #16171D;
   border-top: 4px solid #FACC15;
   border-radius: 11px;
-  box-shadow: 0 6px 0 #040405, 0 20px 48px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 6px 0 #020304, 0 20px 48px rgba(0, 0, 0, 0.75);
 }
 
 [data-theme="dark"] .detail-title {
@@ -3607,7 +3611,7 @@ body {
 }
 
 [data-theme="dark"] .detail-body {
-  color: #A1A1A8;
+  color: #9FA4B2;
 }
 
 [data-theme="dark"] .detail-body h1,
@@ -3624,55 +3628,55 @@ body {
 }
 
 [data-theme="dark"] .detail-body code:not(pre code) {
-  background-color: #1E1E21;
-  color: #A78BFA;
-  border: 1px solid #222225;
+  background-color: #171A24;
+  color: #38BDF8;
+  border: 1px solid #232A3C;
   border-radius: 5px;
 }
 
 [data-theme="dark"] .btn-back {
-  background: #1E1E21;
-  border: 1px solid #222225;
+  background: #171A24;
+  border: 1px solid #232A3C;
   color: #E7E7E9;
   border-radius: 7px;
-  box-shadow: 0 2px 0 #09090B;
+  box-shadow: 0 2px 0 #090B10;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 [data-theme="dark"] .btn-back:hover {
-  background: #2A2A2E;
-  border-color: #2A2A2E;
+  background: #202636;
+  border-color: #38BDF8;
   color: #FFFFFF;
-  box-shadow: 0 3px 0 #09090B;
+  box-shadow: 0 3px 0 #090B10;
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .btn-back:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 #09090B;
+  box-shadow: 0 0 0 #090B10;
 }
 
 /* 관리자 수정/삭제 버튼 (3D 키캡 피드백) */
 [data-theme="dark"] .btn-edit {
-  background: #1E1E21 !important;
-  border: 1px solid #222225 !important;
-  color: #E7E7E9 !important;
+  background: #171A24 !important;
+  border: 1px solid #232A3C !important;
+  color: #38BDF8 !important;
   border-radius: 7px !important;
-  box-shadow: 0 2px 0 #09090B !important;
+  box-shadow: 0 2px 0 #090B10 !important;
   transition: transform 0.1s ease, box-shadow 0.1s ease !important;
 }
 
 [data-theme="dark"] .btn-edit:hover {
-  background: #2A2A2E !important;
-  border-color: #2E5BD8 !important;
+  background: #202636 !important;
+  border-color: #38BDF8 !important;
   color: #FFFFFF !important;
-  box-shadow: 0 3px 0 #09090B !important;
+  box-shadow: 0 3px 0 #090B10 !important;
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .btn-edit:active {
   transform: translateY(2px) !important;
-  box-shadow: 0 0 0 #09090B !important;
+  box-shadow: 0 0 0 #090B10 !important;
 }
 
 /* Fail 코랄 레드 (#F87171) 삭제 버튼 */
@@ -3681,7 +3685,7 @@ body {
   border: 1px solid rgba(248, 113, 113, 0.3) !important;
   color: #F87171 !important;
   border-radius: 7px !important;
-  box-shadow: 0 2px 0 #09090B !important;
+  box-shadow: 0 2px 0 #090B10 !important;
   transition: transform 0.1s ease, box-shadow 0.1s ease !important;
 }
 
@@ -3695,52 +3699,52 @@ body {
 
 [data-theme="dark"] .btn-delete:active {
   transform: translateY(2px) !important;
-  box-shadow: 0 0 0 #09090B !important;
+  box-shadow: 0 0 0 #090B10 !important;
 }
 
 [data-theme="dark"] .tag-pill {
-  background-color: #1E1E21;
-  border: 1px solid #222225;
-  color: #A1A1A8;
+  background-color: #171A24;
+  border: 1px solid #232A3C;
+  color: #9FA4B2;
   border-radius: 5px;
 }
 
 /* 파일 & 사진 섹션 및 다운로드 텍스트 링크 (3D 택타일) */
 [data-theme="dark"] .detail-photos-section,
 [data-theme="dark"] .detail-files-section {
-  background-color: #0F0F11;
-  border: 1.5px solid #222225;
+  background-color: #0E1018;
+  border: 1.5px solid #1E2536;
   border-radius: 7px;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .attached-file-text-link,
 [data-theme="dark"] .attached-photo-text-link {
-  background-color: #161618;
-  border: 1px solid #222225;
+  background-color: #151822;
+  border: 1px solid #222736;
   color: #E7E7E9;
   border-radius: 7px;
-  box-shadow: 0 2px 0 #09090B;
+  box-shadow: 0 2px 0 #080A0E;
   transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease, border-color 0.15s ease;
 }
 
 [data-theme="dark"] .attached-file-text-link:hover,
 [data-theme="dark"] .attached-photo-text-link:hover {
-  background-color: #1E1E21;
-  border-color: #2E5BD8;
+  background-color: #1E2332;
+  border-color: #38BDF8;
   color: #FFFFFF;
-  box-shadow: 0 3px 0 #09090B, 0 0 12px rgba(46, 91, 216, 0.25);
+  box-shadow: 0 3px 0 #080A0E, 0 0 12px rgba(56, 189, 248, 0.25);
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .attached-file-text-link:active,
 [data-theme="dark"] .attached-photo-text-link:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 #09090B;
+  box-shadow: 0 0 0 #080A0E;
 }
 
 [data-theme="dark"] .file-text-icon {
-  color: #A78BFA;
+  color: #38BDF8;
 }
 
 [data-theme="dark"] .file-text-name {
@@ -3753,50 +3757,50 @@ body {
 }
 
 [data-theme="dark"] .file-text-size {
-  color: #8E8E96;
+  color: #7E8494;
 }
 
 [data-theme="dark"] .attached-photo-thumb-mini {
-  border: 1px solid #222225;
+  border: 1px solid #222736;
   border-radius: 5px;
 }
 
 [data-theme="dark"] .btn-text-copy-photo {
-  background-color: #1E1E21;
-  border: 1px solid #222225;
-  color: #8E8E96;
+  background-color: #151822;
+  border: 1px solid #222736;
+  color: #7E8494;
   border-radius: 5px;
-  box-shadow: 0 2px 0 #09090B;
+  box-shadow: 0 2px 0 #080A0E;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 [data-theme="dark"] .btn-text-copy-photo:hover {
-  background-color: #2A2A2E;
-  color: #E7E7E9;
-  border-color: #2A2A2E;
+  background-color: #1F2433;
+  color: #38BDF8;
+  border-color: #38BDF8;
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .btn-text-copy-photo:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 #09090B;
+  box-shadow: 0 0 0 #080A0E;
 }
 
 [data-theme="dark"] .inline-photo-wrap {
-  background-color: #0F0F11;
-  border: 1.5px solid #222225;
+  background-color: #0E1018;
+  border: 1.5px solid #1E2536;
   border-radius: 7px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .inline-record-img {
-  background-color: #0F0F11;
+  background-color: #0E1018;
 }
 
 [data-theme="dark"] .inline-photo-caption {
-  background-color: #161618;
-  border-top: 1px solid #222225;
-  color: #8E8E96;
+  background-color: #151822;
+  border-top: 1px solid #1E2536;
+  color: #7E8494;
 }
 
 /* ==========================================================================
@@ -3805,7 +3809,7 @@ body {
 [data-theme="dark"] .modal-overlay,
 [data-theme="dark"] .auth-overlay,
 [data-theme="dark"] .lightbox-overlay {
-  background: rgba(11, 11, 12, 0.85);
+  background: rgba(8, 10, 14, 0.85);
   backdrop-filter: blur(8px);
 }
 
@@ -3813,13 +3817,13 @@ body {
 [data-theme="dark"] .write-modal-dialog,
 [data-theme="dark"] .auth-modal-dialog,
 [data-theme="dark"] .auth-dialog {
-  background: #111113 !important;
-  border: 2px solid #222225 !important;
-  border-top: 3px solid #2E5BD8 !important;
-  border-bottom: 6px solid #060607 !important;
+  background: #11131A !important;
+  border: 2px solid #1E2536 !important;
+  border-top: 3.5px solid #38BDF8 !important;
+  border-bottom: 6px solid #06080C !important;
   border-radius: 14px !important;
   color: #E7E7E9 !important;
-  box-shadow: 0 12px 0 #040405, 0 30px 80px rgba(0, 0, 0, 0.9) !important;
+  box-shadow: 0 12px 0 #040508, 0 30px 80px rgba(0, 0, 0, 0.9) !important;
 }
 
 [data-theme="dark"] .modal-header,
@@ -3827,8 +3831,8 @@ body {
 [data-theme="dark"] .write-modal-footer,
 [data-theme="dark"] .auth-header,
 [data-theme="dark"] .auth-modal-dialog .modal-header {
-  background: #0F0F11 !important;
-  border-color: #222225 !important;
+  background: #0E1017 !important;
+  border-color: #1E2536 !important;
 }
 
 [data-theme="dark"] .modal-title,
@@ -3840,18 +3844,18 @@ body {
 }
 
 [data-theme="dark"] .auth-form {
-  background: #111113 !important;
+  background: #11131A !important;
 }
 
 [data-theme="dark"] .auth-form .form-label {
-  color: #A1A1A8 !important;
+  color: #9FA4B2 !important;
   font-weight: 600 !important;
 }
 
 [data-theme="dark"] .auth-form #adminPasswordInput,
 [data-theme="dark"] .auth-form .form-control {
-  background-color: #161618 !important;
-  border: 1.5px solid #222225 !important;
+  background-color: #151822 !important;
+  border: 1.5px solid #222736 !important;
   color: #E7E7E9 !important;
   border-radius: 7px !important;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
@@ -3859,15 +3863,15 @@ body {
 
 [data-theme="dark"] .auth-form #adminPasswordInput:focus,
 [data-theme="dark"] .auth-form .form-control:focus {
-  background-color: #1A1A1D !important;
-  border-color: #2E5BD8 !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(46, 91, 216, 0.28) !important;
+  background-color: #1A1F2C !important;
+  border-color: #38BDF8 !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(56, 189, 248, 0.28) !important;
   outline: none !important;
 }
 
 [data-theme="dark"] .auth-form #adminPasswordInput::placeholder,
 [data-theme="dark"] .auth-form .form-control::placeholder {
-  color: #8E8E96 !important;
+  color: #7E8494 !important;
 }
 
 [data-theme="dark"] .form-error-msg,
@@ -3881,8 +3885,8 @@ body {
 
 /* 🎛️ 에디터 뷰 전환 탭 (분할 / 작성 / 미리보기 - 3D 딤) */
 [data-theme="dark"] .modal-view-mode-toggle {
-  background-color: #0F0F11 !important;
-  border: 1.5px solid #222225 !important;
+  background-color: #0E1017 !important;
+  border: 1.5px solid #1E2536 !important;
   border-radius: 7px !important;
   padding: 3px !important;
   gap: 3px !important;
@@ -3891,7 +3895,7 @@ body {
 
 [data-theme="dark"] .btn-mode-toggle {
   background: transparent !important;
-  color: #A1A1A8 !important;
+  color: #9FA4B2 !important;
   border: none !important;
   border-radius: 5px !important;
   font-weight: 600 !important;
@@ -3900,7 +3904,7 @@ body {
 
 [data-theme="dark"] .btn-mode-toggle:hover {
   color: #E7E7E9 !important;
-  background: #1E1E21 !important;
+  background: #171A24 !important;
 }
 
 [data-theme="dark"] .btn-mode-toggle.active {
@@ -3911,32 +3915,32 @@ body {
 }
 
 [data-theme="dark"] .btn-modal-close {
-  background-color: #1E1E21 !important;
-  border: 1px solid #222225 !important;
-  color: #8E8E96 !important;
+  background-color: #171A24 !important;
+  border: 1px solid #232A3C !important;
+  color: #7E8494 !important;
   border-radius: 7px !important;
-  box-shadow: 0 2px 0 #09090B !important;
+  box-shadow: 0 2px 0 #090B10 !important;
 }
 
 [data-theme="dark"] .btn-modal-close:hover {
-  background-color: #2A2A2E !important;
-  border-color: #2A2A2E !important;
+  background-color: #202636 !important;
+  border-color: #38BDF8 !important;
   color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .modal-col-editor {
-  background: #111113 !important;
-  border-right-color: #222225 !important;
+  background: #11131A !important;
+  border-right-color: #1E2536 !important;
 }
 
 [data-theme="dark"] .modal-col-preview {
-  background: #0B0B0C !important;
-  border-left-color: #222225 !important;
+  background: #090A0E !important;
+  border-left-color: #1E2536 !important;
 }
 
 [data-theme="dark"] .preview-header {
-  background: #0F0F11 !important;
-  border-bottom: 1px solid #222225 !important;
+  background: #0E1017 !important;
+  border-bottom: 1px solid #1E2536 !important;
 }
 
 [data-theme="dark"] .preview-header-title .preview-badge {
@@ -3946,51 +3950,52 @@ body {
 }
 
 [data-theme="dark"] .preview-title-sub {
-  color: #8E8E96 !important;
+  color: #7E8494 !important;
 }
 
 [data-theme="dark"] .preview-tab {
-  background: #1E1E21 !important;
-  border: 1px solid #222225 !important;
-  color: #A1A1A8 !important;
+  background: #171A24 !important;
+  border: 1px solid #232A3C !important;
+  color: #9FA4B2 !important;
   border-radius: 5px !important;
-  box-shadow: 0 1px 0 #09090B !important;
+  box-shadow: 0 1px 0 #090B10 !important;
 }
 
 [data-theme="dark"] .preview-tab:hover {
-  background: #2A2A2E !important;
+  background: #202636 !important;
   color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .preview-tab.active {
   background: #2E5BD8 !important;
   color: #FFFFFF !important;
-  border-color: #2E5BD8 !important;
+  border-color: #38BDF8 !important;
   font-weight: 700 !important;
-  box-shadow: 0 1px 0 #1B3EA8, 0 0 10px rgba(46, 91, 216, 0.35) !important;
+  box-shadow: 0 1px 0 #18338C, 0 0 10px rgba(56, 189, 248, 0.35) !important;
 }
 
 [data-theme="dark"] .preview-scroll-pane {
-  background: #0B0B0C !important;
+  background: #090A0E !important;
 }
 
 [data-theme="dark"] .preview-placeholder {
-  color: #8E8E96 !important;
+  color: #7E8494 !important;
 }
 
 /* 실시간 미리보기 상세 카드 (3D 패널) */
 [data-theme="dark"] .live-preview-detail {
-  background: #111113 !important;
-  border: 2px solid #222225 !important;
+  background: #121520 !important;
+  border: 2px solid #1E2536 !important;
+  border-top: 3.5px solid #38BDF8 !important;
   border-radius: 11px !important;
-  box-shadow: 0 4px 0 #060607, 0 12px 28px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 4px 0 #07090F, 0 12px 28px rgba(0, 0, 0, 0.5) !important;
   color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .live-preview-detail.is-private-detail {
-  background: #0D0D0F !important;
-  border: 2px solid #1C1C1F !important;
-  border-top: 3px solid #FACC15 !important;
+  background: #07080B !important;
+  border: 2px solid #16171D !important;
+  border-top: 4px solid #FACC15 !important;
 }
 
 /* 📝 글 작성 폼 컨트롤 */
@@ -4000,8 +4005,8 @@ body {
 [data-theme="dark"] #recordCategorySelect,
 [data-theme="dark"] #recordTagInput,
 [data-theme="dark"] .auth-input {
-  background-color: #161618 !important;
-  border: 1.5px solid #222225 !important;
+  background-color: #151822 !important;
+  border: 1.5px solid #222736 !important;
   color: #E7E7E9 !important;
   border-radius: 7px !important;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5) !important;
@@ -4014,37 +4019,37 @@ body {
 [data-theme="dark"] #recordCategorySelect:focus,
 [data-theme="dark"] #recordTagInput:focus,
 [data-theme="dark"] .auth-input:focus {
-  background-color: #1A1A1D !important;
-  border-color: #2E5BD8 !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(46, 91, 216, 0.28) !important;
+  background-color: #1A1F2C !important;
+  border-color: #38BDF8 !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(56, 189, 248, 0.28) !important;
   outline: none !important;
 }
 
 [data-theme="dark"] .form-control::placeholder,
 [data-theme="dark"] .record-textarea::placeholder,
 [data-theme="dark"] .auth-input::placeholder {
-  color: #8E8E96 !important;
+  color: #7E8494 !important;
 }
 
 [data-theme="dark"] select.form-control option {
-  background-color: #1E1E21 !important;
+  background-color: #171A24 !important;
   color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .form-label {
-  color: #A1A1A8 !important;
+  color: #9FA4B2 !important;
 }
 
 /* 🔒 공개/비공개 세그먼트 스위치 (3D 입체 스위치) */
 [data-theme="dark"] .visibility-switch-box-compact {
-  background-color: #0F0F11 !important;
-  border: 1.5px solid #222225 !important;
+  background-color: #0E1017 !important;
+  border: 1.5px solid #1E2536 !important;
   border-radius: 7px !important;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5) !important;
 }
 
 [data-theme="dark"] .visibility-option-compact {
-  color: #8E8E96 !important;
+  color: #7E8494 !important;
 }
 
 [data-theme="dark"] .visibility-option-compact:hover {
@@ -4069,115 +4074,115 @@ body {
 
 /* 🛠️ 에디터 서식 툴바 & 버튼 */
 [data-theme="dark"] .editor-toolbar {
-  background-color: #161618 !important;
-  border: 1.5px solid #222225 !important;
+  background-color: #151822 !important;
+  border: 1.5px solid #1E2536 !important;
   border-radius: 7px !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
 }
 
 [data-theme="dark"] .btn-tb {
-  background: #1E1E21 !important;
-  border: 1px solid #222225 !important;
-  color: #A1A1A8 !important;
+  background: #171A24 !important;
+  border: 1px solid #232A3C !important;
+  color: #9FA4B2 !important;
   border-radius: 5px !important;
-  box-shadow: 0 1px 0 #09090B !important;
+  box-shadow: 0 1px 0 #090B10 !important;
 }
 
 [data-theme="dark"] .btn-tb:hover {
-  background: #2A2A2E !important;
-  border-color: #2A2A2E !important;
-  color: #E7E7E9 !important;
+  background: #202636 !important;
+  border-color: #38BDF8 !important;
+  color: #38BDF8 !important;
 }
 
-/* 💻 </> 코드 작성 버튼 (Agent 퍼플 #A78BFA) */
+/* 💻 </> 코드 작성 버튼 (시안 & 퍼플 네온) */
 [data-theme="dark"] .btn-tb-code,
 [data-theme="dark"] #tbCodeBlock,
 [data-theme="dark"] #tbInlineCode {
-  color: #A78BFA !important;
-  background: rgba(167, 139, 250, 0.15) !important;
-  border: 1px solid rgba(167, 139, 250, 0.35) !important;
+  color: #38BDF8 !important;
+  background: rgba(56, 189, 248, 0.15) !important;
+  border: 1px solid rgba(56, 189, 248, 0.38) !important;
   font-weight: 700 !important;
-  box-shadow: 0 1px 0 #09090B !important;
+  box-shadow: 0 1px 0 #090B10 !important;
 }
 
 [data-theme="dark"] .btn-tb-code:hover,
 [data-theme="dark"] #tbCodeBlock:hover,
 [data-theme="dark"] #tbInlineCode:hover {
-  background: rgba(167, 139, 250, 0.25) !important;
-  border-color: #A78BFA !important;
+  background: rgba(56, 189, 248, 0.25) !important;
+  border-color: #38BDF8 !important;
   color: #FFFFFF !important;
 }
 
 [data-theme="dark"] .btn-tb-attach {
-  background: #1E1E21 !important;
-  border: 1px solid #222225 !important;
+  background: #171A24 !important;
+  border: 1px solid #232A3C !important;
   color: #E7E7E9 !important;
   border-radius: 5px !important;
-  box-shadow: 0 1px 0 #09090B !important;
+  box-shadow: 0 1px 0 #090B10 !important;
 }
 
 [data-theme="dark"] .btn-tb-attach .tb-plus-symbol {
-  color: #A78BFA !important;
+  color: #38BDF8 !important;
 }
 
 [data-theme="dark"] .btn-tb-attach:hover {
-  background: #2A2A2E !important;
-  border-color: #2A2A2E !important;
+  background: #202636 !important;
+  border-color: #38BDF8 !important;
 }
 
 [data-theme="dark"] #tbInsertPhoto {
-  background: #1E1E21 !important;
-  border: 1px solid #222225 !important;
-  color: #A1A1A8 !important;
+  background: #171A24 !important;
+  border: 1px solid #232A3C !important;
+  color: #9FA4B2 !important;
   border-radius: 5px !important;
-  box-shadow: 0 1px 0 #09090B !important;
+  box-shadow: 0 1px 0 #090B10 !important;
 }
 
 [data-theme="dark"] #tbInsertPhoto:hover {
-  background: #2A2A2E !important;
-  border-color: #2A2A2E !important;
-  color: #E7E7E9 !important;
+  background: #202636 !important;
+  border-color: #38BDF8 !important;
+  color: #38BDF8 !important;
 }
 
 [data-theme="dark"] .gallery-photo-card {
-  background-color: #0F0F11 !important;
-  border: 1.5px solid #222225 !important;
+  background-color: #0E1018 !important;
+  border: 1.5px solid #1E2536 !important;
   border-radius: 7px !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
 }
 
 [data-theme="dark"] .gallery-photo-card:hover {
-  border-color: #2E5BD8 !important;
+  border-color: #38BDF8 !important;
 }
 
 [data-theme="dark"] .gallery-photo-img {
-  background-color: #0F0F11 !important;
+  background-color: #0E1018 !important;
 }
 
 [data-theme="dark"] .card-thumb-wrap {
-  background-color: #0F0F11 !important;
-  border-bottom: 1px solid #222225 !important;
+  background-color: #0E1018 !important;
+  border-bottom: 1px solid #1E2536 !important;
 }
 
 [data-theme="dark"] .tb-divider {
-  background-color: #222225 !important;
+  background-color: #222736 !important;
 }
 
 /* 글자 크기 스텝퍼 */
 [data-theme="dark"] .font-stepper-box {
-  background-color: #1E1E21 !important;
-  border: 1px solid #222225 !important;
+  background-color: #171A24 !important;
+  border: 1px solid #232A3C !important;
   border-radius: 5px !important;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4) !important;
 }
 
 [data-theme="dark"] .btn-step {
-  color: #8E8E96 !important;
+  color: #7E8494 !important;
 }
 
 [data-theme="dark"] .btn-step:hover {
-  background-color: #2A2A2E !important;
-  color: #E7E7E9 !important;
+  background-color: #202636 !important;
+  color: #38BDF8 !important;
 }
 
 [data-theme="dark"] .step-num-input {
@@ -4186,16 +4191,16 @@ body {
 }
 
 [data-theme="dark"] .step-unit {
-  color: #8E8E96 !important;
+  color: #7E8494 !important;
 }
 
 /* 파일 및 사진 업로드 드롭존 */
 [data-theme="dark"] .drop-zone,
 [data-theme="dark"] .drop-zone-compact,
 [data-theme="dark"] .upload-drop-zone {
-  background-color: #0F0F11 !important;
-  border: 1.5px dashed #222225 !important;
-  color: #8E8E96 !important;
+  background-color: #0E1018 !important;
+  border: 1.5px dashed #1E2536 !important;
+  color: #7E8494 !important;
   border-radius: 7px !important;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
 }
@@ -4205,8 +4210,8 @@ body {
 [data-theme="dark"] .drop-zone-compact:hover,
 [data-theme="dark"] .drop-zone-compact.dragover,
 [data-theme="dark"] .upload-drop-zone:hover {
-  border-color: #2E5BD8 !important;
-  background-color: #161618 !important;
+  border-color: #38BDF8 !important;
+  background-color: #151822 !important;
   color: #E7E7E9 !important;
 }
 
@@ -4216,15 +4221,15 @@ body {
 
 /* 태그 및 첨부파일 칩 */
 [data-theme="dark"] .modal-tag-chip {
-  background-color: #1E1E21 !important;
-  border: 1px solid #222225 !important;
-  color: #A78BFA !important;
+  background-color: #171A24 !important;
+  border: 1px solid #232A3C !important;
+  color: #38BDF8 !important;
   border-radius: 5px !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
 [data-theme="dark"] .modal-tag-chip button {
-  color: #8E8E96 !important;
+  color: #7E8494 !important;
 }
 
 [data-theme="dark"] .modal-tag-chip button:hover {
@@ -4232,14 +4237,14 @@ body {
 }
 
 [data-theme="dark"] .thumb-preview-item {
-  background-color: #0F0F11 !important;
-  border: 1px solid #222225 !important;
+  background-color: #0E1018 !important;
+  border: 1px solid #1E2536 !important;
   border-radius: 5px !important;
 }
 
 [data-theme="dark"] .attached-file-item {
-  background-color: #1E1E21 !important;
-  border: 1px solid #222225 !important;
+  background-color: #171A24 !important;
+  border: 1px solid #232A3C !important;
   color: #E7E7E9 !important;
   border-radius: 5px !important;
 }
@@ -4247,39 +4252,39 @@ body {
 /* 모달 하단 버튼 */
 [data-theme="dark"] .btn-cancel,
 [data-theme="dark"] .btn-secondary {
-  background: #1E1E21;
-  border: 1px solid #222225;
-  color: #A1A1A8;
+  background: #171A24;
+  border: 1px solid #232A3C;
+  color: #9FA4B2;
   border-radius: 7px;
-  box-shadow: 0 2px 0 #09090B;
+  box-shadow: 0 2px 0 #090B10;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 [data-theme="dark"] .btn-cancel:hover,
 [data-theme="dark"] .btn-secondary:hover {
-  background: #2A2A2E;
-  border-color: #2A2A2E;
+  background: #202636;
+  border-color: #38BDF8;
   color: #E7E7E9;
-  box-shadow: 0 3px 0 #09090B;
+  box-shadow: 0 3px 0 #090B10;
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .btn-cancel:active,
 [data-theme="dark"] .btn-secondary:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 #09090B;
+  box-shadow: 0 0 0 #090B10;
 }
 
 [data-theme="dark"] .empty-state {
-  color: #8E8E96;
+  color: #7E8494;
 }
 
 [data-theme="dark"] .toast-msg {
-  background: #161618;
-  border: 1px solid #2A2A2E;
+  background: #161A28;
+  border: 1px solid #38BDF8;
   color: #E7E7E9;
   border-radius: 7px;
-  box-shadow: 0 4px 0 #09090B, 0 12px 28px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 0 #07090F, 0 12px 28px rgba(0, 0, 0, 0.7);
 }
 
 /* ==========================================================================
@@ -4587,39 +4592,39 @@ body {
 }
 
 /* ==========================================================================
-   🌙 댓글, 임시저장, 코드블록 다크 모드 스타일 (Tactile 3D IDE 하이브리드)
+   🌙 댓글, 임시저장, 코드블록 다크 모드 스타일 (Cyber-Obsidian Hybrid)
    ========================================================================== */
 [data-theme="dark"] .comments-section {
-  background: #111113;
-  border: 2px solid #222225;
+  background: #121520;
+  border: 2px solid #1E2536;
   border-radius: 11px;
-  box-shadow: 0 4px 0 #060607, 0 16px 36px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 0 #07090F, 0 16px 36px rgba(0, 0, 0, 0.55);
   color: #E7E7E9;
 }
 
 [data-theme="dark"] .comments-header {
-  border-bottom: 1.5px solid #222225;
+  border-bottom: 1.5px solid #1E2536;
 }
 
 [data-theme="dark"] .comments-count-badge {
-  background: rgba(167, 139, 250, 0.15);
-  color: #A78BFA;
-  border: 1px solid rgba(167, 139, 250, 0.35);
+  background: rgba(56, 189, 248, 0.18);
+  color: #38BDF8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .comment-form {
-  background: #0F0F11;
-  border: 1.5px solid #222225;
+  background: #0E1018;
+  border: 1.5px solid #1E2536;
   border-radius: 7px;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .comment-input,
 [data-theme="dark"] .comment-textarea {
-  background: #161618;
-  border: 1.5px solid #222225;
+  background: #151822;
+  border: 1.5px solid #222736;
   color: #E7E7E9;
   border-radius: 7px;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -4628,23 +4633,23 @@ body {
 
 [data-theme="dark"] .comment-input:focus,
 [data-theme="dark"] .comment-textarea:focus {
-  border-color: #2E5BD8;
-  background-color: #1A1A1D;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(46, 91, 216, 0.28);
+  border-color: #38BDF8;
+  background-color: #1A1F2C;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(56, 189, 248, 0.28);
   outline: none;
 }
 
 [data-theme="dark"] .comment-card {
-  background: #161618;
-  border: 1.5px solid #222225;
+  background: #151822;
+  border: 1.5px solid #222736;
   border-radius: 7px;
-  box-shadow: 0 2px 0 #09090B, 0 4px 10px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 2px 0 #080A0E, 0 4px 10px rgba(0, 0, 0, 0.35);
   color: #E7E7E9;
 }
 
 [data-theme="dark"] .comment-card.is-reply {
-  background: #1A1A1D;
-  border-left: 3.5px solid #2E5BD8;
+  background: #1A1F2C;
+  border-left: 3.5px solid #38BDF8;
 }
 
 [data-theme="dark"] .comment-author-name {
@@ -4652,7 +4657,7 @@ body {
 }
 
 [data-theme="dark"] .comment-date {
-  color: #8E8E96;
+  color: #7E8494;
 }
 
 [data-theme="dark"] .comment-card-content {
@@ -4660,21 +4665,21 @@ body {
 }
 
 [data-theme="dark"] .badge-comment-admin {
-  background: rgba(167, 139, 250, 0.2);
-  color: #A78BFA;
-  border: 1px solid rgba(167, 139, 250, 0.4);
+  background: linear-gradient(135deg, #38BDF8, #A78BFA);
+  color: #080A0F;
   border-radius: 4px;
+  font-weight: 800;
 }
 
 [data-theme="dark"] .btn-comment-action {
-  color: #8E8E96;
+  color: #7E8494;
   border-radius: 4px;
   transition: all 0.15s ease;
 }
 
 [data-theme="dark"] .btn-comment-action:hover {
-  background: #2A2A2E;
-  color: #E7E7E9;
+  background: #202636;
+  color: #38BDF8;
 }
 
 [data-theme="dark"] .btn-comment-delete:hover {
@@ -4682,8 +4687,8 @@ body {
 }
 
 [data-theme="dark"] .reply-target-indicator {
-  background: rgba(46, 91, 216, 0.15);
-  color: #2E5BD8;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38BDF8;
   border-radius: 5px;
 }
 
@@ -4703,67 +4708,68 @@ body {
 }
 
 [data-theme="dark"] .btn-draft {
-  background: #1E1E21;
-  border: 1px solid #222225;
-  color: #A1A1A8;
+  background: #171A24;
+  border: 1px solid #232A3C;
+  color: #9FA4B2;
   border-radius: 7px;
-  box-shadow: 0 2px 0 #09090B;
+  box-shadow: 0 2px 0 #090B10;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 [data-theme="dark"] .btn-draft:hover {
-  background: #2A2A2E;
+  background: #202636;
+  border-color: #38BDF8;
   color: #E7E7E9;
-  box-shadow: 0 3px 0 #09090B;
+  box-shadow: 0 3px 0 #090B10;
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .btn-draft:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 #09090B;
+  box-shadow: 0 0 0 #090B10;
 }
 
-/* 💻 코드 블록 (3D 택타일 컨테이너) */
+/* 💻 코드 블록 */
 [data-theme="dark"] .code-block-container {
-  background-color: #0F0F11;
-  border: 1.5px solid #222225;
+  background-color: #0A0C12;
+  border: 1.5px solid #1E2536;
   border-radius: 7px;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .code-block-header {
-  background-color: #161618;
-  border-bottom: 1px solid #222225;
+  background-color: #121520;
+  border-bottom: 1px solid #1E2536;
 }
 
 [data-theme="dark"] .code-lang-tag {
-  background-color: #1E1E21;
-  color: #A78BFA;
-  border: 1px solid #222225;
+  background-color: #171A24;
+  color: #38BDF8;
+  border: 1px solid #232A3C;
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .btn-copy-code {
-  background: #1E1E21;
-  border: 1px solid #222225;
-  color: #8E8E96;
+  background: #171A24;
+  border: 1px solid #232A3C;
+  color: #7E8494;
   border-radius: 5px;
-  box-shadow: 0 2px 0 #09090B;
+  box-shadow: 0 2px 0 #090B10;
   transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
 }
 
 [data-theme="dark"] .btn-copy-code:hover {
-  background: #2A2A2E;
-  border-color: #2A2A2E;
-  color: #E7E7E9;
-  box-shadow: 0 3px 0 #09090B;
+  background: #202636;
+  border-color: #38BDF8;
+  color: #38BDF8;
+  box-shadow: 0 3px 0 #090B10;
   transform: translateY(-1px);
 }
 
 [data-theme="dark"] .btn-copy-code:active {
   transform: translateY(2px);
-  box-shadow: 0 0 0 #09090B;
+  box-shadow: 0 0 0 #090B10;
 }
 
 [data-theme="dark"] .btn-copy-code.copied {
