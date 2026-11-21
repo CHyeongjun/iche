@@ -1254,6 +1254,212 @@ body {
   display: block;
 }
 
+/* 📷 첨부 사진 섹션 (다운로드 & 이미지 복사 지원) */
+.detail-photos-section {
+  background-color: #f8fafc;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: 1.4rem;
+  margin-bottom: 2rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.attached-photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+
+.attached-photo-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: #ffffff;
+  border: 1px solid var(--border-medium);
+  border-top: 2px solid #ffffff;
+  border-bottom: 3px solid #cbd5e1;
+  border-radius: var(--radius-xs);
+  padding: 10px 14px;
+  box-shadow: 0 3px 0 #cbd5e1, 0 6px 14px rgba(15, 23, 42, 0.06);
+  transition: var(--transition);
+}
+
+.attached-photo-card:hover {
+  background: #f8fafc;
+  border-top-color: #0f172a;
+  border-left: 3px solid #0f172a;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #94a3b8, 0 12px 24px rgba(15, 23, 42, 0.12);
+}
+
+.attached-photo-thumb-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+  border: 1px solid var(--border-medium);
+  background-color: #0f172a;
+}
+
+.attached-photo-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.attached-photo-thumb-wrap:hover .attached-photo-thumb {
+  transform: scale(1.15);
+}
+
+.photo-thumb-zoom-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.5);
+  color: #ffffff;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.attached-photo-thumb-wrap:hover .photo-thumb-zoom-icon {
+  opacity: 1;
+}
+
+.attached-photo-details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.attached-photo-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.attached-photo-size {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.attached-photo-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.btn-photo-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-medium);
+  background: #f1f5f9;
+  color: #1e293b;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.btn-photo-action:hover {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+  transform: translateY(-1px);
+}
+
+.btn-photo-action.copied {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  border-color: #10b981 !important;
+}
+
+/* 🖼️ 본문 인라인 사진 툴바 및 갤러리 오버레이 버튼 */
+.inline-photo-wrap {
+  position: relative;
+}
+
+.inline-photo-toolbar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.inline-photo-wrap:hover .inline-photo-toolbar {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.photo-overlay-actions {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.gallery-photo-card:hover .photo-overlay-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.btn-inline-photo-action,
+.btn-overlay-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.btn-inline-photo-action:hover,
+.btn-overlay-action:hover {
+  background: #38bdf8;
+  color: #0f172a;
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+}
+
 /* 📁 첨부 파일 섹션 */
 .detail-files-section {
   background-color: #f8fafc;
@@ -2580,32 +2786,85 @@ body {
 .lightbox-dialog {
   position: relative;
   z-index: 2001;
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 92vw;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.lightbox-img-name {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50vw;
+}
+
+.lightbox-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-lightbox-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background-color: #0f172a;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-xs);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: var(--transition);
+}
+
+.btn-lightbox-action:hover {
+  background-color: #38bdf8;
+  color: #0f172a;
+  border-color: #38bdf8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(56, 189, 248, 0.4);
 }
 
 .lightbox-dialog img {
   max-width: 100%;
-  max-height: 90vh;
+  max-height: calc(90vh - 65px);
+  object-fit: contain;
   border-radius: var(--radius-xs);
-  border: 4px solid #ffffff;
+  border: 3px solid #ffffff;
   box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 255, 255, 0.2);
 }
 
 .lightbox-close {
-  position: absolute;
-  top: -48px;
-  right: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   background-color: #0f172a;
-  border: 2px solid #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radius-xs);
   color: #ffffff;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   transition: var(--transition);
@@ -2613,8 +2872,9 @@ body {
 }
 
 .lightbox-close:hover {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
   transform: rotate(90deg) scale(1.08);
 }
 
@@ -2897,6 +3157,29 @@ body {
   .records-grid.view-list .list-right-col {
     width: 100%;
     justify-content: space-between;
+  }
+  .attached-photos-grid {
+    grid-template-columns: 1fr;
+  }
+  .lightbox-header-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .lightbox-img-name {
+    max-width: 100%;
+    width: 100%;
+    order: 2;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  .lightbox-actions {
+    width: 100%;
+    justify-content: flex-end;
+    order: 1;
+  }
+  .btn-lightbox-action {
+    padding: 5px 10px;
+    font-size: 0.75rem;
   }
 }
 
@@ -3346,6 +3629,47 @@ body {
   background-color: #1a2233;
   border-color: #2c3952;
   color: #38bdf8;
+}
+
+[data-theme="dark"] .detail-photos-section {
+  background-color: #0f1420;
+  border-color: #242c3d;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .attached-photo-card {
+  background: #161c2a;
+  border: 1px solid #242c3d;
+  border-top: 2px solid #2e384e;
+  border-bottom: 3px solid #090c13;
+  box-shadow: 0 3px 0 #090c13, 0 6px 14px rgba(0, 0, 0, 0.35);
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .attached-photo-card:hover {
+  border-color: #38bdf8;
+  background: #1c2436;
+}
+
+[data-theme="dark"] .attached-photo-name {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .attached-photo-size {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .btn-photo-action {
+  background: #1e2538;
+  color: #e2e8f0;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .btn-photo-action:hover {
+  background: #38bdf8;
+  color: #090d16;
+  border-color: #38bdf8;
+  font-weight: 800;
 }
 
 [data-theme="dark"] .attached-file-download-card {

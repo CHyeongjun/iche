@@ -17,7 +17,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
-  <link rel="stylesheet" href="styles.css?v=38" />
+  <link rel="stylesheet" href="styles.css?v=41" />
 </head>
 
 <body>
@@ -348,7 +348,20 @@
   <div class="lightbox-overlay hidden" id="lightboxModal">
     <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
     <div class="lightbox-dialog">
-      <button type="button" class="lightbox-close" id="closeLightboxBtn">✕</button>
+      <div class="lightbox-header-bar">
+        <span class="lightbox-img-name" id="lightboxImgName">사진 확대</span>
+        <div class="lightbox-actions">
+          <button type="button" class="btn-lightbox-action" id="btnLightboxDownload" title="이 사진 원본 다운로드">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            다운로드
+          </button>
+          <button type="button" class="btn-lightbox-action" id="btnLightboxCopy" title="이미지를 클립보드에 복사">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            이미지 복사
+          </button>
+          <button type="button" class="lightbox-close" id="closeLightboxBtn" title="닫기 (ESC)">✕</button>
+        </div>
+      </div>
       <img id="lightboxImg" src="" alt="확대 보기" />
     </div>
   </div>
@@ -357,7 +370,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <!-- 코어 스크립트 로드 -->
-  <script src="app.js?v=40"></script>
+  <script src="app.js?v=42"></script>
 </body>
 
 </html>
