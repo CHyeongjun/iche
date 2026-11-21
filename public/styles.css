@@ -3095,152 +3095,202 @@ body {
    ========================================================================== */
 
 [data-theme="dark"] {
-  /* 🌌 심연의 스페이스 옵시디언 배경 팔레트 */
-  --bg-void: #090b10;
-  --bg-primary: #0e1118;
-  --bg-surface: #141724;
-  --bg-recessed: #0a0c12;
+  /* 🌌 Surface Palette */
+  --bg-void: #0B0B0C;            /* Outermost window / backdrop */
+  --bg-primary: #0F0F11;         /* Editor canvas / workspace */
+  --bg-surface: #111113;         /* Panel card surface */
+  --bg-recessed: #161618;        /* Raised nodes / recessed */
+  --bg-control: #1E1E21;         /* Controls / inputs / secondary buttons */
 
-  /* 🌐 PUBLIC 기록 (다크 모드): 미래적인 미드나이트 카본 & 시안/블루 엣지 */
-  --bg-card-public: #141824;
-  --border-card-public: #202737;
-  --outline-card-public: rgba(56, 189, 248, 0.35);
-  --shadow-card-public: 0 4px 0 #07090e, 0 14px 32px -4px rgba(0, 0, 0, 0.7);
+  /* 🌐 PUBLIC Card */
+  --bg-card-public: #111113;
+  --border-card-public: #222225;
+  --outline-card-public: rgba(46, 91, 216, 0.25);
+  --shadow-card-public: 0 4px 16px rgba(0, 0, 0, 0.4);
 
-  /* 🔒 PRIVATE 기록 (다크 모드): 차분한 딥 옵시디언 금고 & 은은한 소프트 브론즈/앰버 */
-  --bg-card-private: #06070a;
-  --border-card-private: #161820;
-  --outline-card-private: rgba(217, 119, 6, 0.4);
-  --shadow-card-private: 0 4px 0 #000000, 0 14px 32px rgba(0, 0, 0, 0.7);
+  /* 🔒 PRIVATE Card */
+  --bg-card-private: #111113;
+  --border-card-private: #222225;
+  --outline-card-private: rgba(250, 204, 21, 0.35);
+  --shadow-card-private: 0 4px 16px rgba(0, 0, 0, 0.5);
 
-  --bg-modal: #121520;
+  --bg-modal: #111113;
 
-  /* 🔤 고대비 다크 타이포그래피 */
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-white: #ffffff;
+  /* 🔤 Typography */
+  --text-primary: #E7E7E9;
+  --text-secondary: #A1A1A8;
+  --text-muted: #8E8E96;
+  --text-white: #FFFFFF;
 
-  /* ⚡ 3D 보더 & 베벨 */
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-medium: #242c3d;
-  --border-strong: #38455e;
-  --border-solid: #38bdf8;
+  /* ⚡ Borders */
+  --border-subtle: #222225;
+  --border-medium: #222225;
+  --border-strong: #2A2A2E;
+  --border-solid: #2E5BD8;
 
-  /* 💎 3D 버튼 섀도우 */
-  --depth-btn: 0 3px 0 #080a0f, 0 6px 14px rgba(0, 0, 0, 0.5);
-  --depth-btn-hover: 0 5px 0 #1b212e, 0 10px 20px rgba(0, 0, 0, 0.7);
-  --depth-btn-active: 0 1px 0 #080a0f, 0 2px 4px rgba(0, 0, 0, 0.3);
+  /* 🎯 Accents & Signals */
+  --color-agent: #A78BFA;
+  --color-selection: #2E5BD8;
+  --color-pass: #4ADE80;
+  --color-note: #FACC15;
+  --color-fail: #F87171;
+
+  /* 📐 Radii */
+  --radius-xs: 5px;
+  --radius-sm: 7px;
+  --radius-md: 11px;
+  --radius-lg: 14px;
 }
 
-/* 다크 모드 3D 앰비언트 배경 */
+/* 다크 모드 앰비언트 배경 */
 [data-theme="dark"] .cyber-spatial-backdrop {
-  background-color: var(--bg-void);
+  background-color: #0B0B0C;
 }
 
 [data-theme="dark"] .cyber-ambient-light {
   background: 
-    radial-gradient(ellipse 80% 50% at 50% -5%, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.4) 45%, transparent 80%),
-    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(14, 165, 233, 0.08) 0%, transparent 65%);
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(30, 30, 36, 0.5) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(46, 91, 216, 0.05) 0%, transparent 65%);
 }
 
 [data-theme="dark"] .cyber-horizon-glow {
-  background: linear-gradient(90deg, transparent 5%, rgba(56, 189, 248, 0.2) 50%, transparent 95%);
+  background: linear-gradient(90deg, transparent 5%, rgba(46, 91, 216, 0.15) 50%, transparent 95%);
 }
 
 [data-theme="dark"] .cyber-grid-3d {
-  background-image: radial-gradient(rgba(56, 189, 248, 0.12) 1.2px, transparent 1.2px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 [data-theme="dark"] .cyber-vignette {
-  background: radial-gradient(circle at 50% 40%, transparent 40%, rgba(3, 4, 7, 0.8) 100%);
+  background: radial-gradient(circle at 50% 40%, transparent 50%, rgba(7, 7, 8, 0.85) 100%);
 }
 
 /* 상단 헤더 & 검색창 */
 [data-theme="dark"] .app-header {
-  background: rgba(18, 22, 32, 0.94);
-  border-bottom: 2px solid #232c40;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  background: rgba(15, 15, 17, 0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #222225;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .brand-badge {
-  background: #38bdf8;
-  color: #020617;
-  border-color: #38bdf8;
-  box-shadow: 0 3px 0 #0284c7, 0 0 14px rgba(56, 189, 248, 0.35);
+  background: rgba(167, 139, 250, 0.15);
+  color: #A78BFA;
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  border-radius: 5px;
+  box-shadow: none;
 }
 
 [data-theme="dark"] .brand-title {
-  color: #f8fafc;
+  color: #E7E7E9;
+  font-weight: 700;
+}
+
+[data-theme="dark"] .brand-desc {
+  color: #8E8E96;
+}
+
+[data-theme="dark"] .admin-indicator-bar {
+  background: #0B0B0C;
+  border-bottom: 1px solid #222225;
+  color: #A78BFA;
 }
 
 [data-theme="dark"] .search-input {
-  background-color: #0b0e14;
-  border-color: #242c3d;
-  color: #f8fafc;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  background-color: #1E1E21;
+  border: 1px solid #222225;
+  color: #E7E7E9;
+  border-radius: 7px;
+  box-shadow: none;
 }
 
 [data-theme="dark"] .search-input:focus {
-  border-color: #38bdf8;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(56, 189, 248, 0.2);
+  background-color: #161618;
+  border-color: #2E5BD8;
+  box-shadow: 0 0 0 2px rgba(46, 91, 216, 0.3);
+  outline: none;
+}
+
+[data-theme="dark"] .search-input::placeholder {
+  color: #8E8E96;
 }
 
 [data-theme="dark"] .search-icon {
-  color: #64748b;
+  color: #8E8E96;
 }
 
 [data-theme="dark"] .search-clear-btn {
-  color: #94a3b8;
+  color: #8E8E96;
 }
 
-[data-theme="dark"] .btn-primary {
-  background: #38bdf8;
-  color: #020617;
-  border-color: #38bdf8;
-  box-shadow: 0 4px 0 #0284c7, 0 8px 18px rgba(56, 189, 248, 0.3);
+[data-theme="dark"] .search-clear-btn:hover {
+  color: #E7E7E9;
 }
 
-[data-theme="dark"] .btn-primary:hover {
-  background: #7dd3fc;
-  border-color: #7dd3fc;
-  box-shadow: 0 6px 0 #0284c7, 0 12px 24px rgba(56, 189, 248, 0.45);
+/* ⚪ Primary Button: "Only one white button per view" */
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] #openWriteModalBtn,
+[data-theme="dark"] .btn-new-record,
+[data-theme="dark"] #saveRecordSubmitBtn {
+  background: #FFFFFF !important;
+  color: #0B0B0C !important;
+  font-weight: 700 !important;
+  border: 1px solid #FFFFFF !important;
+  border-radius: 7px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 12px rgba(255, 255, 255, 0.12) !important;
+  transition: all 0.15s ease !important;
 }
 
-[data-theme="dark"] .btn-primary:active {
-  box-shadow: 0 1px 0 #0284c7, 0 2px 4px rgba(0, 0, 0, 0.4);
+[data-theme="dark"] .btn-primary:hover,
+[data-theme="dark"] #openWriteModalBtn:hover,
+[data-theme="dark"] .btn-new-record:hover,
+[data-theme="dark"] #saveRecordSubmitBtn:hover {
+  background: #F0F0F2 !important;
+  color: #0B0B0C !important;
+  border-color: #F0F0F2 !important;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-1px);
 }
 
+[data-theme="dark"] .btn-primary:active,
+[data-theme="dark"] #openWriteModalBtn:active,
+[data-theme="dark"] #saveRecordSubmitBtn:active {
+  transform: translateY(0);
+}
+
+/* 🔘 Secondary Buttons (Control: #1E1E21, Border: #222225) */
 [data-theme="dark"] .btn-admin-auth {
-  background: #181d2a;
-  border-color: #2e384e;
-  color: #f8fafc;
+  background: #1E1E21;
+  border: 1px solid #222225;
+  color: #E7E7E9;
+  border-radius: 7px;
 }
 
 [data-theme="dark"] .btn-admin-auth:hover {
-  background: #232b3d;
-  border-color: #38bdf8;
+  background: #2A2A2E;
+  border-color: #2A2A2E;
+  color: #FFFFFF;
 }
 
 [data-theme="dark"] .btn-admin-auth.is-admin {
-  background: #38bdf8;
-  color: #020617;
-  border-color: #38bdf8;
-  box-shadow: 0 3px 0 #0284c7, 0 0 16px rgba(56, 189, 248, 0.35);
+  background: rgba(167, 139, 250, 0.16);
+  color: #A78BFA;
+  border-color: rgba(167, 139, 250, 0.4);
 }
 
 [data-theme="dark"] .btn-theme-toggle {
-  background: #181d2a;
-  border-color: #2e384e;
-  color: #38bdf8;
-  box-shadow: 0 3px 0 #0b0e14, 0 6px 14px rgba(0, 0, 0, 0.45);
+  background: #1E1E21;
+  border: 1px solid #222225;
+  color: #A1A1A8;
+  border-radius: 7px;
+  box-shadow: none;
 }
 
 [data-theme="dark"] .btn-theme-toggle:hover {
-  background: #232b3d;
-  border-color: #38bdf8;
-  color: #ffffff;
+  background: #2A2A2E;
+  border-color: #2A2A2E;
+  color: #E7E7E9;
 }
 
 [data-theme="dark"] .btn-theme-toggle .theme-text-sun {
@@ -3252,376 +3302,430 @@ body {
   display: none;
 }
 
-/* 컨트롤 바 (탭 & 카테고리) */
+/* 컨트롤 바 (필터 탭 & 카테고리 필) */
 [data-theme="dark"] .tab-btn {
-  background: #141824;
-  border-color: #242c3d;
-  color: #94a3b8;
+  background: #1E1E21;
+  border: 1px solid #222225;
+  color: #A1A1A8;
+  border-radius: 7px;
+  font-weight: 600;
 }
 
 [data-theme="dark"] .tab-btn:hover {
-  background: #1c2232;
-  border-color: #38bdf8;
-  color: #f8fafc;
+  background: #2A2A2E;
+  border-color: #2A2A2E;
+  color: #E7E7E9;
 }
 
+/* 🟦 Selection, active mode -> #2E5BD8 */
 [data-theme="dark"] .tab-btn.active {
-  background: #f8fafc;
-  border-color: #f8fafc;
-  color: #020617;
+  background: #2E5BD8 !important;
+  border-color: #2E5BD8 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 12px rgba(46, 91, 216, 0.4) !important;
 }
 
 [data-theme="dark"] .tab-btn.tab-private {
-  color: #d97706;
-  border-color: rgba(217, 119, 6, 0.25);
+  color: #FACC15;
+  border-color: rgba(250, 204, 21, 0.25);
+  background: rgba(250, 204, 21, 0.05);
+}
+
+[data-theme="dark"] .tab-btn.tab-private:hover {
+  background: rgba(250, 204, 21, 0.12);
+  border-color: rgba(250, 204, 21, 0.45);
+  color: #FDE047;
 }
 
 [data-theme="dark"] .tab-btn.tab-private.active {
-  background: rgba(180, 83, 9, 0.22);
-  border-color: #b45309;
-  color: #fcd34d;
-  box-shadow: none;
+  background: rgba(250, 204, 21, 0.2) !important;
+  border-color: #FACC15 !important;
+  color: #FACC15 !important;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.3) !important;
 }
 
+/* 🟦 카테고리 필 (미선택: #1E1E21, 선택됨: #2E5BD8 (디자인 스펙의 IDE 필과 동일)) */
 [data-theme="dark"] .pill-btn,
 [data-theme="dark"] .category-pill {
-  background: #141824;
-  border-color: #242c3d;
-  color: #94a3b8;
-  box-shadow: 0 2px 0 #090b10;
+  background: #1E1E21;
+  border: 1px solid #222225;
+  color: #A1A1A8;
+  border-radius: 7px;
+  box-shadow: none;
+  font-weight: 600;
+  transition: all 0.15s ease;
 }
 
 [data-theme="dark"] .pill-btn:hover,
 [data-theme="dark"] .category-pill:hover {
-  background: #1c2232;
-  color: #f8fafc;
-  border-color: #38bdf8;
-  box-shadow: 0 2px 0 #090b10, 0 0 10px rgba(56, 189, 248, 0.2);
+  background: #2A2A2E;
+  color: #E7E7E9;
+  border-color: #2A2A2E;
 }
 
 [data-theme="dark"] .pill-btn.active,
 [data-theme="dark"] .category-pill.active {
-  background: #38bdf8 !important;
-  border-color: #38bdf8 !important;
-  color: #020617 !important;
-  font-weight: 900 !important;
-  box-shadow: 0 2px 0 #0284c7, 0 0 16px rgba(56, 189, 248, 0.5) !important;
+  background: #2E5BD8 !important;
+  border-color: #2E5BD8 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 14px rgba(46, 91, 216, 0.45) !important;
 }
 
 [data-theme="dark"] .records-count-info {
-  color: #94a3b8;
+  color: #8E8E96;
 }
 
 [data-theme="dark"] .records-count-info strong {
-  color: #f8fafc;
+  color: #E7E7E9;
 }
 
 [data-theme="dark"] .view-mode-switcher {
-  background: #0b0e14;
-  border-color: #242c3d;
+  background: #1E1E21;
+  border: 1px solid #222225;
+  border-radius: 7px;
 }
 
 [data-theme="dark"] .btn-view-toggle {
-  color: #64748b;
+  color: #8E8E96;
+  border-radius: 5px;
 }
 
 [data-theme="dark"] .btn-view-toggle.active {
-  background: #1c2232;
-  border-color: #2e384e;
-  color: #f8fafc;
+  background: #2E5BD8;
+  color: #FFFFFF;
 }
 
 /* ==========================================================================
-   🚨 다크 모드 핵심: PUBLIC vs PRIVATE 극명한 3D 시각 대비
+   📦 RECORD CARDS (Panel card: #111113, Border: #222225, Radius: 11px)
    ========================================================================== */
 
-/* 1. PUBLIC 액자 카드 (다크 모드): 쿨 미드나이트 카본 & 시안/블루 엣지 */
+/* 1. PUBLIC 카드: 모던 패널 카드 & 은은한 엣지 */
 [data-theme="dark"] .record-card:not(.is-private-card) {
-  background: #141824 !important;
-  border: 8px solid #202737 !important;
-  outline: 1.5px solid rgba(56, 189, 248, 0.35) !important;
-  box-shadow: 0 4px 0 #090c13, 0 14px 32px -4px rgba(0, 0, 0, 0.7) !important;
-  color: #f8fafc !important;
+  background: #111113 !important;
+  border: 1px solid #222225 !important;
+  border-radius: 11px !important;
+  outline: none !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+  color: #E7E7E9 !important;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease !important;
 }
 
 [data-theme="dark"] .record-card:not(.is-private-card):hover {
-  background: #1a2030 !important;
-  border-color: #2a354c !important;
-  outline-color: #38bdf8 !important;
-  box-shadow: 0 8px 0 #090c13, 0 0 24px rgba(56, 189, 248, 0.22), 0 28px 60px -8px rgba(0, 0, 0, 0.8) !important;
+  background: #161618 !important;
+  border-color: #2A2A2E !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  transform: translateY(-2px);
 }
 
 [data-theme="dark"] .record-card:not(.is-private-card) .card-title {
-  color: #f8fafc !important;
+  color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .record-card:not(.is-private-card) .card-excerpt {
-  color: #94a3b8 !important;
+  color: #A1A1A8 !important;
 }
 
-[data-theme="dark"] .record-card:not(.is-private-card) .badge-category {
-  background-color: #1a2233 !important;
-  border-color: #2c3952 !important;
-  color: #38bdf8 !important;
-}
-
-[data-theme="dark"] .badge-public {
-  background-color: #0284c7 !important;
-  color: #ffffff !important;
-  border-color: #38bdf8 !important;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.35) !important;
-}
-
-/* 2. PRIVATE 액자 카드 (다크 모드): 차분하고 고급스러운 딥 옵시디언 금고 & 은은한 소프트 브론즈 */
+/* 2. PRIVATE 카드: 골드 앰버 탑 액센트 & 보안 패널 */
 [data-theme="dark"] .record-card.is-private-card {
-  background: #06070a !important;
-  border: 8px solid #161820 !important;
-  border-top: 3px solid #b45309 !important;
-  outline: 1px solid rgba(217, 119, 6, 0.35) !important;
-  box-shadow: 0 4px 0 #000000, 0 14px 32px rgba(0, 0, 0, 0.7) !important;
-  color: #e2e8f0 !important;
+  background: #111113 !important;
+  border: 1px solid #222225 !important;
+  border-top: 2px solid rgba(250, 204, 21, 0.55) !important;
+  border-radius: 11px !important;
+  outline: none !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45) !important;
+  color: #E7E7E9 !important;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease !important;
 }
 
 [data-theme="dark"] .record-card.is-private-card:hover {
-  background: #0c0e14 !important;
-  border-color: #20232e !important;
-  border-top-color: #d97706 !important;
-  outline-color: rgba(217, 119, 6, 0.6) !important;
-  box-shadow: 0 8px 0 #000000, 0 20px 40px rgba(0, 0, 0, 0.8) !important;
+  background: #161618 !important;
+  border-color: rgba(250, 204, 21, 0.4) !important;
+  border-top-color: #FACC15 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+  transform: translateY(-2px);
 }
 
 [data-theme="dark"] .record-card.is-private-card .card-title {
-  color: #e2e8f0 !important;
+  color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .record-card.is-private-card .card-excerpt {
-  color: #94a3b8 !important;
+  color: #A1A1A8 !important;
 }
 
-[data-theme="dark"] .record-card.is-private-card .badge-category {
-  background-color: #161820 !important;
-  border-color: #2a3040 !important;
-  color: #94a3b8 !important;
+/* 🏷️ 신호 뱃지 (Radius: 5px) */
+/* Agent 퍼플 (#A78BFA) 카테고리 뱃지 */
+[data-theme="dark"] .badge-category {
+  background-color: rgba(167, 139, 250, 0.12) !important;
+  border: 1px solid rgba(167, 139, 250, 0.3) !important;
+  color: #A78BFA !important;
+  border-radius: 5px !important;
+  font-weight: 600 !important;
 }
 
+/* Pass 에메랄드 (#4ADE80) 공개 뱃지 */
+[data-theme="dark"] .badge-public {
+  background-color: rgba(74, 222, 128, 0.12) !important;
+  color: #4ADE80 !important;
+  border: 1px solid rgba(74, 222, 128, 0.35) !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+  font-weight: 600 !important;
+}
+
+/* Note 앰버 (#FACC15) 비공개 뱃지 */
 [data-theme="dark"] .badge-private,
 [data-theme="dark"] .badge-private-locked {
-  background: rgba(180, 83, 9, 0.18) !important;
-  color: #fcd34d !important;
-  font-weight: 700 !important;
-  border: 1px solid rgba(217, 119, 6, 0.4) !important;
+  background: rgba(250, 204, 21, 0.12) !important;
+  color: #FACC15 !important;
+  border: 1px solid rgba(250, 204, 21, 0.35) !important;
+  border-radius: 5px !important;
   box-shadow: none !important;
+  font-weight: 700 !important;
 }
 
-/* 리스트형 뷰 (다크 모드) */
+[data-theme="dark"] .view-count-badge {
+  background: #161618 !important;
+  color: #8E8E96 !important;
+  border: 1px solid #222225 !important;
+  border-radius: 5px !important;
+}
+
+[data-theme="dark"] .card-date {
+  color: #8E8E96 !important;
+}
+
+[data-theme="dark"] .card-file-badge {
+  background-color: #161618 !important;
+  border: 1px solid #222225 !important;
+  color: #8E8E96 !important;
+  border-radius: 5px !important;
+}
+
+/* 리스트형 뷰 */
 [data-theme="dark"] .records-grid.view-list .record-card:not(.is-private-card) {
-  background: #141824 !important;
-  border: 1px solid #232c40 !important;
-  border-left: 3px solid #38bdf8 !important;
-  border-top: 1px solid #2e3950 !important;
-  border-bottom: 3px solid #090c13 !important;
-  box-shadow: 0 4px 0 #090c13, 0 8px 18px rgba(0, 0, 0, 0.5) !important;
+  background: #111113 !important;
+  border: 1px solid #222225 !important;
+  border-left: 3px solid #2E5BD8 !important;
+  border-radius: 7px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card:not(.is-private-card):hover {
-  background: #1a2030 !important;
-  border-left-color: #38bdf8 !important;
-  border-top-color: #38bdf8 !important;
-  box-shadow: 0 6px 0 #090c13, 0 16px 32px rgba(56, 189, 248, 0.2) !important;
+  background: #161618 !important;
+  border-color: #2A2A2E !important;
+  border-left-color: #2E5BD8 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45) !important;
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card.is-private-card {
-  background: #06070a !important;
-  border: 1px solid #1e222d !important;
-  border-left: 3px solid #b45309 !important;
-  border-bottom: 3px solid #000000 !important;
-  box-shadow: 0 4px 0 #000000, 0 8px 18px rgba(0, 0, 0, 0.6) !important;
+  background: #111113 !important;
+  border: 1px solid #222225 !important;
+  border-left: 3px solid #FACC15 !important;
+  border-radius: 7px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
 }
 
 [data-theme="dark"] .records-grid.view-list .record-card.is-private-card:hover {
-  background: #0c0e14 !important;
-  border-left-color: #d97706 !important;
-  border-color: #2e3445 !important;
-  box-shadow: 0 6px 0 #000000, 0 16px 32px rgba(0, 0, 0, 0.7) !important;
+  background: #161618 !important;
+  border-color: #2A2A2E !important;
+  border-left-color: #FACC15 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55) !important;
 }
 
-/* 상세 보기 카드 (다크 모드) */
+/* ==========================================================================
+   📖 RECORD DETAIL (Panel Card: #111113, Radius: 11px)
+   ========================================================================== */
 [data-theme="dark"] .record-detail-card {
-  background: #131724;
-  border: 2px solid #232c40;
-  border-top: 3px solid #38bdf8;
-  border-bottom: 4px solid #090c13;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
-  color: #f8fafc;
+  background: #111113;
+  border: 1px solid #222225;
+  border-radius: 11px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+  color: #E7E7E9;
 }
 
 [data-theme="dark"] .record-detail-card.is-private-detail {
-  background: #07090e;
-  border: 2px solid #232734;
-  border-top: 3px solid #b45309;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);
+  background: #111113;
+  border: 1px solid #222225;
+  border-top: 2px solid #FACC15;
+  border-radius: 11px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
 }
 
 [data-theme="dark"] .detail-title {
-  color: #f8fafc;
+  color: #E7E7E9;
 }
 
 [data-theme="dark"] .detail-body {
-  color: #cbd5e1;
+  color: #A1A1A8;
 }
 
+[data-theme="dark"] .detail-body h1,
 [data-theme="dark"] .detail-body h2,
-[data-theme="dark"] .detail-body h3 {
-  color: #f8fafc;
+[data-theme="dark"] .detail-body h3,
+[data-theme="dark"] .detail-body h4 {
+  color: #E7E7E9;
 }
 
 [data-theme="dark"] .detail-body mark {
-  background-color: rgba(217, 119, 6, 0.25);
-  color: #fef3c7;
-  border-bottom: 1px solid #b45309;
+  background-color: rgba(250, 204, 21, 0.2);
+  color: #FDE047;
+  border-bottom: 1px solid #FACC15;
 }
 
 [data-theme="dark"] .detail-body code:not(pre code) {
-  background-color: #1a2233;
-  color: #38bdf8;
-  border-color: #2c3952;
+  background-color: #1E1E21;
+  color: #A78BFA;
+  border: 1px solid #222225;
+  border-radius: 5px;
 }
 
 [data-theme="dark"] .btn-back {
-  background: #141824;
-  border-color: #242c3d;
-  color: #f8fafc;
+  background: #1E1E21;
+  border: 1px solid #222225;
+  color: #E7E7E9;
+  border-radius: 7px;
 }
 
 [data-theme="dark"] .btn-back:hover {
-  background: #1c2232;
-  border-color: #38bdf8;
+  background: #2A2A2E;
+  border-color: #2A2A2E;
+  color: #FFFFFF;
 }
 
-/* 🛠️ 상세 보기 관리자 수정/삭제 버튼 (다크 모드 고대비 키캡) */
+/* 관리자 수정/삭제 버튼 */
 [data-theme="dark"] .btn-edit {
-  background: #182236 !important;
-  border: 1px solid #283750 !important;
-  color: #38bdf8 !important;
-  box-shadow: 0 3px 0 #0b0f17, 0 6px 14px rgba(0, 0, 0, 0.45) !important;
+  background: #1E1E21 !important;
+  border: 1px solid #222225 !important;
+  color: #E7E7E9 !important;
+  border-radius: 7px !important;
+  box-shadow: none !important;
 }
 
 [data-theme="dark"] .btn-edit:hover {
-  background: #38bdf8 !important;
-  border-color: #38bdf8 !important;
-  color: #020617 !important;
-  box-shadow: 0 5px 0 #0284c7, 0 10px 20px rgba(56, 189, 248, 0.4) !important;
-  transform: translateY(-2px);
+  background: #2A2A2E !important;
+  border-color: #2E5BD8 !important;
+  color: #FFFFFF !important;
 }
 
+/* Fail 코랄 레드 (#F87171) 삭제 버튼 */
 [data-theme="dark"] .btn-delete {
-  background: #251216 !important;
-  border: 1px solid #6b1d28 !important;
-  color: #fca5a5 !important;
-  box-shadow: 0 3px 0 #120608, 0 6px 14px rgba(0, 0, 0, 0.45) !important;
+  background: rgba(248, 113, 113, 0.12) !important;
+  border: 1px solid rgba(248, 113, 113, 0.3) !important;
+  color: #F87171 !important;
+  border-radius: 7px !important;
+  box-shadow: none !important;
 }
 
 [data-theme="dark"] .btn-delete:hover {
-  background: #dc2626 !important;
-  border-color: #ef4444 !important;
-  color: #ffffff !important;
-  box-shadow: 0 5px 0 #991b1b, 0 10px 20px rgba(220, 38, 38, 0.5) !important;
-  transform: translateY(-2px);
+  background: #F87171 !important;
+  border-color: #F87171 !important;
+  color: #0B0B0C !important;
 }
 
 [data-theme="dark"] .tag-pill {
-  background-color: #1a2233;
-  border-color: #2c3952;
-  color: #38bdf8;
+  background-color: #1E1E21;
+  border: 1px solid #222225;
+  color: #A1A1A8;
+  border-radius: 5px;
 }
 
+/* 파일 & 사진 섹션 및 다운로드 텍스트 링크 */
 [data-theme="dark"] .detail-photos-section,
 [data-theme="dark"] .detail-files-section {
-  background-color: #101522;
-  border-color: #1f2738;
+  background-color: #0F0F11;
+  border: 1px solid #222225;
+  border-radius: 7px;
   box-shadow: none;
 }
 
 [data-theme="dark"] .attached-file-text-link,
 [data-theme="dark"] .attached-photo-text-link {
-  background-color: #161c2a;
-  border-color: #242c3d;
-  color: #f1f5f9;
+  background-color: #1E1E21;
+  border: 1px solid #222225;
+  color: #E7E7E9;
+  border-radius: 7px;
 }
 
 [data-theme="dark"] .attached-file-text-link:hover,
 [data-theme="dark"] .attached-photo-text-link:hover {
-  background-color: #1c2438;
-  border-color: #38bdf8;
-  color: #38bdf8;
+  background-color: #2A2A2E;
+  border-color: #2E5BD8;
+  color: #FFFFFF;
 }
 
 [data-theme="dark"] .file-text-icon {
-  color: #38bdf8;
+  color: #A78BFA;
 }
 
 [data-theme="dark"] .file-text-name {
-  color: #f1f5f9;
+  color: #E7E7E9;
 }
 
 [data-theme="dark"] .attached-file-text-link:hover .file-text-name,
 [data-theme="dark"] .attached-photo-text-link:hover .file-text-name {
-  color: #38bdf8;
+  color: #FFFFFF;
 }
 
 [data-theme="dark"] .file-text-size {
-  color: #94a3b8;
+  color: #8E8E96;
 }
 
 [data-theme="dark"] .attached-photo-thumb-mini {
-  border-color: #242c3d;
+  border: 1px solid #222225;
+  border-radius: 5px;
 }
 
 [data-theme="dark"] .btn-text-copy-photo {
-  background-color: #161c2a;
-  border-color: #242c3d;
-  color: #94a3b8;
+  background-color: #1E1E21;
+  border: 1px solid #222225;
+  color: #8E8E96;
+  border-radius: 5px;
 }
 
 [data-theme="dark"] .btn-text-copy-photo:hover {
-  background-color: #38bdf8;
-  color: #090d16;
-  border-color: #38bdf8;
+  background-color: #2A2A2E;
+  color: #E7E7E9;
+  border-color: #2A2A2E;
 }
 
 [data-theme="dark"] .inline-photo-wrap {
-  background-color: #0a0d14;
-  border-color: #242c3d;
+  background-color: #0F0F11;
+  border: 1px solid #222225;
+  border-radius: 7px;
 }
 
 [data-theme="dark"] .inline-record-img {
-  background-color: #0a0d14;
+  background-color: #0F0F11;
 }
 
 [data-theme="dark"] .inline-photo-caption {
-  background-color: #111520;
-  border-top-color: #242c3d;
-  color: #94a3b8;
+  background-color: #161618;
+  border-top: 1px solid #222225;
+  color: #8E8E96;
 }
 
-/* 모달 (작성 모달 및 관리자 로그인 모달) */
-[data-theme="dark"] .modal-overlay,
+/* ==========================================================================
+   🪟 MODALS & FORMS (Window / Panel: #111113, Radius: 14px)
+   ========================================================================== */
 [data-theme="dark"] .modal-overlay,
 [data-theme="dark"] .auth-overlay,
 [data-theme="dark"] .lightbox-overlay {
-  background: rgba(4, 5, 8, 0.85);
+  background: rgba(11, 11, 12, 0.85);
+  backdrop-filter: blur(8px);
 }
 
 [data-theme="dark"] .modal-dialog,
 [data-theme="dark"] .write-modal-dialog,
 [data-theme="dark"] .auth-modal-dialog,
 [data-theme="dark"] .auth-dialog {
-  background: #0f1422 !important;
-  border: 2px solid #242c3d !important;
-  border-top: 4px solid #38bdf8 !important;
-  border-bottom: 6px solid #060910 !important;
-  color: #f8fafc !important;
-  box-shadow: 0 12px 0 #05070c, 0 30px 80px rgba(0, 0, 0, 0.9) !important;
+  background: #111113 !important;
+  border: 1px solid #222225 !important;
+  border-radius: 14px !important;
+  color: #E7E7E9 !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8) !important;
 }
 
 [data-theme="dark"] .modal-header,
@@ -3629,179 +3733,179 @@ body {
 [data-theme="dark"] .write-modal-footer,
 [data-theme="dark"] .auth-header,
 [data-theme="dark"] .auth-modal-dialog .modal-header {
-  background: #141926 !important;
-  border-color: #242c3d !important;
+  background: #0F0F11 !important;
+  border-color: #222225 !important;
 }
 
 [data-theme="dark"] .modal-title,
 [data-theme="dark"] .auth-title,
 [data-theme="dark"] .auth-modal-title,
 [data-theme="dark"] .write-modal-title {
-  color: #f8fafc !important;
-  font-weight: 800 !important;
+  color: #E7E7E9 !important;
+  font-weight: 700 !important;
 }
 
 [data-theme="dark"] .auth-form {
-  background: #0f1422 !important;
+  background: #111113 !important;
 }
 
 [data-theme="dark"] .auth-form .form-label {
-  color: #cbd5e1 !important;
-  font-weight: 700 !important;
+  color: #A1A1A8 !important;
+  font-weight: 600 !important;
 }
 
 [data-theme="dark"] .auth-form #adminPasswordInput,
 [data-theme="dark"] .auth-form .form-control {
-  background-color: #07090e !important;
-  border: 1.5px solid #283347 !important;
-  color: #f8fafc !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+  background-color: #1E1E21 !important;
+  border: 1px solid #222225 !important;
+  color: #E7E7E9 !important;
+  border-radius: 7px !important;
+  box-shadow: none !important;
 }
 
 [data-theme="dark"] .auth-form #adminPasswordInput:focus,
 [data-theme="dark"] .auth-form .form-control:focus {
-  background-color: #0c101a !important;
-  border-color: #38bdf8 !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7), 0 0 0 3px rgba(56, 189, 248, 0.28) !important;
+  background-color: #161618 !important;
+  border-color: #2E5BD8 !important;
+  box-shadow: 0 0 0 2px rgba(46, 91, 216, 0.3) !important;
   outline: none !important;
 }
 
 [data-theme="dark"] .auth-form #adminPasswordInput::placeholder,
 [data-theme="dark"] .auth-form .form-control::placeholder {
-  color: #64748b !important;
+  color: #8E8E96 !important;
 }
 
 [data-theme="dark"] .form-error-msg,
 [data-theme="dark"] .auth-error-msg {
-  background-color: rgba(239, 68, 68, 0.15) !important;
-  border: 1px solid #dc2626 !important;
-  color: #fca5a5 !important;
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.25) !important;
+  background-color: rgba(248, 113, 113, 0.12) !important;
+  border: 1px solid rgba(248, 113, 113, 0.35) !important;
+  color: #F87171 !important;
+  border-radius: 7px !important;
+  box-shadow: none !important;
 }
 
-/* 🎛️ [분할 | 작성 | 미리보기] 다크모드 뷰 전환 탭 (고대비 키캡 스타일) */
+/* 🎛️ 에디터 뷰 전환 탭 (분할 / 작성 / 미리보기) */
 [data-theme="dark"] .modal-view-mode-toggle {
-  background-color: #0b0e17 !important;
-  border: 1.5px solid #283347 !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
-  padding: 4px !important;
-  gap: 4px !important;
+  background-color: #0F0F11 !important;
+  border: 1px solid #222225 !important;
+  border-radius: 7px !important;
+  padding: 3px !important;
+  gap: 3px !important;
 }
 
 [data-theme="dark"] .btn-mode-toggle {
-  background: #151b28 !important;
-  color: #cbd5e1 !important;
-  border: 1px solid #28354c !important;
-  font-weight: 700 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+  background: transparent !important;
+  color: #A1A1A8 !important;
+  border: none !important;
+  border-radius: 5px !important;
+  font-weight: 600 !important;
 }
 
 [data-theme="dark"] .btn-mode-toggle:hover {
-  color: #ffffff !important;
-  background: #202b3f !important;
-  border-color: #38bdf8 !important;
+  color: #E7E7E9 !important;
+  background: #1E1E21 !important;
 }
 
 [data-theme="dark"] .btn-mode-toggle.active {
-  background: #38bdf8 !important;
-  color: #020617 !important;
-  font-weight: 900 !important;
-  border-color: #38bdf8 !important;
-  box-shadow: 0 2px 6px rgba(56, 189, 248, 0.45) !important;
+  background: #2E5BD8 !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
 }
 
-/* ❌ 모달 닫기 버튼 */
 [data-theme="dark"] .btn-modal-close {
-  background-color: #181d2a !important;
-  border-color: #283347 !important;
-  color: #94a3b8 !important;
-  box-shadow: 0 2px 0 #080a0f !important;
+  background-color: #1E1E21 !important;
+  border: 1px solid #222225 !important;
+  color: #8E8E96 !important;
+  border-radius: 7px !important;
+  box-shadow: none !important;
 }
 
 [data-theme="dark"] .btn-modal-close:hover {
-  background-color: #232b3d !important;
-  border-color: #38bdf8 !important;
-  color: #ffffff !important;
+  background-color: #2A2A2E !important;
+  border-color: #2A2A2E !important;
+  color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .modal-col-editor {
-  background: #0e121a !important;
-  border-right-color: #242c3d !important;
+  background: #111113 !important;
+  border-right-color: #222225 !important;
 }
 
 [data-theme="dark"] .modal-col-preview {
-  background: #080a0f !important;
-  border-left-color: #242c3d !important;
+  background: #0B0B0C !important;
+  border-left-color: #222225 !important;
 }
 
 [data-theme="dark"] .preview-header {
-  background: #121622 !important;
-  border-bottom: 2px solid #242c3d !important;
+  background: #0F0F11 !important;
+  border-bottom: 1px solid #222225 !important;
 }
 
 [data-theme="dark"] .preview-header-title .preview-badge {
-  background: #38bdf8 !important;
-  color: #020617 !important;
+  background: rgba(167, 139, 250, 0.15) !important;
+  color: #A78BFA !important;
+  border-radius: 5px !important;
 }
 
 [data-theme="dark"] .preview-title-sub {
-  color: #94a3b8 !important;
+  color: #8E8E96 !important;
 }
 
 [data-theme="dark"] .preview-tab {
-  background: #161c28 !important;
-  border-color: #28334a !important;
-  color: #94a3b8 !important;
+  background: #1E1E21 !important;
+  border: 1px solid #222225 !important;
+  color: #A1A1A8 !important;
+  border-radius: 5px !important;
 }
 
 [data-theme="dark"] .preview-tab:hover {
-  background: #1e2638 !important;
-  color: #f8fafc !important;
-  border-color: #38bdf8 !important;
+  background: #2A2A2E !important;
+  color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .preview-tab.active {
-  background: #38bdf8 !important;
-  color: #020617 !important;
-  border-color: #38bdf8 !important;
-  font-weight: 900 !important;
+  background: #2E5BD8 !important;
+  color: #FFFFFF !important;
+  border-color: #2E5BD8 !important;
+  font-weight: 700 !important;
 }
 
 [data-theme="dark"] .preview-scroll-pane {
-  background: #080a0f !important;
+  background: #0B0B0C !important;
 }
 
 [data-theme="dark"] .preview-placeholder {
-  color: #64748b !important;
+  color: #8E8E96 !important;
 }
 
-/* 👁️ 실시간 미리보기 상세 카드 (다크모드 완벽 지원) */
+/* 실시간 미리보기 상세 카드 */
 [data-theme="dark"] .live-preview-detail {
-  background: #131724 !important;
-  border: 2px solid #232c40 !important;
-  border-top: 3px solid #38bdf8 !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6) !important;
-  color: #f8fafc !important;
+  background: #111113 !important;
+  border: 1px solid #222225 !important;
+  border-radius: 11px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .live-preview-detail.is-private-detail {
-  background: #07090e !important;
-  border: 2px solid #232734 !important;
-  border-top: 3px solid #b45309 !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7) !important;
+  background: #111113 !important;
+  border: 1px solid #222225 !important;
+  border-top: 2px solid #FACC15 !important;
 }
 
-/* 📝 글 작성 폼 컨트롤: 명확하고 선명한 다크 입력칸 (흰색 번짐 제거) */
+/* 📝 글 작성 폼 컨트롤 */
 [data-theme="dark"] .form-control,
 [data-theme="dark"] .record-textarea,
 [data-theme="dark"] #recordTitleInput,
 [data-theme="dark"] #recordCategorySelect,
 [data-theme="dark"] #recordTagInput,
 [data-theme="dark"] .auth-input {
-  background-color: #07090e !important;
-  border: 1.5px solid #283347 !important;
-  color: #f8fafc !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+  background-color: #1E1E21 !important;
+  border: 1px solid #222225 !important;
+  color: #E7E7E9 !important;
+  border-radius: 7px !important;
+  box-shadow: none !important;
 }
 
 [data-theme="dark"] .form-control:focus,
@@ -3810,179 +3914,179 @@ body {
 [data-theme="dark"] #recordCategorySelect:focus,
 [data-theme="dark"] #recordTagInput:focus,
 [data-theme="dark"] .auth-input:focus {
-  background-color: #0a0d14 !important;
-  border-color: #38bdf8 !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(56, 189, 248, 0.22) !important;
+  background-color: #161618 !important;
+  border-color: #2E5BD8 !important;
+  box-shadow: 0 0 0 2px rgba(46, 91, 216, 0.3) !important;
   outline: none !important;
 }
 
 [data-theme="dark"] .form-control::placeholder,
 [data-theme="dark"] .record-textarea::placeholder,
 [data-theme="dark"] .auth-input::placeholder {
-  color: #64748b !important;
+  color: #8E8E96 !important;
 }
 
 [data-theme="dark"] select.form-control option {
-  background-color: #0c0f17 !important;
-  color: #f8fafc !important;
+  background-color: #1E1E21 !important;
+  color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .form-label {
-  color: #cbd5e1 !important;
+  color: #A1A1A8 !important;
 }
 
 /* 🔒 공개/비공개 세그먼트 스위치 */
 [data-theme="dark"] .visibility-switch-box-compact {
-  background-color: #07090e !important;
-  border: 1.5px solid #283347 !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+  background-color: #0F0F11 !important;
+  border: 1px solid #222225 !important;
+  border-radius: 7px !important;
 }
 
 [data-theme="dark"] .visibility-option-compact {
-  color: #64748b !important;
+  color: #8E8E96 !important;
 }
 
 [data-theme="dark"] .visibility-option-compact:hover {
-  color: #f8fafc !important;
+  color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .visibility-option-compact#labelPublic.active {
-  background: #0284c7 !important;
-  color: #ffffff !important;
-  border-color: #38bdf8 !important;
-  box-shadow: 0 2px 0 #0369a1 !important;
+  background: rgba(74, 222, 128, 0.18) !important;
+  color: #4ADE80 !important;
+  border: 1px solid #4ADE80 !important;
+  border-radius: 5px !important;
 }
 
 [data-theme="dark"] .visibility-option-compact#labelPrivate.active {
-  background: rgba(180, 83, 9, 0.35) !important;
-  color: #fcd34d !important;
-  border-color: #b45309 !important;
-  box-shadow: 0 2px 0 #78350f !important;
+  background: rgba(250, 204, 21, 0.18) !important;
+  color: #FACC15 !important;
+  border: 1px solid #FACC15 !important;
+  border-radius: 5px !important;
 }
 
 /* 🛠️ 에디터 서식 툴바 & 버튼 */
 [data-theme="dark"] .editor-toolbar {
-  background-color: #121622 !important;
-  border: 1.5px solid #283347 !important;
+  background-color: #161618 !important;
+  border: 1px solid #222225 !important;
+  border-radius: 7px !important;
 }
 
 [data-theme="dark"] .btn-tb {
-  background: #181d2a !important;
-  border: 1px solid #283347 !important;
-  color: #cbd5e1 !important;
+  background: #1E1E21 !important;
+  border: 1px solid #222225 !important;
+  color: #A1A1A8 !important;
+  border-radius: 5px !important;
 }
 
 [data-theme="dark"] .btn-tb:hover {
-  background: #232b3d !important;
-  border-color: #38bdf8 !important;
-  color: #38bdf8 !important;
+  background: #2A2A2E !important;
+  border-color: #2A2A2E !important;
+  color: #E7E7E9 !important;
 }
 
-/* 💻 </> 코드 작성 버튼 (선명한 일렉트릭 시안 하이라이트) */
+/* 💻 </> 코드 작성 버튼 (Agent 퍼플 #A78BFA) */
 [data-theme="dark"] .btn-tb-code,
 [data-theme="dark"] #tbCodeBlock,
 [data-theme="dark"] #tbInlineCode {
-  color: #38bdf8 !important;
-  background: rgba(56, 189, 248, 0.14) !important;
-  border: 1px solid rgba(56, 189, 248, 0.45) !important;
-  font-weight: 800 !important;
+  color: #A78BFA !important;
+  background: rgba(167, 139, 250, 0.15) !important;
+  border: 1px solid rgba(167, 139, 250, 0.35) !important;
+  font-weight: 700 !important;
 }
 
 [data-theme="dark"] .btn-tb-code:hover,
 [data-theme="dark"] #tbCodeBlock:hover,
 [data-theme="dark"] #tbInlineCode:hover {
-  background: rgba(56, 189, 248, 0.28) !important;
-  border-color: #38bdf8 !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
+  background: rgba(167, 139, 250, 0.25) !important;
+  border-color: #A78BFA !important;
+  color: #FFFFFF !important;
 }
 
 [data-theme="dark"] .btn-tb-attach {
-  background: #141c2c !important;
-  border: 1px solid #283347 !important;
-  color: #f8fafc !important;
+  background: #1E1E21 !important;
+  border: 1px solid #222225 !important;
+  color: #E7E7E9 !important;
+  border-radius: 5px !important;
 }
 
 [data-theme="dark"] .btn-tb-attach .tb-plus-symbol {
-  color: #38bdf8 !important;
+  color: #A78BFA !important;
 }
 
 [data-theme="dark"] .btn-tb-attach:hover {
-  background: #1e293b !important;
-  border-color: #38bdf8 !important;
-  color: #38bdf8 !important;
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
+  background: #2A2A2E !important;
+  border-color: #2A2A2E !important;
 }
 
 [data-theme="dark"] #tbInsertPhoto {
-  background: #181d2a !important;
-  border: 1px solid #283347 !important;
-  color: #cbd5e1 !important;
+  background: #1E1E21 !important;
+  border: 1px solid #222225 !important;
+  color: #A1A1A8 !important;
+  border-radius: 5px !important;
 }
 
 [data-theme="dark"] #tbInsertPhoto:hover {
-  background: #232b3d !important;
-  border-color: #38bdf8 !important;
-  color: #38bdf8 !important;
+  background: #2A2A2E !important;
+  border-color: #2A2A2E !important;
+  color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .gallery-photo-card {
-  background-color: #090c13 !important;
-  border-color: #1a2233 !important;
-  outline-color: #242c3d !important;
-  box-shadow: 0 4px 0 #05070a, 0 10px 24px rgba(0, 0, 0, 0.45) !important;
+  background-color: #0F0F11 !important;
+  border: 1px solid #222225 !important;
+  border-radius: 7px !important;
 }
 
 [data-theme="dark"] .gallery-photo-card:hover {
-  outline-color: #38bdf8 !important;
+  border-color: #2E5BD8 !important;
 }
 
 [data-theme="dark"] .gallery-photo-img {
-  background-color: #090c13 !important;
+  background-color: #0F0F11 !important;
 }
 
 [data-theme="dark"] .card-thumb-wrap {
-  background-color: #07090e !important;
-  border-bottom-color: #242c3d !important;
+  background-color: #0F0F11 !important;
+  border-bottom: 1px solid #222225 !important;
 }
 
 [data-theme="dark"] .tb-divider {
-  background-color: #283347 !important;
+  background-color: #222225 !important;
 }
 
 /* 글자 크기 스텝퍼 */
 [data-theme="dark"] .font-stepper-box {
-  background-color: #07090e !important;
-  border: 1.5px solid #283347 !important;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+  background-color: #1E1E21 !important;
+  border: 1px solid #222225 !important;
+  border-radius: 5px !important;
 }
 
 [data-theme="dark"] .btn-step {
-  color: #94a3b8 !important;
+  color: #8E8E96 !important;
 }
 
 [data-theme="dark"] .btn-step:hover {
-  background-color: #1c2333 !important;
-  color: #38bdf8 !important;
+  background-color: #2A2A2E !important;
+  color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .step-num-input {
   background: transparent !important;
-  color: #f8fafc !important;
+  color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .step-unit {
-  color: #64748b !important;
+  color: #8E8E96 !important;
 }
 
 /* 파일 및 사진 업로드 드롭존 */
 [data-theme="dark"] .drop-zone,
 [data-theme="dark"] .drop-zone-compact,
 [data-theme="dark"] .upload-drop-zone {
-  background-color: #07090e !important;
-  border: 1.5px dashed #283347 !important;
-  color: #94a3b8 !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+  background-color: #0F0F11 !important;
+  border: 1px dashed #222225 !important;
+  color: #8E8E96 !important;
+  border-radius: 7px !important;
 }
 
 [data-theme="dark"] .drop-zone:hover,
@@ -3990,10 +4094,9 @@ body {
 [data-theme="dark"] .drop-zone-compact:hover,
 [data-theme="dark"] .drop-zone-compact.dragover,
 [data-theme="dark"] .upload-drop-zone:hover {
-  border-color: #38bdf8 !important;
-  background-color: #101624 !important;
-  color: #38bdf8 !important;
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.18) !important;
+  border-color: #2E5BD8 !important;
+  background-color: #161618 !important;
+  color: #E7E7E9 !important;
 }
 
 [data-theme="dark"] .drop-text {
@@ -4002,85 +4105,59 @@ body {
 
 /* 태그 및 첨부파일 칩 */
 [data-theme="dark"] .modal-tag-chip {
-  background-color: #161e2c !important;
-  border: 1px solid #283750 !important;
-  color: #38bdf8 !important;
+  background-color: #1E1E21 !important;
+  border: 1px solid #222225 !important;
+  color: #A78BFA !important;
+  border-radius: 5px !important;
 }
 
 [data-theme="dark"] .modal-tag-chip button {
-  color: #94a3b8 !important;
+  color: #8E8E96 !important;
 }
 
 [data-theme="dark"] .modal-tag-chip button:hover {
-  color: #f87171 !important;
+  color: #F87171 !important;
 }
 
 [data-theme="dark"] .thumb-preview-item {
-  background-color: #07090e !important;
-  border-color: #283347 !important;
+  background-color: #0F0F11 !important;
+  border: 1px solid #222225 !important;
+  border-radius: 5px !important;
 }
 
 [data-theme="dark"] .attached-file-item {
-  background-color: #121622 !important;
-  border-color: #283347 !important;
-  color: #f8fafc !important;
+  background-color: #1E1E21 !important;
+  border: 1px solid #222225 !important;
+  color: #E7E7E9 !important;
+  border-radius: 5px !important;
 }
 
 /* 모달 하단 버튼 */
-[data-theme="dark"] .btn-cancel {
-  background: #182030;
-  border-color: #28334a;
-  color: #cbd5e1;
-}
-
-[data-theme="dark"] .btn-cancel:hover {
-  background: #202a40;
-  border-color: #384663;
-  color: #ffffff;
-}
-
+[data-theme="dark"] .btn-cancel,
 [data-theme="dark"] .btn-secondary {
-  background: #182030;
-  border-color: #28334a;
-  color: #cbd5e1;
+  background: #1E1E21;
+  border: 1px solid #222225;
+  color: #A1A1A8;
+  border-radius: 7px;
 }
 
+[data-theme="dark"] .btn-cancel:hover,
 [data-theme="dark"] .btn-secondary:hover {
-  background: #202a40;
-  border-color: #38bdf8;
-  color: #ffffff;
+  background: #2A2A2E;
+  border-color: #2A2A2E;
+  color: #E7E7E9;
 }
 
 [data-theme="dark"] .empty-state {
-  color: #64748b;
+  color: #8E8E96;
 }
 
 [data-theme="dark"] .toast-msg {
-  background: #181d2a;
-  border-color: #38bdf8;
-  box-shadow: 0 4px 0 #000000, 0 16px 36px rgba(0, 0, 0, 0.6);
-}
-
-/* 💾 글 작성 모달 저장/완료 버튼 & 헤더 작성 버튼 (다크모드 고대비 발광) */
-[data-theme="dark"] #saveRecordSubmitBtn,
-[data-theme="dark"] .modal-actions .btn-primary,
-[data-theme="dark"] #openWriteModalBtn,
-[data-theme="dark"] .btn-new-record {
-  background: #38bdf8 !important;
-  color: #020617 !important;
-  font-weight: 900 !important;
-  border: 1px solid #38bdf8 !important;
-  box-shadow: 0 4px 0 #0284c7, 0 8px 20px rgba(56, 189, 248, 0.4) !important;
-}
-
-[data-theme="dark"] #saveRecordSubmitBtn:hover,
-[data-theme="dark"] .modal-actions .btn-primary:hover,
-[data-theme="dark"] #openWriteModalBtn:hover,
-[data-theme="dark"] .btn-new-record:hover {
-  background: #7dd3fc !important;
-  border-color: #7dd3fc !important;
-  color: #020617 !important;
-  box-shadow: 0 6px 0 #0284c7, 0 12px 28px rgba(56, 189, 248, 0.55) !important;
+  background: #161618;
+  border: 1px solid #2A2A2E;
+  color: #E7E7E9;
+  border-radius: 7px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 }
 
 /* ==========================================================================
@@ -4388,117 +4465,161 @@ body {
 }
 
 /* ==========================================================================
-   🌙 댓글 & 임시저장 다크 모드 스타일
+   🌙 댓글, 임시저장, 코드블록 다크 모드 스타일 (IDE 테마 매핑)
    ========================================================================== */
 [data-theme="dark"] .comments-section {
-  background: #111520;
-  border: 2px solid #232c40;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-  color: #f8fafc;
+  background: #111113;
+  border: 1px solid #222225;
+  border-radius: 11px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  color: #E7E7E9;
 }
 
 [data-theme="dark"] .comments-header {
-  border-bottom-color: #242c3d;
+  border-bottom: 1px solid #222225;
 }
 
 [data-theme="dark"] .comments-count-badge {
-  background: #38bdf8;
-  color: #0b1120;
+  background: rgba(167, 139, 250, 0.15);
+  color: #A78BFA;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 5px;
 }
 
 [data-theme="dark"] .comment-form {
-  background: #090c13;
-  border-color: #242c3d;
+  background: #0F0F11;
+  border: 1px solid #222225;
+  border-radius: 7px;
 }
 
 [data-theme="dark"] .comment-input,
 [data-theme="dark"] .comment-textarea {
-  background: #131724;
-  border-color: #242c3d;
-  color: #f8fafc;
+  background: #1E1E21;
+  border: 1px solid #222225;
+  color: #E7E7E9;
+  border-radius: 7px;
 }
 
 [data-theme="dark"] .comment-input:focus,
 [data-theme="dark"] .comment-textarea:focus {
-  border-color: #38bdf8;
+  border-color: #2E5BD8;
+  background-color: #161618;
+  box-shadow: 0 0 0 2px rgba(46, 91, 216, 0.3);
+  outline: none;
 }
 
 [data-theme="dark"] .comment-card {
-  background: #131724;
-  border-color: #242c3d;
-  color: #f8fafc;
+  background: #161618;
+  border: 1px solid #222225;
+  border-radius: 7px;
+  color: #E7E7E9;
 }
 
 [data-theme="dark"] .comment-card.is-reply {
-  background: #090c13;
-  border-left-color: #38bdf8;
+  background: #1E1E21;
+  border-left: 3px solid #2E5BD8;
+}
+
+[data-theme="dark"] .comment-author-name {
+  color: #E7E7E9;
+}
+
+[data-theme="dark"] .comment-date {
+  color: #8E8E96;
+}
+
+[data-theme="dark"] .comment-card-content {
+  color: #E7E7E9;
+}
+
+[data-theme="dark"] .badge-comment-admin {
+  background: rgba(167, 139, 250, 0.2);
+  color: #A78BFA;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .btn-comment-action {
+  color: #8E8E96;
 }
 
 [data-theme="dark"] .btn-comment-action:hover {
-  background: #1e2638;
-  color: #38bdf8;
+  background: #2A2A2E;
+  color: #E7E7E9;
+}
+
+[data-theme="dark"] .btn-comment-delete:hover {
+  color: #F87171 !important;
 }
 
 [data-theme="dark"] .reply-target-indicator {
-  background: #082f49;
-  color: #38bdf8;
+  background: rgba(46, 91, 216, 0.15);
+  color: #2E5BD8;
+  border-radius: 5px;
 }
 
 [data-theme="dark"] .draft-restore-banner {
-  background: #2a1b05;
-  border-color: #b45309;
-  color: #fde68a;
+  background: rgba(250, 204, 21, 0.12);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  color: #FACC15;
+  border-radius: 7px;
 }
 
 [data-theme="dark"] .draft-status-badge {
-  background: #064e3b;
-  color: #6ee7b7;
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ADE80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 5px;
 }
 
 [data-theme="dark"] .btn-draft {
-  background: #1c2333;
-  border-color: #283347;
-  color: #94a3b8;
+  background: #1E1E21;
+  border: 1px solid #222225;
+  color: #A1A1A8;
+  border-radius: 7px;
 }
 
 [data-theme="dark"] .btn-draft:hover {
-  background: #242c3d;
-  color: #f8fafc;
+  background: #2A2A2E;
+  color: #E7E7E9;
 }
 
+/* 💻 코드 블록 */
 [data-theme="dark"] .code-block-container {
-  background-color: #0b0f19;
-  border-color: #1e293b;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.7), 0 8px 24px rgba(0, 0, 0, 0.4);
+  background-color: #0F0F11;
+  border: 1px solid #222225;
+  border-radius: 7px;
+  box-shadow: none;
 }
 
 [data-theme="dark"] .code-block-header {
-  background-color: #050811;
-  border-bottom: 1px solid #1e293b;
+  background-color: #161618;
+  border-bottom: 1px solid #222225;
 }
 
 [data-theme="dark"] .code-lang-tag {
-  background-color: #00f0ff;
-  color: #000000;
+  background-color: #1E1E21;
+  color: #A78BFA;
+  border: 1px solid #222225;
+  border-radius: 5px;
 }
 
 [data-theme="dark"] .btn-copy-code {
-  background: #1e293b;
-  border-color: #334155;
-  color: #94a3b8;
+  background: #1E1E21;
+  border: 1px solid #222225;
+  color: #8E8E96;
+  border-radius: 5px;
 }
 
 [data-theme="dark"] .btn-copy-code:hover {
-  background: #00f0ff;
-  border-color: #00f0ff;
-  color: #000000;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+  background: #2A2A2E;
+  border-color: #2A2A2E;
+  color: #E7E7E9;
 }
 
 [data-theme="dark"] .btn-copy-code.copied {
-  background: #10b981 !important;
-  border-color: #10b981 !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+  background: #4ADE80 !important;
+  border-color: #4ADE80 !important;
+  color: #0B0B0C !important;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.4) !important;
 }
-
