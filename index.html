@@ -11,13 +11,13 @@
   <title>Iche's archive</title>
 
   <!-- 🛡️ 0초 안티 디버깅 센티널 보안 가드 (로딩 최상단 필수) -->
-  <script src="guard.js?v=4"></script>
+  <script src="guard.js?v=5"></script>
 
   <!-- 웹폰트 & 스타일시트 -->
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
-  <link rel="stylesheet" href="styles.css?v=46" />
+  <link rel="stylesheet" href="styles.css?v=47" />
 </head>
 
 <body>
@@ -122,6 +122,10 @@
           <span>← 목록으로 돌아가기</span>
         </button>
         <div class="detail-admin-actions hidden" id="detailAdminActions">
+          <button type="button" class="btn-action btn-print" id="printRecordBtn" title="이 글을 인쇄하거나 PDF로 저장합니다">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            인쇄 / PDF
+          </button>
           <button type="button" class="btn-action btn-edit" id="editRecordBtn">수정</button>
           <button type="button" class="btn-action btn-delete" id="deleteRecordBtn">삭제</button>
         </div>
@@ -370,7 +374,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <!-- 코어 스크립트 로드 -->
-  <script src="app.js?v=44"></script>
+  <script src="app.js?v=45"></script>
 </body>
 
 </html>
