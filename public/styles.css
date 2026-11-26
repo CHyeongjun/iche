@@ -4830,16 +4830,39 @@ body {
 }
 
 /* ==========================================================================
-   🖨️ 인쇄 & PDF 보안 및 전용 레이아웃 (@media print)
+   🖨️ 인쇄 & PDF 보안 및 순수 본문 전용 레이아웃 (@media print)
    ========================================================================== */
 @media print {
-  /* 비관리자 인쇄 원천 봉쇄: 화면 내용 은닉 및 경고 안내 표시 */
+  /* 인쇄 페이지 기본 규격 (A4 포트레이트, 표준 문서 여백) */
+  @page {
+    size: A4 portrait;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+
+  /* 다크모드 무력화 및 순백색 문서 바탕 강제 */
+  html,
+  body,
+  html[data-theme="dark"],
+  html[data-theme="dark"] body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 11pt !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 1. 비관리자 인쇄 원천 차단 */
   body:not(.is-admin-session) * {
     display: none !important;
   }
   body:not(.is-admin-session) {
     background: #ffffff !important;
-    color: #000000 !important;
+    color: #dc2626 !important;
   }
   body:not(.is-admin-session)::before {
     content: "🔒 인쇄 및 PDF 저장 권한이 없습니다. (관리자 전용 기능)";
@@ -4852,103 +4875,221 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
-  /* 관리자 인쇄 스타일 최적화 */
-  body.is-admin-session {
-    background: #ffffff !important;
-    color: #111827 !important;
-    font-size: 11pt;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-
-  /* 인쇄 시 불필요한 UI 숨김 */
-  body.is-admin-session .navbar,
+  /* 2. 관리자 세션: 본문 카드(#recordDetailCard)를 제외한 모든 외부 UI 요소 완전 소멸 */
+  body.is-admin-session .cyber-spatial-backdrop,
+  body.is-admin-session .app-header,
   body.is-admin-session .admin-indicator-bar,
   body.is-admin-session .control-bar,
+  body.is-admin-session .category-pills,
+  body.is-admin-session .visibility-tabs,
+  body.is-admin-session .records-view,
+  body.is-admin-session #recordsView,
   body.is-admin-session .detail-actions-bar,
   body.is-admin-session .comments-section,
+  body.is-admin-session #commentsSection,
   body.is-admin-session .modal-overlay,
   body.is-admin-session .lightbox-overlay,
   body.is-admin-session .toast-container,
-  body.is-admin-session .btn-overlay-action,
-  body.is-admin-session .photo-overlay-actions,
-  body.is-admin-session .btn-text-copy-photo,
-  body.is-admin-session .attached-photo-thumb-mini,
-  body.is-admin-session #recordsView {
+  body.is-admin-session .btn-back,
+  body.is-admin-session .detail-admin-actions,
+  body.is-admin-session .btn-action {
     display: none !important;
-  }
-
-  body.is-admin-session .app-container {
-    max-width: 100% !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    max-height: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
-    width: 100% !important;
+    overflow: hidden !important;
+    border: none !important;
   }
 
+  /* 메인 컨테이너 및 래퍼 초기화 */
+  body.is-admin-session .app-main,
   body.is-admin-session .record-detail-view {
     display: block !important;
     padding: 0 !important;
     margin: 0 !important;
+    max-width: 100% !important;
     width: 100% !important;
-  }
-
-  body.is-admin-session .record-detail-card {
-    background: #ffffff !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  /* 3. 본문 카드: 여백 및 배경이 없는 순수 인쇄 문서 모드 */
+  body.is-admin-session .record-detail-card,
+  html[data-theme="dark"] body.is-admin-session .record-detail-card,
+  html[data-theme="dark"] body.is-admin-session .record-detail-card.is-private-detail {
+    display: block !important;
+    background: #ffffff !important;
     color: #111827 !important;
+    border: none !important;
+    border-top: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
     width: 100% !important;
   }
 
+  /* 글 헤더: 날짜, 카테고리, 제목 */
   body.is-admin-session .detail-header {
-    border-bottom: 2px solid #e5e7eb !important;
-    padding-bottom: 1rem !important;
-    margin-bottom: 1.5rem !important;
+    border-bottom: 1.5px solid #cbd5e1 !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 24px !important;
   }
 
-  body.is-admin-session .detail-title {
-    color: #000000 !important;
+  body.is-admin-session .detail-meta-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #64748b !important;
+    font-size: 9.5pt !important;
+    margin-bottom: 8px !important;
+  }
+
+  body.is-admin-session .detail-meta-row * {
+    color: #64748b !important;
+  }
+
+  body.is-admin-session .badge-category {
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
+    font-weight: 600 !important;
+    padding: 2px 8px !important;
+  }
+
+  body.is-admin-session .badge-public,
+  body.is-admin-session .badge-private {
+    background: #f8fafc !important;
+    color: #475569 !important;
+    border: 1px solid #e2e8f0 !important;
+    font-weight: 600 !important;
+    padding: 2px 8px !important;
+  }
+
+  body.is-admin-session .detail-title,
+  html[data-theme="dark"] body.is-admin-session .detail-title {
+    color: #0f172a !important;
     font-size: 22pt !important;
+    font-weight: 800 !important;
     line-height: 1.3 !important;
-    margin: 0.5rem 0 !important;
+    margin: 8px 0 !important;
+    word-break: keep-all !important;
   }
 
-  body.is-admin-session .detail-body {
-    color: #1f2937 !important;
+  body.is-admin-session .detail-tags-row {
+    margin-top: 8px !important;
+  }
+
+  body.is-admin-session .tag-pill {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    border: 1px solid #e2e8f0 !important;
+    font-size: 9pt !important;
+    padding: 2px 7px !important;
+  }
+
+  /* 본문 서식 */
+  body.is-admin-session .detail-body,
+  html[data-theme="dark"] body.is-admin-session .detail-body {
+    color: #1e293b !important;
     font-size: 11pt !important;
     line-height: 1.8 !important;
   }
 
-  /* 본문 및 갤러리 이미지 인쇄 최적화 */
+  body.is-admin-session .detail-body * {
+    color: inherit;
+  }
+
+  /* 4. 코드 블록: 'code 메뉴' 및 복사 버튼 제거 + 깔끔한 문서용 코드 박스 */
+  body.is-admin-session .code-block-header {
+    display: none !important; /* 상단 코드 바 (언어 라벨, 복사 버튼 등) 완벽 제거 */
+  }
+
+  body.is-admin-session .code-block-container,
+  html[data-theme="dark"] body.is-admin-session .code-block-container {
+    background-color: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+    margin: 16px 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  body.is-admin-session .code-pre,
+  html[data-theme="dark"] body.is-admin-session .code-pre {
+    background: transparent !important;
+    padding: 12px 16px !important;
+    margin: 0 !important;
+  }
+
+  body.is-admin-session .code-content,
+  html[data-theme="dark"] body.is-admin-session .code-content {
+    color: #0f172a !important;
+    font-family: var(--font-mono, "JetBrains Mono", Consolas, monospace) !important;
+    font-size: 9.5pt !important;
+    line-height: 1.5 !important;
+    white-space: pre-wrap !important;
+    word-break: break-all !important;
+  }
+
+  body.is-admin-session .detail-body code:not(.code-content) {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 1px 5px !important;
+    border-radius: 4px !important;
+  }
+
+  /* 5. 사진 / 갤러리: 웹 오버레이 메뉴 제거 및 인쇄 최적화 */
+  body.is-admin-session .photo-overlay-actions,
+  body.is-admin-session .btn-overlay-action,
+  body.is-admin-session .btn-text-copy-photo {
+    display: none !important;
+  }
+
   body.is-admin-session img {
     max-width: 100% !important;
     height: auto !important;
     page-break-inside: avoid;
     break-inside: avoid;
     box-shadow: none !important;
+    border-radius: 4px !important;
   }
 
   body.is-admin-session .gallery-photo-card {
-    border: 1px solid #e5e7eb !important;
+    border: 1px solid #e2e8f0 !important;
     box-shadow: none !important;
     page-break-inside: avoid;
     break-inside: avoid;
   }
 
-  body.is-admin-session pre,
-  body.is-admin-session code {
-    white-space: pre-wrap !important;
-    word-break: break-all !important;
-    border: 1px solid #e5e7eb !important;
-    background: #f9fafb !important;
-    color: #111827 !important;
+  body.is-admin-session .detail-photos-section,
+  body.is-admin-session .detail-files-section {
+    border-top: 1px solid #e2e8f0 !important;
+    margin-top: 24px !important;
+    padding-top: 14px !important;
     page-break-inside: avoid;
     break-inside: avoid;
   }
 
-  body.is-admin-session .btn-copy-code,
-  body.is-admin-session .code-header-actions {
-    display: none !important;
+  body.is-admin-session .files-section-title {
+    color: #334155 !important;
+    font-size: 10.5pt !important;
+    font-weight: 700 !important;
+    margin-bottom: 8px !important;
+  }
+
+  body.is-admin-session .attached-photo-text-row,
+  body.is-admin-session .attached-file-text-link {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #334155 !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
