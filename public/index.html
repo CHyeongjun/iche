@@ -17,7 +17,7 @@
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.20/index.min.css" />
-  <link rel="stylesheet" href="styles.css?v=49" />
+  <link rel="stylesheet" href="styles.css?v=50" />
 </head>
 
 <body>
@@ -259,10 +259,14 @@
                 <input type="file" id="photoFileInput" multiple accept="image/*" class="file-hidden-input" style="display:none;" />
                 <input type="file" id="generalFileInput" multiple accept=".zip,.rar,.7z,.tar,.gz,.pdf,.txt,.doc,.docx,.xls,.xlsx,.ppt,.pptx" class="file-hidden-input" style="display:none;" />
                 <div class="tb-divider"></div>
-                <button type="button" class="btn-tb" id="tbBold" title="굵게"><strong>B</strong></button>
-                <button type="button" class="btn-tb" id="tbHeading" title="큰 제목">H2</button>
-                <button type="button" class="btn-tb" id="tbSubHeading" title="중간 제목">H3</button>
-                <button type="button" class="btn-tb" id="tbHighlight" title="형광펜"><mark>Highlight</mark></button>
+                <button type="button" class="btn-tb" id="tbBold" title="굵게 (**텍스트**)"><strong>B</strong></button>
+                <button type="button" class="btn-tb" id="tbItalic" title="기울임 (*텍스트*)"><em>I</em></button>
+                <button type="button" class="btn-tb" id="tbHeading" title="큰 제목 (## 제목)">H2</button>
+                <button type="button" class="btn-tb" id="tbSubHeading" title="중간 제목 (### 제목)">H3</button>
+                <button type="button" class="btn-tb" id="tbHighlight" title="형광펜 (==텍스트==)"><mark>Highlight</mark></button>
+                <button type="button" class="btn-tb" id="tbQuote" title="인용구 (&gt; 인용문)">❝ 인용</button>
+                <button type="button" class="btn-tb" id="tbList" title="목록 (- 항목)">• 목록</button>
+                <button type="button" class="btn-tb" id="tbLink" title="링크 ([텍스트](URL))">🔗 링크</button>
                 <div class="tb-divider"></div>
                 <button type="button" class="btn-tb btn-tb-code" id="tbCodeBlock"
                   title="코드 블록 삽입 (```language ... ```)"><span class="tb-sym">&lt;/&gt;</span> <span class="tb-txt">코드</span></button>
@@ -374,7 +378,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <!-- 코어 스크립트 로드 -->
-  <script src="app.js?v=47"></script>
+  <script src="app.js?v=48"></script>
 </body>
 
 </html>
