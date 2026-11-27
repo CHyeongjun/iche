@@ -4,42 +4,42 @@
    ========================================================================== */
 
 :root {
-  /* 🏛️ 노르딕 테크 미니멀리즘 (Nordic Slate & Minimal Clean Palette) */
-  --bg-void: #F8FAFC;           /* 깨끗하고 편안한 슬레이트 화이트 배경 */
-  --bg-primary: #FFFFFF;        /* 메인 컨텐츠 캔버스 */
-  --bg-surface: #FFFFFF;        /* 상단 헤더 및 서피스 */
-  --bg-recessed: #F1F5F9;       /* 서브 패널 및 칩 배경 */
-  --bg-control: #F1F5F9;
+  /* 🏛️ 편안한 저자극 웜 슬레이트 라이트 모드 (Dimmed Comfort Slate Palette) */
+  --bg-void: #EAECF0;           /* 눈부심을 대폭 낮춘 은은한 웜 슬레이트 캔버스 */
+  --bg-primary: #EAECF0;        /* 메인 컨텐츠 배경 */
+  --bg-surface: #F1F5F9;        /* 상단 헤더 및 서피스 */
+  --bg-recessed: #DDE1E7;       /* 서브 패널 및 칩 배경 */
+  --bg-control: #E2E8F0;
   
-  /* 🌐 PUBLIC 기록 (라이트): 미니멀 화이트 & 소프트 1px 보더 */
+  /* 🌐 PUBLIC 기록 (라이트): 편안한 캔버스 위의 순백색 카드 & 선명한 보더 */
   --bg-card-public: #FFFFFF;
-  --border-card-public: #E2E8F0;
+  --border-card-public: #CBD5E1;
   --outline-card-public: transparent;
-  --shadow-card-public: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  --shadow-card-public: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
   
-  /* 🔒 PRIVATE 기록 (라이트): 섬세한 소프트 슬레이트 */
-  --bg-card-private: #F8FAFC;
-  --border-card-private: #CBD5E1;
+  /* 🔒 PRIVATE 기록 (라이트): 섬세하고 따뜻한 톤 */
+  --bg-card-private: #FFFDF7;
+  --border-card-private: #FDE68A;
   --outline-card-private: transparent;
-  --shadow-card-private: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-card-private: 0 1px 3px rgba(0, 0, 0, 0.05);
 
   --bg-modal: #FFFFFF;
 
-  /* 🔤 고가독성 차콜 & 슬레이트 타이포그래피 */
-  --text-primary: #0F172A;      /* 깊고 정갈한 차콜 블랙 */
-  --text-secondary: #475569;    /* 세련된 슬레이트 그레이 */
-  --text-muted: #94A3B8;        /* 소프트 뮤트 */
+  /* 🔤 최고 가독성 딥 잉크 블랙 타이포그래피 (글씨 흐림/보이지 않음 원천 방지) */
+  --text-primary: #0F172A;      /* 선명하고 짙은 블랙 차콜 */
+  --text-secondary: #1E293B;    /* 진한 슬레이트 본문 텍스트 */
+  --text-muted: #475569;        /* 부드러우면서도 또렷한 메타 정보 */
   --text-white: #FFFFFF;
 
-  /* ⚡ 클린 1px 솔리드 보더 */
-  --border-subtle: #E2E8F0;
-  --border-medium: #CBD5E1;
-  --border-strong: #94A3B8;
+  /* ⚡ 클린 솔리드 보더 */
+  --border-subtle: #CBD5E1;
+  --border-medium: #94A3B8;
+  --border-strong: #64748B;
   --border-solid: #0F172A;
 
   /* 🎯 액센트 컬러 */
   --color-primary: #2563EB;     /* 로열 인디고 블루 */
-  --color-accent: #38BDF8;      /* 스카이 */
+  --color-accent: #0284C7;      /* 스카이 */
   --color-success: #10B981;     /* 에메랄드 */
   --color-warning: #F59E0B;     /* 앰버 */
   --color-danger: #EF4444;      /* 로즈 */
@@ -53,6 +53,14 @@
   --radius-xs: 4px;
   --radius-sm: 6px;
   --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 9999px;
+
+  --transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-pill: 9999px;
@@ -764,87 +772,80 @@ body {
 }
 
 /* ==========================================================================
-   🔒 6-B. PRIVATE(비공개) 기록: 묵직한 딥 옵시디언 볼트(금고) 3D 액자
-   백그라운드와 완전 대비되는 다크 볼트 카드!
+   🔒 6-B. PRIVATE(비공개) 기록 카드
    ========================================================================== */
 .record-card.is-private-card {
   background: var(--bg-card-private);
-  border: 2px solid #B45309;
-  border-top: 4.5px solid #F59E0B;
-  outline: 1px solid var(--outline-card-private);
+  border: 1px solid var(--border-card-private);
+  border-top: 1px solid var(--border-card-private);
+  outline: none;
   box-shadow: var(--shadow-card-private);
-  color: var(--text-white);
+  color: var(--text-primary);
 }
 
 .record-card.is-private-card:hover {
-  background: #1a1c24;
-  border-color: #2b2e3a;
-  outline-color: #ffffff;
-  box-shadow: 0 8px 0 #090a0d, 0 28px 60px -8px rgba(0, 0, 0, 0.65), 0 0 22px rgba(0, 0, 0, 0.4);
+  background: #ffffff;
+  border-color: #f59e0b;
+  box-shadow: 0 8px 24px -4px rgba(245, 158, 11, 0.15);
 }
 
 .record-card.is-private-card .card-thumb-wrap {
   display: none !important;
-  background-color: #08090c;
-  border-bottom: 2px solid #000000;
 }
 
 .record-card.is-private-card .card-title {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .record-card.is-private-card .card-excerpt {
-  color: #94a3b8;
+  color: var(--text-secondary);
 }
 
 .record-card.is-private-card .card-date {
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .record-card.is-private-card .badge-category {
-  background-color: #222530;
-  border-color: rgba(255, 255, 255, 0.18);
-  color: #e2e8f0;
+  background-color: #f1f5f9;
+  border-color: var(--border-medium);
+  color: var(--text-secondary);
 }
 
 .record-card.is-private-card .card-footer {
-  border-top-color: rgba(255, 255, 255, 0.1);
+  border-top-color: var(--border-subtle);
 }
 
 .record-card.is-private-card .card-tag {
-  color: #71717a;
+  color: var(--text-muted);
 }
 
 .record-card.is-private-card .card-file-badge {
-  background-color: #222530;
-  border-color: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  background-color: #f1f5f9;
+  border-color: var(--border-medium);
+  color: var(--text-primary);
 }
 
-/* 🔒 방문객에게 보이는 Private 기록 - 보안 대시 보더 & 텍스처 블러 */
+/* 🔒 방문객에게 보이는 Private 기록 - 보안 대시 보더 */
 .record-card.is-guest-private {
-  background: #111318;
-  border: 6px dashed #3f4452;
-  border-left: 10px solid #525866;
-  opacity: 0.85;
-  box-shadow: 0 4px 0 #090a0d, 0 14px 30px rgba(0, 0, 0, 0.4);
+  background: #f8fafc;
+  border: 2px dashed var(--border-medium);
+  opacity: 0.9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .record-card.is-guest-private:hover {
   opacity: 1;
-  border-color: #ffffff;
-  border-left-color: #ffffff;
-  box-shadow: 0 8px 0 #090a0d, 0 24px 50px rgba(0, 0, 0, 0.55);
+  border-color: var(--border-strong);
 }
 
 .record-card.is-guest-private .card-title {
-  color: #e2e8f0;
+  color: var(--text-primary);
 }
 
 .record-card.is-guest-private .card-excerpt {
   filter: blur(3px);
   user-select: none;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .badge-private-locked {
@@ -913,20 +914,17 @@ body {
   box-shadow: 0 6px 0 #94a3b8, 0 16px 32px rgba(15, 23, 42, 0.14);
 }
 
-/* 🔒 PRIVATE 리스트 아이템: 딥 옵시디언 볼트 플레이트 */
+/* 🔒 PRIVATE 리스트 아이템 */
 .records-grid.view-list .record-card.is-private-card {
-  background: #14161c;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-top: 2px solid rgba(255, 255, 255, 0.35);
-  border-bottom: 3px solid #000000;
-  box-shadow: 0 4px 0 #090a0d, 0 10px 24px rgba(0, 0, 0, 0.4);
-  color: #ffffff;
+  background: var(--bg-card-private);
+  border: 1px solid var(--border-card-private);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  color: var(--text-primary);
 }
 
 .records-grid.view-list .record-card.is-private-card:hover {
-  border-color: rgba(255, 255, 255, 0.45);
-  border-top-color: #ffffff;
-  box-shadow: 0 6px 0 #090a0d, 0 18px 36px rgba(0, 0, 0, 0.55);
+  border-color: #f59e0b;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12);
 }
 
 .records-grid.view-list .card-thumb-wrap {
@@ -5040,6 +5038,8 @@ body {
 
 /* ==========================================================================
    ✨ 12. 노르딕 테크 미니멀리즘 (Nordic Tech Minimalist Master Overrides)
+   - 라이트모드 눈부심 방지 (은은한 웜 슬레이트 #EAECF0 캔버스)
+   - 최고 가독성 딥 잉크 블랙 타이포그래피 (#0F172A / #1E293B)
    ========================================================================== */
 
 /* 1) 애니메이션 감쇄 및 즉각적 반응성 */
@@ -5094,13 +5094,27 @@ body {
   animation: none !important;
 }
 
-/* 2) 상단 헤더 & 브랜드 뱃지 */
+/* 2) 라이트 모드 캔버스 밝기 감쇄 (저자극 웜 슬레이트 배경) */
+html:not([data-theme="dark"]),
+html[data-theme="light"],
+html:not([data-theme="dark"]) body,
+html[data-theme="light"] body {
+  background-color: #EAECF0 !important;
+  color: #0F172A !important;
+}
+
+html:not([data-theme="dark"]) .cyber-spatial-backdrop,
+html[data-theme="light"] .cyber-spatial-backdrop {
+  background-color: #EAECF0 !important;
+}
+
+/* 3) 상단 헤더 & 브랜드 뱃지 */
 .app-header {
-  background: rgba(255, 255, 255, 0.88) !important;
+  background: rgba(234, 236, 240, 0.94) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
-  border-bottom: 1px solid #E2E8F0 !important;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03) !important;
+  border-bottom: 1px solid #CBD5E1 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04) !important;
 }
 [data-theme="dark"] .app-header {
   background: rgba(17, 24, 39, 0.88) !important;
@@ -5132,14 +5146,18 @@ body {
 }
 
 .brand-title {
+  color: #0F172A !important;
   font-weight: 700 !important;
   letter-spacing: -0.3px !important;
 }
+[data-theme="dark"] .brand-title {
+  color: #F9FAFB !important;
+}
 
-/* 3) 검색창 모던 플랫 스타일 */
+/* 4) 검색창 모던 플랫 스타일 */
 .search-input {
-  background-color: #F1F5F9 !important;
-  border: 1px solid #E2E8F0 !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
   border-radius: 8px !important;
   box-shadow: none !important;
   color: #0F172A !important;
@@ -5153,7 +5171,7 @@ body {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
 }
 .search-input::placeholder {
-  color: #94A3B8 !important;
+  color: #64748B !important;
 }
 
 [data-theme="dark"] .search-input {
@@ -5173,23 +5191,23 @@ body {
   color: #6B7280 !important;
 }
 
-/* 4) 컨트롤 바: 필터 탭 & 카테고리 칩 */
+/* 5) 컨트롤 바: 필터 탭 & 카테고리 칩 */
 .visibility-tabs {
   gap: 6px !important;
 }
 .tab-btn {
   background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
+  border: 1px solid #CBD5E1 !important;
   border-radius: 8px !important;
-  color: #64748B !important;
+  color: #1E293B !important;
   font-weight: 600 !important;
   padding: 6px 14px !important;
   box-shadow: none !important;
 }
 .tab-btn:hover {
-  background: #F8FAFC !important;
+  background: #F1F5F9 !important;
   color: #0F172A !important;
-  border-color: #CBD5E1 !important;
+  border-color: #94A3B8 !important;
 }
 .tab-btn.active {
   background: #0F172A !important;
@@ -5219,17 +5237,17 @@ body {
 
 .pill-btn {
   background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
+  border: 1px solid #CBD5E1 !important;
   border-radius: 9999px !important;
-  color: #475569 !important;
+  color: #1E293B !important;
   padding: 6px 14px !important;
   font-size: 0.8rem !important;
   font-weight: 600 !important;
-  box-shadow: none !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
 }
 .pill-btn:hover {
-  background: #F8FAFC !important;
-  border-color: #CBD5E1 !important;
+  background: #F1F5F9 !important;
+  border-color: #94A3B8 !important;
   color: #0F172A !important;
 }
 .pill-btn.active {
@@ -5258,10 +5276,10 @@ body {
   box-shadow: none !important;
 }
 
-/* 5) 세그먼트형 뷰 모드 스위처 */
+/* 6) 세그먼트형 뷰 모드 스위처 */
 .view-mode-switcher {
-  background-color: #F1F5F9 !important;
-  border: 1px solid #E2E8F0 !important;
+  background-color: #DDE1E7 !important;
+  border: 1px solid #CBD5E1 !important;
   border-radius: 8px !important;
   padding: 3px !important;
   box-shadow: none !important;
@@ -5271,7 +5289,7 @@ body {
   background: transparent !important;
   border: 1px solid transparent !important;
   border-radius: 6px !important;
-  color: #64748B !important;
+  color: #475569 !important;
   padding: 5px 12px !important;
   font-size: 0.78rem !important;
   font-weight: 600 !important;
@@ -5282,7 +5300,7 @@ body {
 }
 .btn-view-toggle.active {
   background: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
+  border-color: #CBD5E1 !important;
   color: #0F172A !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
 }
@@ -5306,28 +5324,101 @@ body {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* 6) 기록 카드 (액자형) */
+/* 7) 기록 목록 헤더 카운터 */
+.records-header {
+  color: #334155 !important;
+}
+.records-count-info {
+  color: #334155 !important;
+}
+.records-count-info strong {
+  color: #0F172A !important;
+  font-weight: 700 !important;
+}
+[data-theme="dark"] .records-header,
+[data-theme="dark"] .records-count-info {
+  color: #9CA3AF !important;
+}
+[data-theme="dark"] .records-count-info strong {
+  color: #F9FAFB !important;
+}
+
+/* 8) 기록 카드 (액자형) & 텍스트 고가독성 */
 .record-card {
   background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-top: 1px solid #E2E8F0 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-top: 1px solid #CBD5E1 !important;
   border-radius: 12px !important;
   outline: none !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03) !important;
+  color: #0F172A !important;
 }
 .record-card:hover {
-  border-color: #CBD5E1 !important;
-  border-top-color: #CBD5E1 !important;
-  box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.08), 0 4px 8px -2px rgba(15, 23, 42, 0.03) !important;
+  border-color: #94A3B8 !important;
+  border-top-color: #94A3B8 !important;
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.1), 0 4px 8px -2px rgba(15, 23, 42, 0.04) !important;
 }
 
 .card-thumb-wrap {
-  border-bottom: 1px solid #E2E8F0 !important;
+  border-bottom: 1px solid #CBD5E1 !important;
   border-top-left-radius: 11px !important;
   border-top-right-radius: 11px !important;
-  background-color: #F8FAFC !important;
+  background-color: #E2E8F0 !important;
 }
 
+/* 🔥 글씨 가독성 강화: 모든 카드 제목, 본문 요약, 날짜, 태그 */
+.card-title,
+.record-card .card-title,
+.records-grid.view-list .card-title {
+  color: #0F172A !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+}
+
+.card-excerpt,
+.record-card .card-excerpt,
+.records-grid.view-list .card-excerpt {
+  color: #334155 !important;
+  line-height: 1.6 !important;
+}
+
+.card-date,
+.record-card .card-date {
+  color: #475569 !important;
+  font-weight: 500 !important;
+}
+
+.card-tag,
+.record-card .card-tag {
+  color: #475569 !important;
+  font-weight: 600 !important;
+}
+
+/* 🔒 Private 카드 텍스트 (라이트 모드에서 흰 글씨 버그 완전 방지) */
+.record-card.is-private-card {
+  background: #FFFDF7 !important;
+  border-color: #FDE68A !important;
+  border-top-color: #FDE68A !important;
+  color: #0F172A !important;
+}
+.record-card.is-private-card .card-title {
+  color: #0F172A !important;
+}
+.record-card.is-private-card .card-excerpt {
+  color: #334155 !important;
+}
+.record-card.is-private-card .card-date {
+  color: #475569 !important;
+}
+
+.record-card.is-guest-private .card-title {
+  color: #0F172A !important;
+}
+.record-card.is-guest-private .card-excerpt {
+  color: #64748B !important;
+}
+
+/* 다크 모드 카드 스타일 */
 [data-theme="dark"] .record-card {
   background: #111827 !important;
   border: 1px solid #1F2937 !important;
@@ -5335,6 +5426,7 @@ body {
   border-radius: 12px !important;
   outline: none !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  color: #F9FAFB !important;
 }
 [data-theme="dark"] .record-card:hover {
   background: #161F2E !important;
@@ -5346,33 +5438,51 @@ body {
   border-bottom: 1px solid #1F2937 !important;
   background-color: #0B0F17 !important;
 }
-
-/* 🔒 Private 카드 */
-.record-card.is-private-card {
-  background: #FFFEFA !important;
-  border-color: #FDE68A !important;
-  border-top-color: #FDE68A !important;
+[data-theme="dark"] .card-title,
+[data-theme="dark"] .record-card .card-title,
+[data-theme="dark"] .records-grid.view-list .card-title {
+  color: #F9FAFB !important;
+}
+[data-theme="dark"] .card-excerpt,
+[data-theme="dark"] .record-card .card-excerpt,
+[data-theme="dark"] .records-grid.view-list .card-excerpt {
+  color: #9CA3AF !important;
+}
+[data-theme="dark"] .card-date,
+[data-theme="dark"] .record-card .card-date {
+  color: #6B7280 !important;
+}
+[data-theme="dark"] .card-tag,
+[data-theme="dark"] .record-card .card-tag {
+  color: #9CA3AF !important;
 }
 [data-theme="dark"] .record-card.is-private-card {
   background: #121620 !important;
   border-color: rgba(245, 158, 11, 0.3) !important;
   border-top-color: rgba(245, 158, 11, 0.3) !important;
+  color: #FEF3C7 !important;
+}
+[data-theme="dark"] .record-card.is-private-card .card-title {
+  color: #FEF3C7 !important;
+}
+[data-theme="dark"] .record-card.is-private-card .card-excerpt {
+  color: #D1D5DB !important;
 }
 
-/* 7) 리스트 뷰 카드 */
+/* 9) 리스트 뷰 카드 */
 .records-grid.view-list .record-card {
-  border: 1px solid #E2E8F0 !important;
-  border-top: 1px solid #E2E8F0 !important;
-  border-bottom: 1px solid #E2E8F0 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-top: 1px solid #CBD5E1 !important;
+  border-bottom: 1px solid #CBD5E1 !important;
   border-radius: 8px !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
 }
 .records-grid.view-list .record-card:hover {
-  border-color: #CBD5E1 !important;
-  border-top-color: #CBD5E1 !important;
-  border-left: 1px solid #CBD5E1 !important;
+  border-color: #94A3B8 !important;
+  border-top-color: #94A3B8 !important;
+  border-left: 1px solid #94A3B8 !important;
   background: #F8FAFC !important;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05) !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06) !important;
 }
 [data-theme="dark"] .records-grid.view-list .record-card {
   background: #111827 !important;
@@ -5390,11 +5500,11 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* 8) 뱃지 & 태그 */
+/* 10) 뱃지 & 태그 */
 .badge-category {
   background-color: #F1F5F9 !important;
-  border: 1px solid #E2E8F0 !important;
-  color: #475569 !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #334155 !important;
   border-radius: 4px !important;
   font-weight: 600 !important;
   font-size: 0.72rem !important;
@@ -5434,9 +5544,9 @@ body {
 }
 
 .tag-pill {
-  background-color: #F1F5F9 !important;
-  border: 1px solid #E2E8F0 !important;
-  color: #475569 !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #1E293B !important;
   border-radius: 4px !important;
   font-weight: 600 !important;
   font-size: 0.75rem !important;
@@ -5447,23 +5557,56 @@ body {
   color: #9CA3AF !important;
 }
 
-/* 9) 기록 상세 뷰 (Detail Reader) */
+/* 11) 기록 상세 뷰 (Detail Reader) 고가독성 */
 .record-detail-card {
   background: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  border-top: 1px solid #E2E8F0 !important;
-  border-bottom: 1px solid #E2E8F0 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-top: 1px solid #CBD5E1 !important;
+  border-bottom: 1px solid #CBD5E1 !important;
   border-radius: 14px !important;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06) !important;
   padding: 2.5rem !important;
+  color: #0F172A !important;
 }
 .detail-header {
-  border-bottom: 1px solid #E2E8F0 !important;
+  border-bottom: 1px solid #CBD5E1 !important;
 }
 .detail-title {
+  color: #0F172A !important;
   font-weight: 700 !important;
   letter-spacing: -0.5px !important;
 }
+.detail-views,
+.detail-date {
+  color: #475569 !important;
+}
+
+.detail-body {
+  color: #0F172A !important;
+}
+.detail-body p,
+.detail-body li,
+.live-preview-detail p,
+.live-preview-detail li {
+  color: #1E293B !important;
+  line-height: 1.85 !important;
+}
+.detail-body h1,
+.detail-body h2,
+.detail-body h3,
+.detail-body h4,
+.detail-body h5,
+.detail-body h6,
+.live-preview-detail h1,
+.live-preview-detail h2,
+.live-preview-detail h3,
+.live-preview-detail h4,
+.live-preview-detail h5,
+.live-preview-detail h6 {
+  color: #0F172A !important;
+  font-weight: 700 !important;
+}
+
 [data-theme="dark"] .record-detail-card {
   background: #111827 !important;
   border: 1px solid #1F2937 !important;
@@ -5472,18 +5615,49 @@ body {
   border-radius: 14px !important;
   box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.4) !important;
   padding: 2.5rem !important;
+  color: #F9FAFB !important;
 }
 [data-theme="dark"] .detail-header {
   border-bottom: 1px solid #1F2937 !important;
+}
+[data-theme="dark"] .detail-title {
+  color: #F9FAFB !important;
+}
+[data-theme="dark"] .detail-views,
+[data-theme="dark"] .detail-date {
+  color: #9CA3AF !important;
+}
+[data-theme="dark"] .detail-body {
+  color: #CBD5E1 !important;
+}
+[data-theme="dark"] .detail-body p,
+[data-theme="dark"] .detail-body li,
+[data-theme="dark"] .live-preview-detail p,
+[data-theme="dark"] .live-preview-detail li {
+  color: #CBD5E1 !important;
+}
+[data-theme="dark"] .detail-body h1,
+[data-theme="dark"] .detail-body h2,
+[data-theme="dark"] .detail-body h3,
+[data-theme="dark"] .detail-body h4,
+[data-theme="dark"] .detail-body h5,
+[data-theme="dark"] .detail-body h6,
+[data-theme="dark"] .live-preview-detail h1,
+[data-theme="dark"] .live-preview-detail h2,
+[data-theme="dark"] .live-preview-detail h3,
+[data-theme="dark"] .live-preview-detail h4,
+[data-theme="dark"] .live-preview-detail h5,
+[data-theme="dark"] .live-preview-detail h6 {
+  color: #FFFFFF !important;
 }
 
 /* 마크다운 인용구, 표, 코드블록 */
 .detail-body blockquote,
 .live-preview-detail blockquote {
   border-left: 3px solid #2563EB !important;
-  background-color: #F8FAFC !important;
+  background-color: #F1F5F9 !important;
   border-radius: 0 8px 8px 0 !important;
-  color: #475569 !important;
+  color: #334155 !important;
   font-style: normal !important;
   box-shadow: none !important;
 }
@@ -5495,12 +5669,31 @@ body {
 }
 
 .table-responsive {
-  border: 1px solid #E2E8F0 !important;
+  border: 1px solid #CBD5E1 !important;
   border-radius: 8px !important;
   box-shadow: none !important;
 }
+.markdown-table th {
+  background-color: #F1F5F9 !important;
+  color: #0F172A !important;
+  font-weight: 700 !important;
+  border-bottom: 2px solid #CBD5E1 !important;
+}
+.markdown-table td {
+  color: #1E293B !important;
+  border-bottom: 1px solid #CBD5E1 !important;
+}
 [data-theme="dark"] .table-responsive {
   border: 1px solid #1F2937 !important;
+}
+[data-theme="dark"] .markdown-table th {
+  background-color: #1F2937 !important;
+  color: #F9FAFB !important;
+  border-bottom: 2px solid #374151 !important;
+}
+[data-theme="dark"] .markdown-table td {
+  color: #CBD5E1 !important;
+  border-bottom: 1px solid #374151 !important;
 }
 
 .detail-code-block-wrap {
@@ -5509,7 +5702,7 @@ body {
   box-shadow: none !important;
 }
 
-/* 10) 버튼 시스템 */
+/* 12) 버튼 시스템 */
 .btn-primary {
   background: #0F172A !important;
   color: #FFFFFF !important;
@@ -5535,30 +5728,104 @@ body {
   border-color: #7DD3FC !important;
 }
 
-.btn-theme-toggle,
-.btn-admin-auth,
-.btn-back,
+.btn-theme-toggle {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #0F172A !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+[data-theme="dark"] .btn-theme-toggle {
+  background: #1F2937 !important;
+  border: 1px solid #374151 !important;
+  color: #F9FAFB !important;
+}
+
+.btn-admin-auth {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #0F172A !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+[data-theme="dark"] .btn-admin-auth {
+  background: #1F2937 !important;
+  border: 1px solid #374151 !important;
+  color: #F9FAFB !important;
+}
+
+.btn-back {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #0F172A !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+.btn-back:hover {
+  background: #F1F5F9 !important;
+  border-color: #94A3B8 !important;
+}
+[data-theme="dark"] .btn-back {
+  background: #1F2937 !important;
+  border: 1px solid #374151 !important;
+  color: #F9FAFB !important;
+}
+[data-theme="dark"] .btn-back:hover {
+  background: #374151 !important;
+}
+
 .btn-action {
   border-radius: 8px !important;
   box-shadow: none !important;
 }
 
-/* 11) 댓글 & 폼 */
+/* 13) 댓글 & 폼 */
+.comments-title {
+  color: #0F172A !important;
+}
+[data-theme="dark"] .comments-title {
+  color: #F9FAFB !important;
+}
+
 .comment-card,
 .comment-item {
-  border: 1px solid #E2E8F0 !important;
+  border: 1px solid #CBD5E1 !important;
   border-radius: 10px !important;
   box-shadow: none !important;
+  background: #FFFFFF !important;
 }
+.comment-author-name {
+  color: #0F172A !important;
+  font-weight: 700 !important;
+}
+.comment-card-content {
+  color: #1E293B !important;
+}
+.comment-date {
+  color: #475569 !important;
+}
+
 [data-theme="dark"] .comment-card,
 [data-theme="dark"] .comment-item {
   border: 1px solid #1F2937 !important;
   background: #111827 !important;
 }
+[data-theme="dark"] .comment-author-name {
+  color: #F9FAFB !important;
+}
+[data-theme="dark"] .comment-card-content {
+  color: #CBD5E1 !important;
+}
+[data-theme="dark"] .comment-date {
+  color: #6B7280 !important;
+}
+
 .comment-input,
 .comment-textarea {
   border-radius: 8px !important;
-  border: 1px solid #E2E8F0 !important;
+  border: 1px solid #CBD5E1 !important;
+  background: #FFFFFF !important;
+  color: #0F172A !important;
   box-shadow: none !important;
 }
 .comment-input:focus,
@@ -5578,11 +5845,11 @@ body {
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
 }
 
-/* 12) 모달 다이얼로그 */
+/* 14) 모달 다이얼로그 */
 .modal-dialog {
-  border: 1px solid #E2E8F0 !important;
-  border-top: 1px solid #E2E8F0 !important;
-  border-bottom: 1px solid #E2E8F0 !important;
+  border: 1px solid #CBD5E1 !important;
+  border-top: 1px solid #CBD5E1 !important;
+  border-bottom: 1px solid #CBD5E1 !important;
   border-radius: 14px !important;
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12) !important;
 }
