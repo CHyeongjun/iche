@@ -4,25 +4,25 @@
    ========================================================================== */
 
 :root {
-  /* 🏛️ 눈이 편안한 차분한 웜 슬레이트 티타늄 (눈부심 제로 안심 모드) */
-  --bg-void: #D6DCE5;           /* 눈이 편안한 미드 슬레이트 그레이 베이스 */
-  --bg-primary: #DFE5ED;        /* 작업 캔버스 */
-  --bg-surface: #E6ECF4;        /* 상단 헤더 및 패널 서피스 */
-  --bg-recessed: #CAD2DC;       /* 음각 트랙 */
+  /* 🏛️ 단색 솔리드 미니멀리즘 (Solid Monochrome Minimalist) */
+  --bg-void: #F8FAFC;           /* 깨끗한 솔리드 라이트 슬레이트 배경 */
+  --bg-primary: #FFFFFF;        /* 작업 캔버스 */
+  --bg-surface: #FFFFFF;        /* 상단 헤더 및 패널 서피스 */
+  --bg-recessed: #F1F5F9;       /* 서브 패널 */
   
-  /* 🌐 PUBLIC 기록 (라이트): 눈부신 쌩백색 제거 -> 차분한 오프화이트 실버 펄 */
-  --bg-card-public: #F1F4F9;
-  --border-card-public: #2563EB;
-  --outline-card-public: rgba(37, 99, 235, 0.3);
-  --shadow-card-public: 0 4px 0 #B0BAC8, 0 12px 26px -4px rgba(15, 23, 42, 0.09);
+  /* 🌐 PUBLIC 기록 (라이트): 솔리드 화이트 & 클린 1px 보더 */
+  --bg-card-public: #FFFFFF;
+  --border-card-public: #E2E8F0;
+  --outline-card-public: transparent;
+  --shadow-card-public: 0 1px 3px rgba(0, 0, 0, 0.05);
   
-  /* 🔒 PRIVATE 기록 (라이트): 묵직한 딥 다크 티타늄 금고 액자 */
-  --bg-card-private: #141722;
-  --border-card-private: #B45309;
-  --outline-card-private: rgba(245, 158, 11, 0.4);
-  --shadow-card-private: 0 4px 0 #090B10, 0 16px 36px -4px rgba(0, 0, 0, 0.35);
+  /* 🔒 PRIVATE 기록 (라이트): 솔리드 소프트 슬레이트 */
+  --bg-card-private: #F8FAFC;
+  --border-card-private: #CBD5E1;
+  --outline-card-private: transparent;
+  --shadow-card-private: 0 1px 3px rgba(0, 0, 0, 0.05);
 
-  --bg-modal: #EAEFF6;
+  --bg-modal: #FFFFFF;
 
   /* 🔤 고가독성 차콜 타이포그래피 */
   --text-primary: #0F172A;      /* 진한 차콜 블랙 */
@@ -30,25 +30,25 @@
   --text-muted: #64748B;        /* 뮤트 그레이 */
   --text-white: #FFFFFF;
 
-  /* ⚡ 3D 보더 & 베벨 */
-  --border-subtle: #CBD5E1;
-  --border-medium: #94A3B8;
-  --border-strong: #64748B;
-  --border-solid: #0284C7;
+  /* ⚡ 솔리드 보더 */
+  --border-subtle: #E2E8F0;
+  --border-medium: #CBD5E1;
+  --border-strong: #94A3B8;
+  --border-solid: #0F172A;
 
-  /* 💎 3D 버튼 섀도우 */
-  --depth-btn: 0 2px 0 #B0BAC8, 0 5px 12px rgba(15, 23, 42, 0.08);
-  --depth-btn-hover: 0 4px 0 #94A3B8, 0 8px 18px rgba(15, 23, 42, 0.12);
-  --depth-btn-active: 0 1px 0 #B0BAC8, 0 2px 4px rgba(15, 23, 42, 0.06);
+  /* 💎 단색 플랫 버튼 섀도우 (입체 바운스 제거) */
+  --depth-btn: none;
+  --depth-btn-hover: none;
+  --depth-btn-active: none;
 
-  /* 📐 3D 라디우스 */
-  --radius-xs: 5px;
-  --radius-sm: 7px;
-  --radius-md: 11px;
-  --radius-lg: 14px;
-  --radius-xl: 18px;
+  /* 📐 모던 라디우스 */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
 
-  --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
   --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
 }
@@ -77,7 +77,7 @@ body {
 }
 
 /* ==========================================================================
-   🏛️ 1. 너무 밝지 않은 오프화이트 아키텍처 스튜디오 배경
+   🏛️ 1. 단색 솔리드 배경
    ========================================================================== */
 .cyber-spatial-backdrop {
   position: fixed;
@@ -88,37 +88,11 @@ body {
   background-color: var(--bg-void);
 }
 
-/* 상단 은은한 화이트 앰비언트 광원 */
-.cyber-ambient-light {
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(ellipse 80% 50% at 50% -5%, rgba(240, 244, 250, 0.3) 0%, rgba(220, 226, 235, 0.2) 45%, transparent 80%),
-    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(185, 198, 214, 0.45) 0%, transparent 65%);
-}
-
-.cyber-horizon-glow {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 5%, rgba(0, 0, 0, 0.08) 50%, transparent 95%);
-}
-
-/* 정밀 아키텍처 도트 매트릭스 그리드 */
-.cyber-grid-3d {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgba(0, 0, 0, 0.09) 1.2px, transparent 1.2px);
-  background-size: 24px 24px;
-}
-
-/* 자연스러운 외곽 소프트 비네팅 */
+.cyber-ambient-light,
+.cyber-horizon-glow,
+.cyber-grid-3d,
 .cyber-vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 40%, transparent 45%, rgba(195, 203, 214, 0.35) 100%);
+  display: none !important;
 }
 
 .app-header,
@@ -3315,99 +3289,87 @@ body {
    ========================================================================== */
 
 [data-theme="dark"] {
-  /* 🌌 Surface Palette: Cyber-Obsidian Hybrid */
-  --bg-void: #0B0B0C;            /* Outermost window / backdrop */
-  --bg-primary: #0F0F11;         /* Editor canvas / workspace */
-  --bg-surface: #121520;         /* Default surface */
-  --bg-recessed: #0A0B0E;        /* Inset recessed slots */
-  --bg-control: #1E1E21;         /* Controls / inputs / secondary buttons */
+  /* 🌌 솔리드 다크 미니멀리즘 (Solid Dark Minimalist) */
+  --bg-void: #0F172A;            /* 깊고 차분한 솔리드 슬레이트 */
+  --bg-primary: #0F172A;
+  --bg-surface: #0F172A;
+  --bg-recessed: #1E293B;
+  --bg-control: #1E293B;
 
-  /* 🌐 PUBLIC Card: Mid-Dark Navy Carbon + Electric Cyan/Blue Rim */
-  --bg-card-public: #121520;
-  --border-card-public: #1E2536;
-  --outline-card-public: rgba(56, 189, 248, 0.25);
-  --shadow-card-public: 0 4px 0 #07090F, 0 14px 28px rgba(0, 0, 0, 0.55);
+  /* 🌐 PUBLIC Card: 솔리드 다크 카드 */
+  --bg-card-public: #1E293B;
+  --border-card-public: #334155;
+  --outline-card-public: transparent;
+  --shadow-card-public: 0 1px 3px rgba(0, 0, 0, 0.2);
 
-  /* 🔒 PRIVATE Card: Pitch-Black Obsidian Vault + Gold Amber Indicator */
-  --bg-card-private: #07080B;
-  --border-card-private: #16171D;
-  --outline-card-private: rgba(250, 204, 21, 0.35);
-  --shadow-card-private: 0 4px 0 #020304, 0 14px 28px rgba(0, 0, 0, 0.75);
+  /* 🔒 PRIVATE Card: 딥 슬레이트 */
+  --bg-card-private: #141923;
+  --border-card-private: #273042;
+  --outline-card-private: transparent;
+  --shadow-card-private: 0 1px 3px rgba(0, 0, 0, 0.3);
 
-  --bg-modal: #11131A;
+  --bg-modal: #1E293B;
 
   /* 🔤 Typography */
-  --text-primary: #E7E7E9;
-  --text-secondary: #9FA4B2;
-  --text-muted: #7E8494;
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
   --text-white: #FFFFFF;
 
-  /* ⚡ Borders & 3D Bevels */
-  --border-subtle: #1E222D;
-  --border-medium: #222736;
-  --border-strong: #2D3448;
+  /* ⚡ Borders */
+  --border-subtle: #1E293B;
+  --border-medium: #334155;
+  --border-strong: #475569;
   --border-solid: #38BDF8;
 
-  /* 💎 3D Tactile Keycap Shadows */
-  --depth-btn: 0 2px 0 #09090B, 0 5px 12px rgba(0, 0, 0, 0.4);
-  --depth-btn-hover: 0 4px 0 #09090B, 0 8px 18px rgba(0, 0, 0, 0.55);
-  --depth-btn-active: 0 1px 0 #09090B, 0 2px 4px rgba(0, 0, 0, 0.3);
+  /* 💎 Buttons */
+  --depth-btn: none;
+  --depth-btn-hover: none;
+  --depth-btn-active: none;
 
-  /* 🎯 Accents & Signals */
-  --color-agent: #A78BFA;
-  --color-selection: #2E5BD8;
+  /* 🎯 Accents */
+  --color-agent: #818CF8;
+  --color-selection: #2563EB;
   --color-cyan: #38BDF8;
-  --color-pass: #4ADE80;
-  --color-note: #FACC15;
-  --color-fail: #F87171;
+  --color-pass: #22C55E;
+  --color-note: #EAB308;
+  --color-fail: #EF4444;
 
   /* 📐 Radii */
-  --radius-xs: 5px;
-  --radius-sm: 7px;
-  --radius-md: 11px;
-  --radius-lg: 14px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
 }
 
-/* 다크 모드 3D 앰비언트 배경 */
+/* 다크 모드 솔리드 배경 */
 [data-theme="dark"] .cyber-spatial-backdrop {
-  background-color: #0B0B0C;
+  background-color: #0F172A;
 }
 
-[data-theme="dark"] .cyber-ambient-light {
-  background: 
-    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(30, 38, 55, 0.45) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(56, 189, 248, 0.07) 0%, transparent 65%);
-}
-
-[data-theme="dark"] .cyber-horizon-glow {
-  background: linear-gradient(90deg, transparent 5%, rgba(56, 189, 248, 0.22) 50%, transparent 95%);
-}
-
-[data-theme="dark"] .cyber-grid-3d {
-  background-image: radial-gradient(rgba(56, 189, 248, 0.07) 1.1px, transparent 1.1px);
-  background-size: 24px 24px;
-}
-
+[data-theme="dark"] .cyber-ambient-light,
+[data-theme="dark"] .cyber-horizon-glow,
+[data-theme="dark"] .cyber-grid-3d,
 [data-theme="dark"] .cyber-vignette {
-  background: radial-gradient(circle at 50% 40%, transparent 45%, rgba(6, 6, 8, 0.9) 100%);
+  display: none !important;
 }
 
 /* 상단 헤더 & 검색창 */
 [data-theme="dark"] .app-header {
-  background: rgba(15, 17, 23, 0.94);
-  backdrop-filter: blur(12px);
-  border-bottom: 2px solid #1E2332;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  background: #0F172A;
+  backdrop-filter: none;
+  border-bottom: 1px solid #1E293B;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-/* 💎 브랜드 뱃지: 시안 ➜ 퍼플 네온 그라디언트 */
+/* 🏷️ 브랜드 뱃지: 솔리드 시안 */
 [data-theme="dark"] .brand-badge {
-  background: linear-gradient(135deg, #38BDF8 0%, #A78BFA 100%);
-  color: #080A0F;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 5px;
-  box-shadow: 0 2px 0 #07090F, 0 0 14px rgba(56, 189, 248, 0.4);
-  font-weight: 900;
+  background: #38BDF8;
+  color: #0F172A;
+  border: 1px solid #38BDF8;
+  border-radius: 4px;
+  box-shadow: none;
+  font-weight: 800;
 }
 
 [data-theme="dark"] .brand-title {
@@ -5061,6 +5023,177 @@ body {
   border-color: #4ADE80 !important;
   color: #0B0B0C !important;
   box-shadow: 0 2px 0 #238A4A, 0 0 12px rgba(74, 222, 128, 0.45) !important;
+}
+
+/* ==========================================================================
+   ✨ 12. 단색 솔리드 & 애니메이션 감쇄 (Minimalist Solid & Reduced Motion)
+   ========================================================================== */
+*, *::before, *::after {
+  animation-duration: 0.15s !important;
+  animation-delay: 0s !important;
+}
+
+.spinner, .loading-spinner {
+  animation-duration: 0.8s !important;
+  animation-iteration-count: infinite !important;
+}
+
+.record-card,
+.record-card:hover,
+.record-card:active,
+.records-grid.view-list .record-card,
+.records-grid.view-list .record-card:hover,
+.card-thumb-img,
+.record-card:hover .card-thumb-img,
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-admin-auth,
+.btn-admin-auth:hover,
+.btn-admin-auth:active,
+.btn-theme-toggle,
+.btn-theme-toggle:hover,
+.btn-theme-toggle:active,
+.tab-btn,
+.tab-btn:hover,
+.tab-btn:active,
+.pill-btn,
+.pill-btn:hover,
+.pill-btn:active,
+.btn-back,
+.btn-back:hover,
+.btn-back:active,
+.btn-action,
+.btn-edit,
+.btn-delete,
+.btn-print-record {
+  transform: none !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
+}
+
+.modal-overlay,
+.modal-dialog,
+.write-modal-dialog {
+  animation: none !important;
+}
+
+.brand-badge {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #0f172a !important;
+  box-shadow: none !important;
+}
+[data-theme="dark"] .brand-badge {
+  background: #38bdf8 !important;
+  color: #0f172a !important;
+  border: 1px solid #38bdf8 !important;
+  box-shadow: none !important;
+}
+
+.record-card {
+  border: 1px solid var(--border-medium) !important;
+  border-top: 1px solid var(--border-medium) !important;
+  outline: none !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 8px !important;
+}
+.record-card:hover {
+  border-color: #64748b !important;
+  border-top-color: #64748b !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="dark"] .record-card {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  border-top: 1px solid #334155 !important;
+  outline: none !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+[data-theme="dark"] .record-card:hover {
+  background: #243044 !important;
+  border-color: #64748b !important;
+  border-top-color: #64748b !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+.record-detail-card {
+  border: 1px solid var(--border-medium) !important;
+  border-top: 1px solid var(--border-medium) !important;
+  border-bottom: 1px solid var(--border-medium) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 8px !important;
+}
+[data-theme="dark"] .record-detail-card {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  border-top: 1px solid #334155 !important;
+  border-bottom: 1px solid #334155 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.app-header {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+[data-theme="dark"] .app-header {
+  background: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  border-bottom: 1px solid #1e293b !important;
+}
+
+.btn-primary {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+.btn-primary:hover {
+  background: #334155 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+[data-theme="dark"] .btn-primary {
+  background: #38bdf8 !important;
+  color: #0f172a !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+[data-theme="dark"] .btn-primary:hover {
+  background: #0ea5e9 !important;
+  color: #0f172a !important;
+}
+
+.tab-btn, .pill-btn, .btn-admin-auth, .btn-theme-toggle {
+  box-shadow: none !important;
+}
+.tab-btn.active, .pill-btn.active {
+  box-shadow: none !important;
+}
+[data-theme="dark"] .tab-btn.active,
+[data-theme="dark"] .pill-btn.active {
+  background: #38bdf8 !important;
+  color: #0f172a !important;
+  border-color: #38bdf8 !important;
+  box-shadow: none !important;
+}
+
+.tab-btn.tab-private.active,
+[data-theme="dark"] .tab-btn.tab-private.active {
+  background: #334155 !important;
+  color: #f8fafc !important;
+  border-color: #64748b !important;
+  box-shadow: none !important;
+}
+
+.modal-dialog {
+  border: 1px solid var(--border-medium) !important;
+  border-top: 1px solid var(--border-medium) !important;
+  border-bottom: 1px solid var(--border-medium) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+}
+[data-theme="dark"] .modal-dialog {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  border-top: 1px solid #334155 !important;
+  border-bottom: 1px solid #334155 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
 }
 
 /* ==========================================================================
